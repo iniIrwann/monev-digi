@@ -158,7 +158,7 @@ class TargetController extends Controller
         $kode = chr(65 + $jumlahBidang); // 65 = ASCII 'A'
 
         $bidang = new Bidang();
-        $bidang->kode_rekening = $kode; // pastikan kolom ini ada di tabel
+        $bidang->kode_rekening = $kode;
         $bidang->user_id = auth()->id();
         $bidang->nama_bidang = $request->nama_bidang;
         $bidang->keterangan = $request->keterangan;
