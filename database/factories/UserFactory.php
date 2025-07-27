@@ -25,11 +25,20 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            // 'username' => fake()->unique()->userName(),
+            'username' => fake()->unique()->randomElement([
+                'admin1',
+                'admin2',
+                'admin3',
+            ]),
+            'role' => 'admin', // Atau bisa: fake()->randomElement(['admin', 'user'])
+            'nohp' => fake()->phoneNumber(),
+            'desa' => fake()->randomElement(['Desa Cileunyi', 'Desa Cipacing']),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('pass'),
             'remember_token' => Str::random(10),
         ];
+
     }
 
     /**
@@ -37,8 +46,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
+        return $this->state(fn(array $attributes) => [
         ]);
     }
 }

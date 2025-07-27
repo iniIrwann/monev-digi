@@ -1,0 +1,262 @@
+body {
+    font-family: "montserrat", sans-serif;
+    background-color: #f3f3f3;
+}
+thead,
+tr,
+th,
+td {
+    border-color: #999999;
+}
+
+.gap-td-table {
+    margin-right: 1rem;
+}
+
+.bg-green {
+    background: #19bfa6;
+}
+.bg-green-opa {
+    background: #28ff82;
+}
+
+.l-white {
+    color: white;
+    border: 1px solid;
+}
+
+@media (max-width: 768px) {
+    .scroll-card {
+        max-height: 200px;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: #ffffff80 transparent;
+        padding-right: 10px;
+    }
+
+    .scroll-card::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .scroll-card::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .scroll-card::-webkit-scrollbar-thumb {
+        background-color: #ffffff80;
+        border-radius: 3px;
+    }
+}
+
+.bg-kab {
+    width: 100%;
+    height: 100%;
+    max-height: 476px;
+    object-fit: cover;
+}
+
+.pagination .page-link {
+    color: #626262;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.pagination .page-link:hover {
+    background-color: #f0f0f0; /* efek hover */
+    color: #000;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #626262;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    color: #fff;
+}
+
+.cari {
+    height: 31px;
+}
+
+/* width */
+.w-34 {
+    width: 34px;
+}
+.w-40 {
+    width: 40px;
+}
+.w-72 {
+    width: 72px;
+}
+.h-73 {
+    height: 73px;
+}
+.w-140 {
+    width: 140px;
+}
+.w-402 {
+    width: 402px;
+}
+.w-1011 {
+    width: 1011px;
+}
+
+/* font-size */
+.fs-10 {
+    font-size: 10px;
+}
+.fs-12 {
+    font-size: 12px;
+}
+.fs-14 {
+    font-size: 14px;
+}
+.fs-16 {
+    font-size: 16px;
+}
+.fs-18 {
+    font-size: 18px;
+}
+.fs-20 {
+    font-size: 20px;
+}
+
+/* radius */
+.rd-10 {
+    border-radius: 10px;
+}
+
+.rd-5 {
+    border-radius: 5px;
+}
+
+/* box */
+.bg-43x {
+    background-color: #19bfa6;
+    border-radius: 3px;
+    width: 43px;
+    height: 43px;
+}
+
+.bg-35x {
+    background-color: #19bfa6;
+    border-radius: 3px;
+    width: 35px;
+    height: 35px;
+}
+
+.bg-30x {
+    background-color: #19bfa6;
+    border-radius: 3px;
+    width: 30px;
+    height: 30px;
+}
+
+/* color */
+.tx-gray {
+    color: #4c4c4c;
+}
+.tx-green {
+    color: #19bfa6;
+}
+.tx-green:hover {
+    color: #159e8b;
+}
+
+.tx-orange {
+    color: #ffa500;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+.l-grey {
+    color: #888888;
+    border: 1px solid;
+}
+
+.btn-success {
+    background-color: #19bfa6;
+    border-color: transparent;
+}
+.btn-success:hover {
+    background-color: #159e8b;
+    border-color: transparent;
+}
+
+.bt-grey {
+    border-bottom: 2px solid #f3f3f3;
+}
+
+/* semibold */
+.sb {
+    font-weight: 600;
+}
+
+/* Sidebar */
+.sidebar-custom {
+    width: 190px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-hidden {
+    transform: translateX(-100%);
+    position: absolute;
+    z-index: 1050;
+}
+
+@media (min-width: 768px) {
+    .sidebar-custom {
+        transform: translateX(0) !important;
+        position: relative;
+    }
+}
+
+.sidebar-toggle-btn {
+    font-size: 20px;
+    border: none;
+    background: none;
+    display: block; /* default terlihat */
+}
+
+/* Sembunyikan tombol saat di desktop */
+@media (min-width: 768px) {
+    .sidebar-toggle-btn {
+        display: none;
+    }
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f3f3f3;
+    min-height: 100vh;
+    overflow: auto;
+}
+
+/* responsive */
+@media (max-width: 767.98px) {
+    .bg-kab {
+        display: none !important;
+    }
+}
+@media (max-width: 767.98px) {
+    .w-1011 {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+@media (max-width: 767.98px) {
+    .w-140,
+    .w-402 {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .h-73 {
+        height: auto;
+        padding-bottom: 1rem;
+    }
+    .w-72 {
+        max-width: 100%;
+    }
+}
