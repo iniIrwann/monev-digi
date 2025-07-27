@@ -343,7 +343,7 @@
                                         </div>
                                         <div class="col-9 input-group-sm">
                                             <input type="text" class="form-control form-control-sm w-100"
-                                                id="kategori" name="kategori" placeholder="kategori">
+                                                id="kategori" name="kategori" placeholder="kategori" required>
                                         </div>
                                     </div>
                                     <div class="row align-items-center">

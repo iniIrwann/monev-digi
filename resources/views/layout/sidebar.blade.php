@@ -1,4 +1,4 @@
-    <div class="sidebar-custom sidebar-hidden bg-white vh-100" id="sidebar">
+    <div class="sidebar-custom sidebar-hidden bg-white min-vh-100" id="sidebar">
         <!-- profil -->
         <div class="text-center ps-4 pe-4 pt-4">
             <div class="d-flex align-items-center me-3">
@@ -6,7 +6,6 @@
                 <div class="ms-2 text-start">
                     <p class="mb-0 fs-10 sb">
                         {{ Auth::check() ? (Auth::user()->desa != '-' ? Auth::user()->desa : Auth::user()->role) : 'role' }}
-                    </p>
                     </p>
                     <p class="mb-0 fs-10 text-muted">
                         {{ Auth::check() ? (Auth::user()->role != '-' ? 'admin ' . Auth::user()->role  : 'role') : 'role' }}
