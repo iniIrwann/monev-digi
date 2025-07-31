@@ -16,22 +16,32 @@
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <p class="fs-18 mb-0">Filter</p>
                 </div>
-                <form action="{{ route('target.index') }}" method="GET" class="mb-3">
+                <form action="{{ route('targetKec.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-4">
+                            <label for="" class="fs-12 mb-1">Pilih Desa</label>
+                            <select name="desa" class="fs-12 form-select">
+                                @foreach ($selectDesa as $d)
+                                    <option value="{{ $d->id }}" {{ request('desa') == $d->id ? 'selected' : '' }}>
+                                        {{ $d->desa }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-3">
                             <label for="" class="fs-12 mb-1">Pilih Tahun</label>
                             <select name="tahun" class="fs-12 form-select">
+                                <option value="" class="text-secondary">== Pilih Tahun ==</option>
                                 <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>Tahun 2024
                                 </option>
                                 <option value="2025" {{ request('tahun') == '2025' ? 'selected' : '' }}>Tahun 2025
                                 </option>
                             </select>
-
-
                         </div>
-                        <div class="col-12 col-md-5">
+                        <div class="col-12 col-md-4">
                             <label for="" class="fs-12 mb-1">Pilih Bidang</label>
                             <select name="bidang" class="fs-12 form-select">
+                                <option value="" class="text-secondary">== Pilih Bidang ==</option>
                                 {{-- Opsi 1 --}}
                                 {{-- @foreach ($data as $bidang)
                                     <option value="{{ $bidang->id }}"
@@ -66,11 +76,16 @@
                     <i class="bi bi-plus-square me-1"></i> Tambah
                 </button>
                 <p class="fs-12 my-2">
-                    kinerja dan anggaran dana desa ( nama desa a ) tahun 2024. bidang
-                    pembangunan
+                    @if ($desa)
+                        kinerja dan anggaran dana desa <span class="fw-bold">{{ $desa->desa }}</span> tahun
+                        {{ $tahun ?? '....' }}. <span class="fw-bold">{{ $bidang->nama_bidang ?? 'bidang ...' }}</span>
+                    @else
+                        Menampilkan Semua Target Desa.
+                    @endif
                 </p>
+
                 <hr />
-                <form action=" {{ route('target.index') }} " method="GET" class="mb-3">
+                <form action=" {{ route('targetKec.index') }} " method="GET" class="mb-3">
                     <div class="d-flex align-items-center gap-2 mb-3">
 
                         <!-- Input text -->
@@ -109,14 +124,15 @@
                                             </button>
                                             {{-- Edit Bidang --}}
                                             <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                data-bs-target="#ModalEditBidang" data-id-bidang-edit="{{ $bidang->id }}"
+                                                data-bs-target="#ModalEditBidangKecamatan"
+                                                data-id-bidang-edit="{{ $bidang->id }}"
                                                 data-kode-bidang-edit="{{ $bidang->kode_rekening }}"
                                                 data-nama-bidang-edit="{{ $bidang->nama_bidang }}"
                                                 data-keterangan-bidang-edit="{{ $bidang->keterangan }}"><i
                                                     class="bi bi-pencil-fill text-white"></i></button>
                                             {{-- Delete Bidang --}}
                                             <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#ModalDeleteBidang"
+                                                data-bs-target="#ModalDeleteBidangKecamatan"
                                                 data-id-bidang-delete="{{ $bidang->id }}"><i
                                                     class="bi bi-trash-fill"></i></button>
                                         </div>
@@ -134,10 +150,11 @@
                                                 <a href="#" class="btn btn-sm btn-secondary"><i
                                                         class="bi bi-eye-fill"></i></a>
                                                 <a class="btn btn-sm btn-success"
-                                                    href="{{ route('target.create.subkegiatan', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id]) }} "><i
+                                                    href="{{ route('targetKec.create.subkegiatan', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id]) }} "><i
                                                         class="bi bi-plus-square"></i></a>
                                                 <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#ModalEditKegiatan" data-id="{{ $kegiatan->id }}"
+                                                    data-bs-target="#ModalEditKegiatanKecamatan"
+                                                    data-id="{{ $kegiatan->id }}"
                                                     data-kode-bidang="{{ $kegiatan->bidang->kode_rekening }}"
                                                     data-kode-bidang-id="{{ $kegiatan->bidang->id }}"
                                                     data-kode-kegiatan="{{ $kegiatan->kode_rekening }}"
@@ -145,7 +162,7 @@
                                                     data-kategori="{{ $kegiatan->kategori }}"><i
                                                         class="bi bi-pencil-fill text-white"></i></button>
                                                 <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#ModalDeleteKegiatan"
+                                                    data-bs-target="#ModalDeleteKegiatanKecamatan"
                                                     data-id-kegiatan-delete="{{ $kegiatan->id }}"><i
                                                         class="bi bi-trash-fill"></i></button>
                                             </div>
@@ -163,15 +180,15 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-2 justify-content-end">
-                                                    <a href="{{ route('target.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('targetKec.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-secondary"><i
                                                             class="bi bi-eye-fill"></i></a>
-                                                    <a href="{{ route('target.edit.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('targetKec.edit.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-warning"><i
                                                             class="bi bi-pencil-fill text-white"></i></a>
                                                     <button data-bs-toggle="modal"
-                                                        data-bs-target="#ModalDeleteSubKegiatan"
-                                                        data-id-subKegiatan-delete="{{ $sub->id }}"
+                                                        data-bs-target="#ModalDeleteSubKegiatanKecamatan"
+                                                        data-id-subKegiatan-delete-kec="{{ $sub->id }}"
                                                         class="btn btn-sm btn-danger"><i
                                                             class="bi bi-trash-fill"></i></button>
                                                 </div>
@@ -248,6 +265,8 @@
 
                     </div>
                 </div>
+
+                {{-- MODALS TAMBAH --}}
                 <!-- modal tambah bidang -->
                 <div class="modal fade" id="ModalTambahBidang" tabindex="-1" aria-labelledby="tmbhbidang"
                     aria-hidden="true">
@@ -256,7 +275,7 @@
                             <div class="modal-body p-3">
                                 <p class="modal-title fs-14 sb grey" id="tmbhbidang">Bidang baru</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
-                                <form action="{{ route('target.store.bidang') }}" method="POST">
+                                <form action="{{ route('targetKec.store.bidang') }}" method="POST">
                                     @csrf
                                     <div class="row g-2 align-items-center mb-2 ms-1 me-1">
                                         <div class="col-3">
@@ -265,6 +284,22 @@
                                         <div class="col-9 input-group-sm">
                                             <input type="text" class="form-control form-control-sm w-100"
                                                 id="kode_bidang" placeholder="" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row g-2 align-items-center mb-2 ms-1 me-1">
+                                        <div class="col-3">
+                                            <label for="desa" class="form-label black fs-12">Desa</label>
+                                        </div>
+                                        <div class="col-9 input-group-sm">
+                                            <select name="desa" id="desa" class="form-select">
+                                                <option value="">-- Pilih Desa --</option>
+                                                @foreach ($selectDesa as $item)
+                                                    <option value="{{ $item->id }}"
+                                                        {{ request('desa') == $item->id ? 'selected' : '' }}>
+                                                        {{ $item->desa }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row g-2 align-items-center mb-2 ms-1 me-1">
@@ -306,7 +341,7 @@
                             <div class="modal-body p-3">
                                 <p class="modal-title fs-14 sb grey" id="ModalTambahKegiatan">Kegiatan baru</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
-                                <form action="{{ route('target.store.kegiatan') }}" method="POST">
+                                <form action="{{ route('targetKec.store.kegiatan') }}" method="POST">
                                     @csrf
                                     <div class="row g-2 align-items-center mb-2 ms-1 me-1">
                                         <div class="col-3">
@@ -359,122 +394,17 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal Tambah Sub_Kegiatan  -->
-                <div class="modal fade" id="ModalTambahSubKegiatan" tabindex="-1"
-                    aria-labelledby="ModalTambahSubKegiatanLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg"> <!-- modal-lg untuk ukuran besar -->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title fs-4" id="ModalTambahSubKegiatanLabel">Tambah Data Target</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body fs-6">
-                                <form action="{{ route('target.store.subkegiatan') }}" method="POST">
-                                    @csrf
-                                    <div class="row g-3">
-                                        <div class="col-md-4">
-                                            <label for="inputKodeRekBidang" class="form-label">Kode
-                                                Bidang</label>
-                                            <input type="text" class="form-control" id="inputKodeRekBidang" readonly>
-                                        </div>
 
-                                        <div class="col-md-4">
-                                            <label for="inputKodeRekKegiatan" class="form-label">Kode
-                                                Kegiatan</label>
-                                            <input type="text" class="form-control" id="inputKodeRekKegiatan"
-                                                readonly>
-                                        </div>
-                                        <div class="col-md-4">
-                                            {{-- <label for="inputBidangId" class="form-label">Kode
-                                                SubKegiatan</label>
-                                            <input type="text" name="bidang_id" id="inputBidangId"
-                                                class="form-control"> --}}
-                                            <input type="hidden" id="sbinputBidangId" name="bidang_id"
-                                                class="form-control">
-                                            <input type="hidden" id="inputKegiatanId" name="kegiatan_id"
-                                                class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="nama_subkegiatan" class="form-label">Nama SubKegiatan</label>
-                                        <input type="text" name="nama_subkegiatan" class="form-control">
-                                    </div>
-                                    <div class="row g-2 my-2">
-                                        <div class="col-md-6">
-                                            <label for="uraian_keluaran" class="form-label">Uraian Keluaran</label>
-                                            <input type="text" name="uraian_keluaran" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="volume_keluaran" class="form-label">Volume</label>
-                                            <input type="number" name="volume_keluaran" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="anggaran_target" class="form-label">Anggaran (Rp)</label>
-                                        <input type="number" name="anggaran_target" class="form-control">
-                                    </div>
-                                    <div class="row g-3 my-2">
-                                        <div class="col-md-4">
-                                            <label for="tenaga_kerja" class="form-label">Tenaga Kerja</label>
-                                            <input type="text" name="tenaga_kerja" class="form-control">
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label for="durasi" class="form-label">Durasi (hari)</label>
-                                            <input type="number" name="durasi" class="form-control">
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label for="upah" class="form-label">Upah (Rp)</label>
-                                            <input type="number" name="upah" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label for="KPM" class="form-label">Jumlah KPM</label>
-                                            <input type="number" name="KPM" class="form-control">
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <label for="BLT" class="form-label">BLT (Rp)</label>
-                                            <input type="number" name="BLT" class="form-control">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="tahun" class="form-label">Tahun</label>
-                                            <select name="tahun" id="tahun" class="form-control">
-                                                <option value=""></option>
-                                                <option value="2024">2024</option>
-                                                <option value="2025">2025</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="keterangan" class="form-label">Keterangan</label>
-                                        <textarea name="keterangan" class="form-control" rows="3"></textarea>
-                                    </div>
-                                    <div class="mt-4 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-secondary me-2"
-                                            data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-success">Simpan</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Modals Edit --}}
-
+                {{-- MODALS EDIT --}}
                 {{-- modal edit bidang --}}
-                <div class="modal fade" id="ModalEditBidang" tabindex="-1" aria-labelledby="tmbhbidang"
+                <div class="modal fade" id="ModalEditBidangKecamatan" tabindex="-1" aria-labelledby="tmbhbidang"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-0">
                             <div class="modal-body p-3">
                                 <p class="modal-title fs-14 sb grey" id="tmbhbidang">Edit Bidang</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
-                                <form id="formEditBidang" method="POST">
+                                <form id="formEditBidangKecamatan" method="POST">
                                     @csrf
                                     @method('PUT')
 
@@ -534,14 +464,14 @@
                     </div>
                 </div>
                 <!-- modal edit kegiatan -->
-                <div class="modal fade" id="ModalEditKegiatan" tabindex="-1" aria-labelledby="ModalEditKegiatan"
-                    aria-hidden="true">
+                <div class="modal fade" id="ModalEditKegiatanKecamatan" tabindex="-1"
+                    aria-labelledby="ModalEditKegiatanKecamatan" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-0">
                             <div class="modal-body p-3">
-                                <p class="modal-title fs-14 sb grey" id="ModalEditKegiatan">Edit Kegiatan</p>
+                                <p class="modal-title fs-14 sb grey" id="ModalEditKegiatanKecamatan">Edit Kegiatan</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
-                                <form method="POST" id="formEditKegiatan" action="">
+                                <form method="POST" id="formEditKegiatanKecamatan" action="">
                                     @csrf
                                     @method('PUT')
 
@@ -603,7 +533,7 @@
                 {{-- Modals Delete --}}
 
                 {{-- modal delete bidang --}}
-                <div class="modal fade" id="ModalDeleteBidang" tabindex="-1" aria-labelledby="DeleteBidang"
+                <div class="modal fade" id="ModalDeleteBidangKecamatan" tabindex="-1" aria-labelledby="DeleteBidang"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-0">
@@ -617,7 +547,7 @@
                                     dikembalikan.
                                 </p>
 
-                                <form id="formDeleteBidang" method="POST">
+                                <form id="formDeleteBidangKecamatan" method="POST">
                                     @csrf
                                     @method('DELETE')
 
@@ -639,7 +569,7 @@
                     </div>
                 </div>
                 {{-- modal delete kegiatan  --}}
-                <div class="modal fade" id="ModalDeleteKegiatan" tabindex="-1" aria-labelledby="DeleteKegiatan"
+                <div class="modal fade" id="ModalDeleteKegiatanKecamatan" tabindex="-1" aria-labelledby="DeleteKegiatan"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-0">
@@ -654,7 +584,7 @@
                                     dikembalikan.
                                 </p>
 
-                                <form id="formDeleteKegiatan" method="POST">
+                                <form id="formDeleteKegiatanKecamatan" method="POST">
                                     @csrf
                                     @method('DELETE')
 
@@ -677,7 +607,7 @@
                 </div>
 
                 {{-- modal delete sub kegiatan  --}}
-                <div class="modal fade" id="ModalDeleteSubKegiatan" tabindex="-1" aria-labelledby="DeleteSubKegiatan"
+                <div class="modal fade" id="ModalDeleteSubKegiatanKecamatan" tabindex="-1" aria-labelledby="DeleteSubKegiatan"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-0">
@@ -692,11 +622,11 @@
                                     dikembalikan.
                                 </p>
 
-                                <form id="formDeleteSubKegiatan" method="POST">
+                                <form id="formDeleteSubKegiatanKecamatan" method="POST">
                                     @csrf
                                     @method('DELETE')
 
-                                    <input type="hidden" id="dataIdSubKegiatanDelete" name="id">
+                                    <input type="hidden" id="dataIdSubKegiatanDeletekec" name="id">
 
                                     <!-- Aksi -->
                                     <div class="d-flex justify-content-end">
@@ -716,8 +646,8 @@
             </div>
         </div>
     </div>
+
 @section('script')
-    {{-- Tambah Modals --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var modal = document.getElementById('ModalTambahKegiatan');
@@ -730,29 +660,35 @@
                 document.getElementById('inputBidangId').value = id;
             });
         });
-    </script>
-    <script>
+        // Modal Edit Bidang Kecamatan
         document.addEventListener('DOMContentLoaded', function() {
-            var modal = document.getElementById('ModalTambahSubKegiatan');
+            const modal = document.getElementById('ModalEditBidangKecamatan');
+
             modal.addEventListener('show.bs.modal', function(event) {
-                var button = event.relatedTarget;
-                var kodeRekBidang = button.getAttribute('data-rek-bidang');
-                var kodeRekKegiatan = button.getAttribute('data-rek-kegiatan');
-                var idBidang = button.getAttribute('data-id-bidang');
-                var idKegiatan = button.getAttribute('data-id-kegiatan');
+                const button = event.relatedTarget;
+                const dataIdBidangEdit = button.getAttribute('data-id-bidang-edit');
+                const dataKodeBidangEdit = button.getAttribute('data-kode-bidang-edit');
+                const dataNamaBidangEdit = button.getAttribute('data-nama-bidang-edit');
+                const dataKeteranganBidangEdit = button.getAttribute('data-keterangan-bidang-edit');
 
+                // Visible readonly
+                modal.querySelector('#dataKodeBidangEdit').value = dataKodeBidangEdit;
 
-                document.getElementById('sbinputBidangId').value = idBidang;
-                document.getElementById('inputKodeRekBidang').value = kodeRekBidang;
-                document.getElementById('inputKodeRekKegiatan').value = kodeRekKegiatan;
-                document.getElementById('inputKegiatanId').value = idKegiatan;
+                // Hidden inputs
+                modal.querySelector('#dataIdBidangEdit').value = dataIdBidangEdit;
+
+                // Editable fields
+                modal.querySelector('#dataNamaBidangEdit').value = dataNamaBidangEdit;
+                modal.querySelector('#dataKeteranganBidangEdit').value = dataKeteranganBidangEdit;
+
+                // Set form action
+                const form = document.getElementById('formEditBidangKecamatan');
+                form.action = `/kecamatan/targetKec/update-bidang/${dataIdBidangEdit}`;
             });
         });
-    </script>
-    {{-- Edit Modals --}}
-    <script>
+        // Modal Edit Kegiatan Kecamatan
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('ModalEditKegiatan');
+            const modal = document.getElementById('ModalEditKegiatanKecamatan');
 
             modal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
@@ -778,40 +714,14 @@
                 modal.querySelector('#kategori').value = kategori;
 
                 // Set form action
-                const form = document.getElementById('formEditKegiatan');
-                form.action = `/target/update-kegiatan/${id}`;
+                const form = document.getElementById('formEditKegiatanKecamatan');
+                form.action = `/kecamatan/targetKec/update-kegiatan/${id}`;
             });
         });
 
+        // Modal Delete Bidang
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('ModalEditBidang');
-
-            modal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget;
-                const dataIdBidangEdit = button.getAttribute('data-id-bidang-edit');
-                const dataKodeBidangEdit = button.getAttribute('data-kode-bidang-edit');
-                const dataNamaBidangEdit = button.getAttribute('data-nama-bidang-edit');
-                const dataKeteranganBidangEdit = button.getAttribute('data-keterangan-bidang-edit');
-
-                // Visible readonly
-                modal.querySelector('#dataKodeBidangEdit').value = dataKodeBidangEdit;
-
-                // Hidden inputs
-                modal.querySelector('#dataIdBidangEdit').value = dataIdBidangEdit;
-
-                // Editable fields
-                modal.querySelector('#dataNamaBidangEdit').value = dataNamaBidangEdit;
-                modal.querySelector('#dataKeteranganBidangEdit').value = dataKeteranganBidangEdit;
-
-                // Set form action
-                const form = document.getElementById('formEditBidang');
-                form.action = `/target/update-bidang/${dataIdBidangEdit}`;
-            });
-        });
-
-        // Delete Bidang Modal
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('ModalDeleteBidang');
+            const modal = document.getElementById('ModalDeleteBidangKecamatan');
 
             modal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
@@ -821,13 +731,13 @@
                 modal.querySelector('#dataIdBidangDelete').value = dataIdBidangDelete;
 
                 // Set form action
-                const form = document.getElementById('formDeleteBidang');
-                form.action = `/target/delete-bidang/${dataIdBidangDelete}`;
+                const form = document.getElementById('formDeleteBidangKecamatan');
+                form.action = `targetKec/delete-bidang/${dataIdBidangDelete}`;
             });
         });
-        // Delete Kegiatan Modal
+        // Modal Delete Kegiatan
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('ModalDeleteKegiatan');
+            const modal = document.getElementById('ModalDeleteKegiatanKecamatan');
 
             modal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
@@ -837,24 +747,43 @@
                 modal.querySelector('#dataIdKegiatanDelete').value = dataIdKegiatanDelete;
 
                 // Set form action
-                const form = document.getElementById('formDeleteKegiatan');
-                form.action = `/target/delete-kegiatan/${dataIdKegiatanDelete}`;
+                const form = document.getElementById('formDeleteKegiatanKecamatan');
+                form.action = `/kecamatan/targetKec/delete-kegiatan/${dataIdKegiatanDelete}`;
             });
         });
-        // Delete Sub Kegiatan Modal
+        // Modal Delete Sub Kegiatan
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('ModalDeleteSubKegiatan');
+            const modal = document.getElementById('ModalDeleteSubKegiatanKecamatan');
 
             modal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
-                const dataIdSubKegiatanDelete = button.getAttribute('data-id-subKegiatan-delete');
+                const dataIdSubKegiatanDeletekec = button.getAttribute('data-id-subKegiatan-delete-kec');
 
                 // Hidden inputs
-                modal.querySelector('#dataIdSubKegiatanDelete').value = dataIdSubKegiatanDelete;
+                modal.querySelector('#dataIdSubKegiatanDeletekec').value = dataIdSubKegiatanDeletekec;
 
                 // Set form action
-                const form = document.getElementById('formDeleteSubKegiatan');
-                form.action = `/target/delete-subKegiatan/${dataIdSubKegiatanDelete}`;
+                const form = document.getElementById('formDeleteSubKegiatanKecamatan');
+                form.action = `/kecamatan/targetKec/delete-subKegiatan/${dataIdSubKegiatanDeletekec}`;
+            });
+        });
+
+        // Delete Sub Kegiatan Modal Realisasi
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('ModalDeleteSubKegiatanKecamatanRealisasi');
+
+            modal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                const dataIdSubKegiatanDeletekecRealisasi = button.getAttribute(
+                    'data-id-subKegiatan-realisasi-delete');
+
+                // Hidden inputs
+                modal.querySelector('#dataIdSubKegiatanDeletekecRealisasi').value =
+                    dataIdSubKegiatanDeletekecRealisasi;
+
+                // Set form action
+                const form = document.getElementById('formDeleteSubKegiatanKecamatanRealisasi');
+                form.action = `/realisasi/delete-subKegiatan/${dataIdSubKegiatanDeletekecRealisasi}`;
             });
         });
     </script>

@@ -274,4 +274,26 @@
             </div>
         </div>
     </div>
+@section('script')
+    <script>
+        // Delete Sub Kegiatan Modal Realisasi
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('ModalDeleteSubKegiatanRealisasi');
+
+            modal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                const dataIdSubKegiatanDeleteRealisasi = button.getAttribute(
+                    'data-id-subKegiatan-realisasi-delete');
+
+                // Hidden inputs
+                modal.querySelector('#dataIdSubKegiatanDeleteRealisasi').value =
+                    dataIdSubKegiatanDeleteRealisasi;
+
+                // Set form action
+                const form = document.getElementById('formDeleteSubKegiatanRealisasi');
+                form.action = `/realisasi/delete-subKegiatan/${dataIdSubKegiatanDeleteRealisasi}`;
+            });
+        });
+    </script>
+@endsection
 @endsection

@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->integer('volume_keluaran');
             $table->string('cara_pengadaan'); // Cara pengadaan barang/jasa
             $table->bigInteger('anggaran_target')->nullable();
-            $table->bigInteger('realisasi_keuangan')->nullable();
             $table->integer('tenaga_kerja')->nullable();
             $table->integer('durasi')->nullable();
             $table->bigInteger('upah')->nullable();

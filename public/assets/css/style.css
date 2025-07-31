@@ -16,14 +16,9 @@ td {
 .bg-green {
     background: #19bfa6;
 }
-.bg-green-opa {
-    background: #28ff82;
-}
-.bg-yellow-opa {
-    background: #edff28;
-}
-.bg-red-opa {
-    background: #ff2828;
+
+.text-orange {
+    color: #fd7e14;
 }
 
 .l-white {

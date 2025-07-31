@@ -3,43 +3,62 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bidang;
+use App\Models\Capaian;
 use App\Models\Kegiatan;
 use App\Models\Realisasi;
 use App\Models\SubKegiatan;
-use App\Models\target;
-use App\Models\Capaian;
+use App\Models\Target;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class TargetController extends Controller
+class TargetKecamatanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $tahun = $request->input('tahun');
         $bidangId = $request->input('bidang');
         $search = $request->input('query');
+        $desaId = $request->input('desa');
+        $desa = null;
+        $bidang = null;
 
-        // Ambil semua bidang (untuk dropdown filter)
-        $filterBidangs = Bidang::userOnly()->select('id', 'nama_bidang')->get();
-
-        // Query utama
-        $query = Bidang::userOnly()->with(['kegiatan.subkegiatan.targets']);
-
-        // Filter Tahun
-        if ($tahun) {
-            $query->whereHas('kegiatan.subkegiatan.targets', function ($q) use ($tahun) {
-                $q->where('tahun', $tahun);
-            });
+        if ($desaId) {
+            $desa = User::where('role', 'desa')->where('id', $desaId)->first();
+        }
+        if ($bidangId) {
+            $bidang = Bidang::find($bidangId);
         }
 
-        // ✅ Tetap filter berdasarkan bidang jika dipilih
+        // Ambil semua desa untuk dropdown filter
+        $selectDesa = User::where('role', 'desa')->select('id', 'desa')->get();
+
+        $filterBidangs = collect();
+        if ($desaId) {
+            $filterBidangs = Bidang::where('user_id', $desaId)
+                ->select('id', 'nama_bidang')
+                ->get();
+        }
+
+        $query = Bidang::with(['kegiatan.subkegiatan.targets']);
+
+        // Filter: desaId
+        if ($desaId) {
+            $query->where('user_id', $desaId);
+        }
+
+        // Filter: bidang
         if ($bidangId) {
             $query->where('id', $bidangId);
         }
 
-        // Filter pencarian
+        // Filter: tahun
+        // if ($tahun) {
+        //     $query->whereHas('kegiatan.subkegiatan.targets', function ($q) use ($tahun) {
+        //         $q->where('tahun', $tahun);
+        //     });
+        // }
+
+        // Filter: pencarian teks (jika nanti kamu tambahkan input text)
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_bidang', 'like', "%$search%")
@@ -55,41 +74,44 @@ class TargetController extends Controller
             });
         }
 
-        // Pagination
+        // Pagination + simpan query string filter
         $data = $query->paginate(5)->appends($request->query());
 
-        return view('page.target.target', compact('data', 'filterBidangs'));
+        return view('page.kecamatan.target.target', compact('data', 'filterBidangs', 'selectDesa', 'bidang', 'desa', 'tahun'));
     }
+
+
+
 
     public function detailSub($bidang_id, $kegiatan_id, $subkegiatan_id)
     {
         // Validasi dan ambil data
-        $bidang = Bidang::userOnly()->findOrFail($bidang_id);
-        $kegiatan = Kegiatan::userOnly()->findOrFail($kegiatan_id);
-        $subKegiatan = SubKegiatan::userOnly()->findOrFail($subkegiatan_id);
-        $target = Target::userOnly()->where('bidang_id', $bidang_id)
+        $bidang = Bidang::findOrFail($bidang_id);
+        $kegiatan = Kegiatan::findOrFail($kegiatan_id);
+        $subKegiatan = SubKegiatan::findOrFail($subkegiatan_id);
+        $target = Target::where('bidang_id', $bidang_id)
             ->where('kegiatan_id', $kegiatan_id)
             ->where('sub_kegiatan_id', $subkegiatan_id)
             ->first();
         // $uraian_keluaran = $target ? $target->uraian_keluaran : '';
 
         // Logic to show the form for creating a new sub
-        return view('page.target.detail_sub_target', compact('bidang', 'kegiatan', 'subKegiatan', 'target'));
+        return view('page.kecamatan.target.detail_sub_target', compact('bidang', 'kegiatan', 'subKegiatan', 'target'));
     }
     public function editSub($bidang_id, $kegiatan_id, $subkegiatan_id)
     {
         // Validasi dan ambil data
-        $bidang = Bidang::userOnly()->findOrFail($bidang_id);
-        $kegiatan = Kegiatan::userOnly()->findOrFail($kegiatan_id);
-        $subKegiatan = SubKegiatan::userOnly()->findOrFail($subkegiatan_id);
-        $target = Target::userOnly()->where('bidang_id', $bidang_id)
+        $bidang = Bidang::findOrFail($bidang_id);
+        $kegiatan = Kegiatan::findOrFail($kegiatan_id);
+        $subKegiatan = SubKegiatan::findOrFail($subkegiatan_id);
+        $target = Target::where('bidang_id', $bidang_id)
             ->where('kegiatan_id', $kegiatan_id)
             ->where('sub_kegiatan_id', $subkegiatan_id)
             ->first();
         // $uraian_keluaran = $target ? $target->uraian_keluaran : '';
 
         // Logic to show the form for creating a new sub
-        return view('page.target.edit_sub_target', compact('bidang', 'kegiatan', 'subKegiatan', 'target'));
+        return view('page.kecamatan.target.edit_sub_target', compact('bidang', 'kegiatan', 'subKegiatan', 'target'));
     }
 
     public function updateSub(Request $request)
@@ -99,6 +121,7 @@ class TargetController extends Controller
             'bidang_id' => 'required|exists:bidangs,id',
             'kegiatan_id' => 'required|exists:kegiatans,id',
             'subkegiatan_id' => 'required|exists:sub_kegiatans,id',
+            'nama_subkegiatan' => 'required|string|max:255',
             'uraian_keluaran' => 'required|string|max:255',
             'volume_keluaran' => 'required|numeric',
             'tenaga_kerja' => 'nullable|numeric',
@@ -112,16 +135,22 @@ class TargetController extends Controller
             'KPM' => 'nullable|numeric',
         ]);
 
+        $subkegiatan = SubKegiatan::findOrFail($request->subkegiatan_id);
+
         // Cari entri target berdasarkan kombinasi bidang, kegiatan, subkegiatan, dan tahun
-        $target = Target::userOnly()
-            ->where('bidang_id', $request->bidang_id)
+        $target = Target::where('bidang_id', $request->bidang_id)
             ->where('kegiatan_id', $request->kegiatan_id)
             ->where('sub_kegiatan_id', $request->subkegiatan_id)
             ->first();
 
         if (!$target) {
-            return redirect()->route('target.index')->with('error', 'Data target tidak ditemukan.');
+            return redirect()->back()->with('error', 'Data target tidak ditemukan.');
         }
+
+        // Update Sub
+        $subkegiatan->nama_subkegiatan = $request->nama_subkegiatan;
+        $subkegiatan->save();
+
 
         // Update atau isi data
         $target->volume_keluaran = $request->volume_keluaran;
@@ -137,17 +166,24 @@ class TargetController extends Controller
         $target->keterangan = $request->keterangan;
         $target->save();
 
-        return redirect()->route('target.index')->with('success', 'Data target berhasil disimpan atau diperbarui.');
+        return redirect()->route('targetKec.index')->with('success', 'Data target berhasil disimpan atau diperbarui.');
     }
     public function storeBidang(Request $request)
     {
         $request->validate([
+            'desa' => 'required|exists:users,id',
             'nama_bidang' => 'required|string|max:255',
             'keterangan' => 'nullable|string',
         ]);
 
+        $desaValid = User::where('id', $request->desa)->where('role', 'desa')->exists();
+
+        if (!$desaValid) {
+            return back()->with('error', 'Desa tidak valid.');
+        }
+
         // Hitung jumlah bidang saat ini
-        $jumlahBidang = Bidang::where('user_id', auth()->id())->count();
+        $jumlahBidang = Bidang::where('user_id', $request->desa)->count();
 
         // Maksimum hanya sampai Z (26 data)
         if ($jumlahBidang >= 26) {
@@ -159,12 +195,12 @@ class TargetController extends Controller
 
         $bidang = new Bidang();
         $bidang->kode_rekening = $kode;
-        $bidang->user_id = auth()->id();
+        $bidang->user_id = $request->desa;
         $bidang->nama_bidang = $request->nama_bidang;
         $bidang->keterangan = $request->keterangan;
         $bidang->save();
 
-        return redirect()->route('target.index')
+        return redirect()->back()
             ->with('success', 'Bidang berhasil ditambahkan.');
     }
     public function storeKegiatan(Request $request)
@@ -174,6 +210,8 @@ class TargetController extends Controller
             'kegiatan' => 'required|string|max:255',
             'kategori' => 'nullable|string|max:255',
         ]);
+
+        $bidang = Bidang::findOrFail($request->bidang_id);
 
         // Cari kode_rekening terakhir untuk bidang terkait dan user yang sedang login
         $lastKegiatan = Kegiatan::where('bidang_id', $request->bidang_id)
@@ -188,13 +226,13 @@ class TargetController extends Controller
         // Simpan kegiatan baru
         $kegiatan = new Kegiatan();
         $kegiatan->bidang_id = $request->bidang_id;
-        $kegiatan->user_id = auth()->id();
+        $kegiatan->user_id = $bidang->user_id;
         $kegiatan->kode_rekening = $kodeRekening;
         $kegiatan->nama_kegiatan = $request->kegiatan;
         $kegiatan->kategori = $request->kategori;
         $kegiatan->save();
 
-        return redirect()->route('target.index')
+        return redirect()->back()
             ->with('success', 'Kegiatan berhasil ditambahkan.');
     }
 
@@ -217,15 +255,19 @@ class TargetController extends Controller
             'KPM' => 'nullable|numeric',
         ]);
 
+        $bidang = Bidang::findOrFail($request->bidang_id);
+
+
         // Ambil jumlah subkegiatan saat ini untuk kegiatan terkait
-        $lastSub = SubKegiatan::where('kegiatan_id', $request->kegiatan_id)->userOnly()->count();
+        $lastSub = SubKegiatan::where('kegiatan_id', $request->kegiatan_id)->count();
         $nextKodeSub = $lastSub + 1;
+
 
         // Simpan ke tabel subkegiatan
         $sub = SubKegiatan::create([
             'bidang_id' => $request->bidang_id,
             'kegiatan_id' => $request->kegiatan_id,
-            'user_id' => auth()->id(),
+            'user_id' => $bidang->user_id,
             'kode_rekening' => $nextKodeSub,
             'nama_subkegiatan' => $request->nama_subkegiatan,
             'uraian_keluaran' => $request->uraian_keluaran,
@@ -235,7 +277,7 @@ class TargetController extends Controller
             'bidang_id' => $request->bidang_id,
             'kegiatan_id' => $request->kegiatan_id,
             'sub_kegiatan_id' => $sub->id,
-            'user_id' => auth()->id(),
+            'user_id' => $bidang->user_id,
             'uraian_keluaran' => $request->uraian_keluaran,
         ]);
 
@@ -244,7 +286,7 @@ class TargetController extends Controller
             'bidang_id' => $request->bidang_id,
             'kegiatan_id' => $request->kegiatan_id,
             'sub_kegiatan_id' => $sub->id,
-            'user_id' => auth()->id(),
+            'user_id' => $bidang->user_id,
             'uraian_keluaran' => $request->uraian_keluaran,
             'volume_keluaran' => $request->volume_keluaran,
             'cara_pengadaan' => $request->cara_pengadaan,
@@ -260,20 +302,20 @@ class TargetController extends Controller
         Capaian::create([
             'target_id' => $target->id,
             'realisasi_id' => $realisasi->id,
-            'user_id' => auth()->id(),
+            'user_id' => $bidang->user_id,
         ]);
 
-        return redirect()->route('target.index')
+        return redirect()->route('targetKec.index')
             ->with('success', 'Sub Kegiatan dan Target berhasil ditambahkan.');
     }
 
     public function createSubKegiatan($bidang_id, $kegiatan_id)
     {
         // Validasi dan ambil data
-        $bidang = Bidang::userOnly()->findOrFail($bidang_id);
-        $kegiatan = Kegiatan::userOnly()->findOrFail($kegiatan_id);
+        $bidang = Bidang::findOrFail($bidang_id);
+        $kegiatan = Kegiatan::findOrFail($kegiatan_id);
 
-        return view('page.target.create_sub_kegiatan', compact('bidang', 'kegiatan'));
+        return view('page.kecamatan.target.create_sub_kegiatan', compact('bidang', 'kegiatan'));
     }
     /**
      * Store a newly created resource in storage.
@@ -286,12 +328,12 @@ class TargetController extends Controller
             'kategori' => 'nullable|string|max:255',
         ]);
 
-        $kegiatan = Kegiatan::userOnly()->findOrFail($id);
+        $kegiatan = Kegiatan::findOrFail($id);
         $kegiatan->nama_kegiatan = $request->kegiatan;
         $kegiatan->kategori = $request->kategori;
         $kegiatan->save();
 
-        return redirect()->route('target.index')
+        return redirect()->back()
             ->with('success', 'Kegiatan berhasil diperbarui.');
     }
     public function updateBidang(Request $request, string $id)
@@ -302,18 +344,18 @@ class TargetController extends Controller
             'keterangan' => 'nullable|string',
         ]);
 
-        $bidang = Bidang::userOnly()->findOrFail($id);
+        $bidang = Bidang::findOrFail($id);
         $bidang->nama_bidang = $request->nama_bidang;
         $bidang->keterangan = $request->keterangan;
         $bidang->save();
 
-        return redirect()->route('target.index')
+        return redirect()->back()
             ->with('success', 'Bidang berhasil diperbarui.');
     }
     // Delete
     public function deleteBidang(string $id)
     {
-        $bidang = Bidang::userOnly()->findOrFail($id);
+        $bidang = Bidang::findOrFail($id);
 
         // Hapus semua kegiatan dan subkegiatan terkait
         foreach ($bidang->kegiatan as $kegiatan) {
@@ -326,12 +368,12 @@ class TargetController extends Controller
         // Hapus bidang
         $bidang->delete();
 
-        return redirect()->route('target.index')
+        return redirect()->back()
             ->with('success', 'Bidang beserta seluruh Kegiatan dan Sub Kegiatan berhasil dihapus.');
     }
     public function deleteKegiatan(string $id)
     {
-        $kegiatan = Kegiatan::userOnly()->findOrFail($id);
+        $kegiatan = Kegiatan::findOrFail($id);
 
         // Hapus semua subkegiatan dan target terkait
         foreach ($kegiatan->subkegiatan as $subKegiatan) {
@@ -342,12 +384,12 @@ class TargetController extends Controller
         // Hapus kegiatan
         $kegiatan->delete();
 
-        return redirect()->route('target.index')
+        return redirect()->route('targetKec.index')
             ->with('success', 'Kegiatan beserta seluruh Sub Kegiatan berhasil dihapus.');
     }
     public function deleteSubKegiatan(string $id)
     {
-        $subKegiatan = SubKegiatan::userOnly()->findOrFail($id);
+        $subKegiatan = SubKegiatan::findOrFail($id);
 
         // Hapus semua target terkait
         $subKegiatan->targets()->delete();
@@ -355,7 +397,7 @@ class TargetController extends Controller
         // Hapus subkegiatan
         $subKegiatan->delete();
 
-        return redirect()->route('target.index')
+        return redirect()->back()
             ->with('success', 'Sub Kegiatan berhasil dihapus.');
     }
 }

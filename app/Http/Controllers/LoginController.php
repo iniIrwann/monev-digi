@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /**
-     * Handle an authentication attempt.
-     */
-
     public function showLoginForm(): \Illuminate\View\View
     {
         return view('page.login.login');
@@ -25,8 +21,19 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('target')->with('success', 'Login berhasil!');
+
+            $user = Auth::user();
+
+            if ($user->role === 'desa') {
+                return redirect()->route('target.index')->with('success', 'Login berhasil sebagai Desa!');
+            } elseif ($user->role === 'kecamatan') {
+                return redirect()->route('targetKec.index')->with('success', 'Login berhasil sebagai Kecamatan!');
+            }
+
+            Auth::logout();
+            return redirect()->route('login.view')->with('error', 'Role tidak dikenali.');
         }
+
 
         return back()->with('error', 'Login gagal! Periksa kembali username dan password Anda.')
             ->onlyInput('username');
@@ -39,6 +46,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login.view');
+        return redirect()->route('login.view')->with('success', 'Logout Berhasil!');
     }
 }

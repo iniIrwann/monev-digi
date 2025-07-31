@@ -18,7 +18,7 @@
 
             <!-- Menu umum -->
             <li class="nav-item">
-                <a href="dashboard.html"
+                <a href="{{ route('dashboard') }}"
                     class="nav-link text-dark fs-12 d-flex justify-content-between align-items-center">
                     dashboard
                     <i class="bi bi-house-door-fill text-dark"></i>
@@ -68,40 +68,19 @@
             <!-- Menu untuk role kecamatan -->
             @if (auth()->user()->role === 'kecamatan')
                 <li>
-                    <a class="nav-link d-flex justify-content-between align-items-center text-dark fs-12"
-                        data-bs-toggle="collapse" href="#capaianMenu" role="button" aria-expanded="false"
-                        aria-controls="capaianMenu">
-                        capaian RKP
-                        <i class="bi bi-clipboard-fill fs-12 text-dark"></i>
+                    <a href="{{ route('targetKec.index') }}"
+                        class="{{ Request::is('targetKec*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                        Lihat Target Desa
+                        <i class="bi bi-clipboard-data {{ Request::is('targetKec*') ? 'tx-green' : 'text-dark' }}"></i>
                     </a>
-                    <div class="collapse show mt-2" id="capaianMenu">
-                        <ul class="list-unstyled ps-3">
-                            <li>
-                                <a href="{{ route('targetKec.index') }}"
-                                    class="text-decoration-none {{ Request::is('kecamatan/targetKec*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
-                                    <i
-                                        class="bi bi-arrow-right-short {{ Request::is('target*') ? 'tx-orange' : '' }}"></i>
-                                    target
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('realisasi.index') }}"
-                                    class="text-decoration-none {{ Request::is('realisasi*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
-                                    <i
-                                        class="bi bi-arrow-right-short {{ Request::is('realisasi*') ? 'tx-orange' : '' }}"></i>
-                                    realisasi
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('capaian.index') }}"
-                                    class="text-decoration-none {{ Request::is('capaian*') ? 'tx-green' : 'text-dark' }} d-block fs-12">
-                                    <i
-                                        class="bi bi-arrow-right-short {{ Request::is('capaian*') ? 'tx-orange' : '' }}"></i>
-                                    capaian
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                </li>
+                <li>
+                    <a href="{{ route('laporan.index') }}"
+                        class="{{ Request::is('laporan*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                        Laporan Desa
+                        <i
+                            class="bi bi-file-earmark-text {{ Request::is('laporan*') ? 'tx-green' : 'text-dark' }}"></i>
+                    </a>
                 </li>
             @endif
 

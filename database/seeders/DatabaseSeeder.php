@@ -37,5 +37,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin2@example.com',
             'password' => Hash::make('123'),
         ]);
+
+        User::create([
+            'name' => 'Admin Kecamatan',
+            'username' => 'admin1',
+            'role' => 'kecamatan',
+            'nohp' => '082233445566',
+            'desa' => 'Kecamatan Jatinangor',
+            'email' => 'admin_kec@example.com',
+            'password' => Hash::make('123'),
+        ]);
     }
 }

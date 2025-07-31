@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- css -->
     <link rel="icon" type="image/png" href="{{ asset('assets/images/logo.png') }}">
+    {{-- Notify --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <!-- icon web -->
     <title>login - monev digi dana desa</title>
