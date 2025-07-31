@@ -16,9 +16,11 @@ Route::resource('capaian', CapaianController::class);
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('login', [\App\Http\Controllers\LoginController::class, 'showLoginForm'])->name('login.view');
 Route::post('login', [\App\Http\Controllers\LoginController::class, 'authenticate'])->name('login');
 
+Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
 //Detail
 Route::get('/target/detail-sub/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [TargetController::class, 'detailSub'])->name('target.detail');
 // Edit

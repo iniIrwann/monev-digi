@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('kegiatan_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('kode_rekening');
-            $table->unique(['user_id', 'kode_rekening']);
+            $table->unique(['kegiatan_id', 'kode_rekening']);
             $table->string('nama_subkegiatan');
             $table->timestamps();
         });

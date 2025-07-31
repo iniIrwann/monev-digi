@@ -175,14 +175,15 @@ class TargetController extends Controller
             'kategori' => 'nullable|string|max:255',
         ]);
 
-        // Cari kode_rekening terakhir untuk bidang terkait
+        // Cari kode_rekening terakhir untuk bidang terkait dan user yang sedang login
         $lastKegiatan = Kegiatan::where('bidang_id', $request->bidang_id)
-            ->userOnly()
             ->orderByDesc('kode_rekening')
             ->first();
 
-        // Tentukan kode_rekening baru (kalau belum ada, mulai dari 1)
-        $kodeRekening = $lastKegiatan ? $lastKegiatan->kode_rekening + 1 : 1;
+        // Tentukan kode_rekening baru
+        $kodeRekening = $lastKegiatan
+            ? $lastKegiatan->kode_rekening + 1
+            : 1;
 
         // Simpan kegiatan baru
         $kegiatan = new Kegiatan();
@@ -196,6 +197,7 @@ class TargetController extends Controller
         return redirect()->route('target.index')
             ->with('success', 'Kegiatan berhasil ditambahkan.');
     }
+
     public function storeSubKegiatan(Request $request)
     {
         $request->validate([
@@ -221,6 +223,7 @@ class TargetController extends Controller
 
         // Simpan ke tabel subkegiatan
         $sub = SubKegiatan::create([
+            'bidang_id' => $request->bidang_id,
             'kegiatan_id' => $request->kegiatan_id,
             'user_id' => auth()->id(),
             'kode_rekening' => $nextKodeSub,

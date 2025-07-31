@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('bidang_id')->constrained()->onDelete('cascade');
             $table->string('kode_rekening');
-            $table->unique(['user_id', 'kode_rekening']);
+            $table->unique(['bidang_id', 'kode_rekening']);
             $table->string('nama_kegiatan');
             $table->string('kategori'); // Contoh: Pembangunan, Pengadaan, dll.
             $table->timestamps();

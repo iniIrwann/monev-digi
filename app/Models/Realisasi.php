@@ -43,4 +43,9 @@ class Realisasi extends Model
     {
         return $query->where('user_id', auth()->id());
     }
+    public function target()
+    {
+        return $this->belongsTo(Target::class, 'target_id');
+    }
+
 }
