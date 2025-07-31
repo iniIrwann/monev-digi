@@ -25,18 +25,17 @@ class LoginController extends Controller
             $user = Auth::user();
 
             if ($user->role === 'desa') {
-                return redirect()->route('target.index')->with('success', 'Login berhasil sebagai Desa!');
+                return redirect()->route('dashboard.index')->with('success', 'Login berhasil sebagai Desa!');
             } elseif ($user->role === 'kecamatan') {
                 return redirect()->route('targetKec.index')->with('success', 'Login berhasil sebagai Kecamatan!');
             }
 
             Auth::logout();
             return redirect()->route('login.view')->with('error', 'Role tidak dikenali.');
+
+            return back()->with('error', 'Login gagal! Periksa kembali username dan password Anda.')
+                ->onlyInput('username');
         }
-
-
-        return back()->with('error', 'Login gagal! Periksa kembali username dan password Anda.')
-            ->onlyInput('username');
 
     }
     public function logout(Request $request)

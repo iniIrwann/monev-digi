@@ -49,7 +49,7 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-1 d-grid">
-                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
+                            <button type="submit" class="btn btn-success fs-14 btn-sm text-white">
                                 <i class="bi bi-filter"></i>
                             </button>
                         </div>
@@ -69,17 +69,19 @@
                     kinerja dan anggaran dana desa ( nama desa a ) tahun 2024. bidang
                     pembangunan
                 </p>
-                <hr />
-                <form action=" {{ route('target.index') }} " method="GET" class="mb-3">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-
-                        <!-- Input text -->
-                        <input type="text" name="query" class="form-control form-control-sm" placeholder="Pencarian..."
-                            style="width: 300px" />
-                        <!-- Tombol cari -->
-                        <button type="submit" class="btn btn-success btn-sm text-white">
-                            <i class="bi bi-search me-1"></i> Cari
-                        </button>
+                <hr/>
+                <form action="{{ route('target.index') }}" method="GET" class="mb-3">
+                    <div class="row g-3 mb-2">
+                        <div class="col-auto">
+                            <!-- Input text -->
+                            <input type="text" name="query" class="form-control form-control-sm w-100" placeholder="Pencarian..." />
+                        </div>
+                        <div class="col-auto">
+                            <!-- Tombol cari -->
+                            <button type="submit" class="btn btn-success fs-12 text-white">
+                                <i class="bi bi-search me-1"></i> Cari
+                            </button>
+                        </div>
                     </div>
                 </form>
 
@@ -298,6 +300,13 @@
                         </div>
                     </div>
                 </div>
+cara buat dan push branch ke repositori https://github.com/iniIrwann/monev-digi.git
+atawa turutan cara ieu
+git checkout -b fitur/dashboard
+git add .
+git commit -m "Menambahkan fitur dashboard"
+git push origin fitur/dashboard
+
                 <!-- modal tambah kegiatan -->
                 <div class="modal fade" id="ModalTambahKegiatan" tabindex="-1" aria-labelledby="ModalTambahKegiatan"
                     aria-hidden="true">

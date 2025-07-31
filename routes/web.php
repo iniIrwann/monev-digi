@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
 // Login & Logout
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login.view');
 Route::post('login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Group route dengan middleware auth
+// Group route dengan middleware desa
 Route::middleware(['auth', 'role:desa'])->group(function () {
+    Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
     // Resource
     Route::resource('target', TargetDesaController::class);
     Route::resource('realisasi', RealisasiController::class);
