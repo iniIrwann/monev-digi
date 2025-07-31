@@ -1,22 +1,24 @@
-<div class="sidebar-custom sidebar-hidden bg-white" id="sidebar">
-    <div class="text-center ps-4 pe-4 pt-4">
-        <div class="d-flex align-items-center me-3">
-            <img class="p-1 img-fluid w-34" src="{{ asset('assets/images/profil.png') }}" alt="" />
-            <div class="ms-2 text-start">
-                <p class="mb-0 fs-10 sb">
-                    {{ Auth::check() ? (Auth::user()->desa != '-' ? Auth::user()->desa : Auth::user()->role) : 'role' }}
-                </p>
-                <p class="mb-0 fs-10 text-muted">
-                    {{ Auth::check() ? (Auth::user()->role != '-' ? 'admin ' . Auth::user()->role  : 'role') : 'role' }}
-                </p>
+    <div class="sidebar-custom sidebar-hidden bg-white vh-100" id="sidebar">
+        <!-- profil -->
+        <div class="text-center ps-4 pe-4 pt-4">
+            <div class="d-flex align-items-center me-3">
+                <img class="p-1 img-fluid w-34" src="{{ asset('assets/images/profil.png') }}" alt="" />
+                <div class="ms-2 text-start">
+                    <p class="mb-0 fs-10 sb">
+                        {{ Auth::check() ? (Auth::user()->desa != '-' ? Auth::user()->desa : Auth::user()->role) : 'role' }}
+                    </p>
+                    </p>
+                    <p class="mb-0 fs-10 text-muted">
+                        {{ Auth::check() ? (Auth::user()->role != '-' ? 'admin ' . Auth::user()->role  : 'role') : 'role' }}
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- menu -->
-    <ul class="nav nav-pills flex-column ps-3 pe-3 pt-3">
-        <li class="nav-item">
-            <a href="{{ route('dashboard.index') }}"
-            class="nav-link {{ Request::is('dashboard*') ? 'tx-green' : 'text-dark' }} fs-12 d-flex justify-content-between align-items-center">
+        <!-- menu -->
+        <ul class="nav nav-pills flex-column ps-3 pe-3 pt-3">
+            <li class="nav-item">
+                <a href="dashboard.html"
+                    class="nav-link text-dark fs-12 d-flex justify-content-between align-items-center">
                     dashboard
                     <i class="bi bi-house-door-fill {{ Request::is('dashboard*') ? 'tx-orange' : '' }}"></i>
                 </a>

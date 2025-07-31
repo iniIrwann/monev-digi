@@ -125,18 +125,24 @@
                                             $capaian = $realisasi?->capaian;
                                         @endphp
                                         @php
-                                            $persen = $capaian?->persen_capaian_keluaran;
+                                            $persenVolume = $capaian?->persen_capaian_keluaran;
+                                            $persenUang = $capaian?->persen_capaian_keuangan;
                                             $warna = '';
 
-                                            if ($persen >= 70) {
-                                                $warna = 'bg-green-opa text-black';
-                                            } elseif ($persen >= 40) {
-                                                $warna = 'bg-yellow-opa text-black';
+                                            if ($persenVolume !== null && $persenUang !== null) {
+                                                if ($persenUang >= 100) {
+                                                    $warna = 'bg-red-opa text-white';
+                                                } elseif ($persenUang >= 70) {
+                                                    $warna = 'bg-green-opa text-black';
+                                                } elseif ($persenUang >= 40) {
+                                                    $warna = 'bg-yellow-opa text-black';
+                                                } else {
+                                                    $warna = 'bg-red-opa text-white';
+                                                }
                                             } else {
-                                                $warna = 'bg-red-opa text-white';
+                                                $warna = 'bg-red-opa text-white'; // atau kasih 'bg-gray-200' jika kosong
                                             }
                                         @endphp
-
                                         <tr class="{{ $warna }}">
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-end">
