@@ -19,7 +19,7 @@
             <!-- Menu umum -->
             <li class="nav-item">
                 <a href="{{ route('dashboard.index') }}"
-                    class="nav-link text-dark fs-12 d-flex justify-content-between align-items-center">
+                    class="nav-link fs-12 d-flex {{ Request::is('dashboard*') ? 'tx-green' : 'tx-dark' }} justify-content-between align-items-center">
                     dashboard
                     <i class="bi bi-house-door-fill {{ Request::is('dashboard*') ? 'tx-orange' : '' }}"></i>
                 </a>
