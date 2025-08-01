@@ -40,8 +40,8 @@
                     </div>
                     <hr class="my-1">
 
-                    <div class="row g-3 mb-3">
-                        <div class="mb-2">
+                    <div class="row g-1 mb-3">
+                        <div class="mb-1">
                             <label class="fs-12 txt-tb-grey">nama sub kegiatan</label>
                             <input type="text" class="form-control form-control-sm rounded-1"
                                 value="{{ $subKegiatan->nama_subkegiatan }}" name="nama_subkegiatan"

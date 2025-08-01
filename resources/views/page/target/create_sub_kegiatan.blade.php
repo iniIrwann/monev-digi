@@ -24,23 +24,23 @@
                         <div class="col-12 col-md-4 input-group-sm">
                             <label for="kode_bidang" class="form-label black fs-12">kode bidang</label>
                             <input type="text" class="form-control form-control-sm w-100"
-                                value="{{ $bidang->kode_rekening }}" id="kode_bidang" placeholder="A" disabled>
+                                value="{{ $bidang->kode_rekening }}" id="kode_bidang" disabled>
                         </div>
                         <div class="col-12 col-md-4 input-group-sm">
                             <label for="kode_kegiatan" class="form-label black fs-12">kode kegiatan</label>
                             <input type="text" class="form-control form-control-sm w-100" id="kode_kegiatan"
-                                value="{{ $kegiatan->kode_rekening }}" placeholder="1" disabled>
+                                value="{{ $kegiatan->kode_rekening }}" disabled>
                         </div>
                         <div class="col-12 col-md-4 input-group-sm">
                             <label for="kode_subkegiatan" class="form-label black fs-12">kode subkegiatan</label>
                             <input type="text" class="form-control form-control-sm w-100" id="kode_subkegiatan"
-                                placeholder="" disabled>
+                                disabled>
                         </div>
                     </div>
                     <hr class="my-1">
 
-                    <div class="row g-3 mb-3">
-                        <div class="mb-2">
+                    <div class="row g-1 mb-3">
+                        <div class="mb-1">
                             <label class="fs-12 txt-tb-grey">nama sub kegiatan</label>
                             <input type="text" class="form-control form-control-sm rounded-1" name="nama_subkegiatan"
                                 placeholder="nama sub kegiatan" />
@@ -88,7 +88,7 @@
                         <div class="col-md-6">
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">cara pengadaan</label>
-                                <input type="text" class="form-control form-control-sm rounded-1" name="cara_pengadaan"
+                                <input type="text" class="form-control form-control-sm rounded-1" name="cara pengadaan"
                                     placeholder="cara_pengadaan" />
                             </div>
                             <div class="mb-2">

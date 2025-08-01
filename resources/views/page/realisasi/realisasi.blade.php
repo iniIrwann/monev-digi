@@ -43,7 +43,7 @@
                         </div>
                         {{-- <input type="hidden" name="query" value=''> --}}
                         <div class="col-12 col-md-1 d-grid">
-                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
+                            <button type="submit" class="btn btn-success fs-12 text-white">
                                 <i class="bi bi-filter"></i>
                             </button>
                         </div>
@@ -55,21 +55,18 @@
         <!-- tabel -->
         <div class="card border-0 w-100 rd-5">
             <div class="card-body p-3">
-                <p class="fs-12 my-2">
-                    kinerja dan anggaran dana desa ( nama desa a ) tahun 2024. bidang
-                    pembangunan
-                </p>
-                <hr />
                 <form action=" {{ route('realisasi.index') }} " method="GET" class="mb-3">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-
-                        <!-- Input text -->
-                        <input type="text" name="query" class="form-control form-control-sm" placeholder="Pencarian..."
-                            style="width: 300px" />
-                        <!-- Tombol cari -->
-                        <button type="submit" class="btn btn-success btn-sm text-white">
-                            <i class="bi bi-search me-1"></i> Cari
-                        </button>
+                    <div class="row g-3 mb-2">
+                        <div class="col-auto">
+                            <!-- Input text -->
+                            <input type="text" name="query" class="form-control form-control-sm w-100" placeholder="Pencarian..." />
+                        </div>
+                        <div class="col-auto">
+                            <!-- Tombol cari -->
+                            <button type="submit" class="btn btn-success fs-12 text-white">
+                                <i class="bi bi-search me-1"></i> Cari
+                            </button>
+                        </div>
                     </div>
                 </form>
 

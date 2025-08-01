@@ -1,4 +1,4 @@
-    <div class="sidebar-custom sidebar-hidden bg-white vh-100" id="sidebar">
+    <div class="sidebar-custom sidebar-hidden bg-white" id="sidebar">
         <!-- profil -->
         <div class="text-center ps-4 pe-4 pt-4">
             <div class="d-flex align-items-center me-3">
@@ -6,7 +6,6 @@
                 <div class="ms-2 text-start">
                     <p class="mb-0 fs-10 sb">
                         {{ Auth::check() ? (Auth::user()->desa != '-' ? Auth::user()->desa : Auth::user()->role) : 'role' }}
-                    </p>
                     </p>
                     <p class="mb-0 fs-10 text-muted">
                         {{ Auth::check() ? (Auth::user()->role != '-' ? 'admin ' . Auth::user()->role  : 'role') : 'role' }}
@@ -17,10 +16,10 @@
         <!-- menu -->
         <ul class="nav nav-pills flex-column ps-3 pe-3 pt-3">
             <li class="nav-item">
-                <a href="dashboard.html"
-                    class="nav-link text-dark fs-12 d-flex justify-content-between align-items-center">
+                <a href="{{ route('dashboard.index') }}"
+                    class="{{ Request::is('dashboard*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
                     dashboard
-                    <i class="bi bi-house-door-fill {{ Request::is('dashboard*') ? 'tx-orange' : '' }}"></i>
+                    <i class="bi bi-house-door-fill {{ Request::is('dashboard*') ? 'tx-orange' : 'text-dark' }}"></i>
                 </a>
             </li>
             <li>

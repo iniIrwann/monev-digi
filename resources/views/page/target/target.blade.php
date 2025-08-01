@@ -65,10 +65,10 @@
                     data-bs-target="#ModalTambahBidang">
                     <i class="bi bi-plus-square me-1"></i> Tambah
                 </button>
-                <p class="fs-12 my-2">
+                {{-- <p class="fs-12 my-2">
                     kinerja dan anggaran dana desa ( nama desa a ) tahun 2024. bidang
                     pembangunan
-                </p>
+                </p> --}}
                 <hr/>
                 <form action="{{ route('target.index') }}" method="GET" class="mb-3">
                     <div class="row g-3 mb-2">
@@ -300,12 +300,12 @@
                         </div>
                     </div>
                 </div>
-cara buat dan push branch ke repositori https://github.com/iniIrwann/monev-digi.git
+{{-- cara buat dan push branch ke repositori https://github.com/iniIrwann/monev-digi.git
 atawa turutan cara ieu
 git checkout -b fitur/dashboard
 git add .
 git commit -m "Menambahkan fitur dashboard"
-git push origin fitur/dashboard
+git push origin fitur/dashboard --}}
 
                 <!-- modal tambah kegiatan -->
                 <div class="modal fade" id="ModalTambahKegiatan" tabindex="-1" aria-labelledby="ModalTambahKegiatan"
@@ -532,8 +532,8 @@ git push origin fitur/dashboard
                                                 data-bs-dismiss="modal">
                                                 <i class="bi bi-x-square"></i> batal
                                             </button>
-                                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
-                                                <i class="bi bi-save"></i> simpan perubahan
+                                            <button type="submit" class="btn btn-warning btn-sm fs-12 text-white">
+                                                <i class="bi bi-pencil-fill me-1"></i> Edit bidang
                                             </button>
                                         </div>
                                     </div>
@@ -548,7 +548,7 @@ git push origin fitur/dashboard
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-0">
                             <div class="modal-body p-3">
-                                <p class="modal-title fs-14 sb grey" id="ModalEditKegiatan">Edit Kegiatan</p>
+                                <p class="modal-title fs-14 sb grey" id="ModalEditKegiatan">Edit kegiatan</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
                                 <form method="POST" id="formEditKegiatan" action="">
                                     @csrf
@@ -598,9 +598,12 @@ git push origin fitur/dashboard
                                     </div>
 
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-sm btn-danger me-2"
-                                            data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                        <button type="button" class="btn btn-danger btn-sm fs-12 text-white me-2" data-bs-dismiss="modal">
+                                            <i class="bi bi-x-square"></i> batal
+                                        </button>
+                                        <button type="submit" class="btn btn-warning btn-sm fs-12 text-white">
+                                            <i class="bi bi-pencil-fill me-1"></i> Edit kegiatan
+                                        </button>
                                     </div>
                                 </form>
 
@@ -619,7 +622,7 @@ git push origin fitur/dashboard
                             <div class="modal-body p-4">
                                 <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteBidang">Konfirmasi Hapus
                                     Bidang</h5>
-                                <p class="text-muted mb-3">
+                                <p class="text-muted mb-3 fs-14">
                                     Tindakan ini akan <strong>menghapus bidang secara permanen</strong> beserta seluruh
                                     <strong>kegiatan</strong> dan <strong> sub kegiatan</strong> yang ada di dalamnya. Data
                                     yang terhapus tidak dapat
@@ -634,12 +637,12 @@ git push origin fitur/dashboard
 
                                     <!-- Aksi -->
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                                        <button type="button" class="btn btn-outline-danger btn-sm me-2"
                                             data-bs-dismiss="modal">
                                             <i class="bi bi-x-square"></i> Batal
                                         </button>
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Hapus Sekarang
+                                            <i class="bi bi-trash-fill"></i> Hapus
                                         </button>
                                     </div>
                                 </form>
@@ -656,7 +659,7 @@ git push origin fitur/dashboard
                                 <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteKegiatan">Konfirmasi
                                     Hapus
                                     Kegiatan</h5>
-                                <p class="text-muted mb-3">
+                                <p class="text-muted mb-3 fs-14">
                                     Tindakan ini akan <strong>menghapus kegiatan secara permanen</strong> beserta seluruh
                                     <strong>sub kegiatan</strong> yang ada di dalamnya. Data
                                     yang terhapus tidak dapat
@@ -671,12 +674,12 @@ git push origin fitur/dashboard
 
                                     <!-- Aksi -->
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                                        <button type="button" class="btn btn-outline-danger btn-sm me-2"
                                             data-bs-dismiss="modal">
                                             <i class="bi bi-x-square"></i> Batal
                                         </button>
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Hapus Sekarang
+                                            <i class="bi bi-trash-fill"></i> Hapus
                                         </button>
                                     </div>
                                 </form>
@@ -694,7 +697,7 @@ git push origin fitur/dashboard
                                 <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteSubKegiatan">Konfirmasi
                                     Hapus
                                     Sub Kegiatan</h5>
-                                <p class="text-muted mb-3">
+                                <p class="text-muted mb-3 fs-14">
                                     Tindakan ini akan menghapus <strong>sub kegiatan target</strong> dan <strong>data sub
                                         kegiatan di realisasi secara permanen</strong>. Data
                                     yang terhapus tidak dapat
@@ -709,12 +712,12 @@ git push origin fitur/dashboard
 
                                     <!-- Aksi -->
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                                        <button type="button" class="btn btn-outline-danger btn-sm me-2"
                                             data-bs-dismiss="modal">
                                             <i class="bi bi-x-square"></i> Batal
                                         </button>
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Hapus Sekarang
+                                            <i class="bi bi-trash-fill"></i> Hapus
                                         </button>
                                     </div>
                                 </form>
