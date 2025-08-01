@@ -31,7 +31,7 @@
                         <div class="col-12 col-md-3">
                             <label for="" class="fs-12 mb-1">Pilih Tahun</label>
                             <select name="tahun" class="fs-12 form-select">
-                                <option value="" class="text-secondary">== Pilih Tahun ==</option>
+                                <option value="" class="text-secondary">-- Semua Tahun --</option>
                                 <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>Tahun 2024
                                 </option>
                                 <option value="2025" {{ request('tahun') == '2025' ? 'selected' : '' }}>Tahun 2025
@@ -41,19 +41,10 @@
                         <div class="col-12 col-md-4">
                             <label for="" class="fs-12 mb-1">Pilih Bidang</label>
                             <select name="bidang" class="fs-12 form-select">
-                                <option value="" class="text-secondary">== Pilih Bidang ==</option>
-                                {{-- Opsi 1 --}}
-                                {{-- @foreach ($data as $bidang)
-                                    <option value="{{ $bidang->id }}"
-                                        {{ request('bidang') == $bidang->id ? 'selected' : '' }}>
-                                        {{ $bidang->nama_bidang }}
-                                    </option>
-                                @endforeach --}}
-                                {{-- Opsi 2 --}}
-                                @foreach ($filterBidangs as $bidang)
-                                    <option value="{{ $bidang->id }}"
-                                        {{ request('bidang') == $bidang->id ? 'selected' : '' }}>
-                                        {{ $bidang->nama_bidang }}
+                                <option value="" class="text-secondary">-- Semua Bidang --</option>
+                                @foreach ($filterBidangs as $b)
+                                    <option value="{{ $b->id }}" {{ request('bidang') == $b->id ? 'selected' : '' }}>
+                                        {{ $b->nama_bidang }}
                                     </option>
                                 @endforeach
                             </select>
@@ -77,8 +68,8 @@
                 </button>
                 <p class="fs-12 my-2">
                     @if ($desa)
-                        kinerja dan anggaran dana desa <span class="fw-bold">{{ $desa->desa }}</span> tahun
-                        {{ $tahun ?? '....' }}. <span class="fw-bold">{{ $bidang->nama_bidang ?? 'bidang ...' }}</span>
+                        kinerja dan anggaran dana <span class="fw-bold">{{ $desa->desa }}</span> tahun
+                        {{ $tahun ?? '( semua tahun )' }}. <span class="fw-bold">{{ $bidang->nama_bidang ?? 'semua bidang' }}</span>
                     @else
                         Menampilkan Semua Target Desa.
                     @endif
@@ -569,8 +560,8 @@
                     </div>
                 </div>
                 {{-- modal delete kegiatan  --}}
-                <div class="modal fade" id="ModalDeleteKegiatanKecamatan" tabindex="-1" aria-labelledby="DeleteKegiatan"
-                    aria-hidden="true">
+                <div class="modal fade" id="ModalDeleteKegiatanKecamatan" tabindex="-1"
+                    aria-labelledby="DeleteKegiatan" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-0">
                             <div class="modal-body p-4">
@@ -607,8 +598,8 @@
                 </div>
 
                 {{-- modal delete sub kegiatan  --}}
-                <div class="modal fade" id="ModalDeleteSubKegiatanKecamatan" tabindex="-1" aria-labelledby="DeleteSubKegiatan"
-                    aria-hidden="true">
+                <div class="modal fade" id="ModalDeleteSubKegiatanKecamatan" tabindex="-1"
+                    aria-labelledby="DeleteSubKegiatan" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-0">
                             <div class="modal-body p-4">

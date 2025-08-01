@@ -32,11 +32,11 @@ class LoginController extends Controller
 
             Auth::logout();
             return redirect()->route('login.view')->with('error', 'Role tidak dikenali.');
-
-            return back()->with('error', 'Login gagal! Periksa kembali username dan password Anda.')
-                ->onlyInput('username');
         }
 
+        // Pindahkan ke sini
+        return back()->with('error', 'Login gagal! Periksa kembali username dan password Anda.')
+            ->onlyInput('username');
     }
     public function logout(Request $request)
     {

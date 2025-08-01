@@ -300,13 +300,6 @@
                         </div>
                     </div>
                 </div>
-cara buat dan push branch ke repositori https://github.com/iniIrwann/monev-digi.git
-atawa turutan cara ieu
-git checkout -b fitur/dashboard
-git add .
-git commit -m "Menambahkan fitur dashboard"
-git push origin fitur/dashboard
-
                 <!-- modal tambah kegiatan -->
                 <div class="modal fade" id="ModalTambahKegiatan" tabindex="-1" aria-labelledby="ModalTambahKegiatan"
                     aria-hidden="true">

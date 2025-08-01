@@ -41,22 +41,19 @@ class TargetKecamatanController extends Controller
 
         $query = Bidang::with(['kegiatan.subkegiatan.targets']);
 
-        // Filter: desaId
         if ($desaId) {
             $query->where('user_id', $desaId);
         }
 
-        // Filter: bidang
-        if ($bidangId) {
-            $query->where('id', $bidangId);
+        if (!empty($bidangId) && is_numeric($bidangId)) {
+            $bidang = Bidang::find($bidangId);
         }
 
-        // Filter: tahun
-        // if ($tahun) {
-        //     $query->whereHas('kegiatan.subkegiatan.targets', function ($q) use ($tahun) {
-        //         $q->where('tahun', $tahun);
-        //     });
-        // }
+        if (!empty($tahun) && is_numeric($tahun)) {
+            $query->whereHas('kegiatan.subkegiatan.targets', function ($q) use ($tahun) {
+                $q->where('tahun', $tahun);
+            });
+        }
 
         // Filter: pencarian teks (jika nanti kamu tambahkan input text)
         if (!empty($search)) {

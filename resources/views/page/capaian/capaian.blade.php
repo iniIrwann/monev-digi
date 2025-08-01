@@ -106,8 +106,8 @@
                                 <th>Volume (Realisasi)</th>
                                 <th>Anggaran / Targetan</th>
                                 <th>Realisasi Keuangan</th>
-                                <th>%Capaian Keluaran</th>
-                                <th>%Capaian Keuangan</th>
+                                <th>%Capaian<br />Keluaran</th>
+                                <th>%Capaian<br />Keuangan</th>
                                 <th>Sisa</th>
                             </tr>
                         </thead>
