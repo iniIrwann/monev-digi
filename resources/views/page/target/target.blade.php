@@ -16,7 +16,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <p class="fs-18 mb-0">Filter</p>
                 </div>
-                <form action="{{ route('target.index') }}" method="GET" class="mb-3">
+                <form action="{{ route('desa.target.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <div class="col-12 col-md-6">
                             <label for="" class="fs-12 mb-1">Pilih Tahun</label>
@@ -70,7 +70,7 @@
                     pembangunan
                 </p>
                 <hr/>
-                <form action="{{ route('target.index') }}" method="GET" class="mb-3">
+                <form action="{{ route('desa.target.index') }}" method="GET" class="mb-3">
                     <div class="row g-3 mb-2">
                         <div class="col-auto">
                             <!-- Input text -->
@@ -136,7 +136,7 @@
                                                 <a href="#" class="btn btn-sm btn-secondary"><i
                                                         class="bi bi-eye-fill"></i></a>
                                                 <a class="btn btn-sm btn-success"
-                                                    href="{{ route('target.create.subkegiatan', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id]) }} "><i
+                                                    href="{{ route('desa.target.create.subkegiatan', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id]) }} "><i
                                                         class="bi bi-plus-square"></i></a>
                                                 <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                                     data-bs-target="#ModalEditKegiatan" data-id="{{ $kegiatan->id }}"
@@ -165,10 +165,10 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-2 justify-content-end">
-                                                    <a href="{{ route('target.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('desa.target.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-secondary"><i
                                                             class="bi bi-eye-fill"></i></a>
-                                                    <a href="{{ route('target.edit.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('desa.target.edit.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-warning"><i
                                                             class="bi bi-pencil-fill text-white"></i></a>
                                                     <button data-bs-toggle="modal"
@@ -258,7 +258,7 @@
                             <div class="modal-body p-3">
                                 <p class="modal-title fs-14 sb grey" id="tmbhbidang">Bidang baru</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
-                                <form action="{{ route('target.store.bidang') }}" method="POST">
+                                <form action="{{ route('desa.target.store.bidang') }}" method="POST">
                                     @csrf
                                     <div class="row g-2 align-items-center mb-2 ms-1 me-1">
                                         <div class="col-3">
@@ -308,7 +308,7 @@
                             <div class="modal-body p-3">
                                 <p class="modal-title fs-14 sb grey" id="ModalTambahKegiatan">Kegiatan baru</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
-                                <form action="{{ route('target.store.kegiatan') }}" method="POST">
+                                <form action="{{ route('desa.target.store.kegiatan') }}" method="POST">
                                     @csrf
                                     <div class="row g-2 align-items-center mb-2 ms-1 me-1">
                                         <div class="col-3">
@@ -372,7 +372,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body fs-6">
-                                <form action="{{ route('target.store.subkegiatan') }}" method="POST">
+                                <form action="{{ route('desa.target.store.subkegiatan') }}" method="POST">
                                     @csrf
                                     <div class="row g-3">
                                         <div class="col-md-4">

@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Profile - Monev Digi Dana Desa')
+@section('title', 'Manajemen Desa - Monev Digi Dana Desa')
 
 
 @section('main')
@@ -14,14 +14,14 @@
             </div>
             <hr class="my-3">
 
-            <form action="{{ route('profile.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('kecamatan.dataDesa.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row align-items-start flex-wrap">
                     <!-- FOTO -->
                     <div class="col-md-3 text-center mb-3 mb-md-0">
                         <img id="currentProfile"
-                            src="{{ $profile->foto_profile === null ? asset('assets/images/new_profile.jpeg') : asset('assets/images/' . ($profile->foto_profile ?? 'default.png')) }}"
+                            src="{{ $profile->foto_profile === null ? asset('assets/images/profil.png') : asset('assets/images/foto_profile/' . ($profile->foto_profile ?? 'profil.png')) }}"
                             class="img-fluid rounded" alt="Foto Pengguna">
                         <div class="mb-2 mt-3">
                             <label class="form-label fs-12">Ganti Foto Profile</label>
@@ -72,13 +72,27 @@
 
                             <div class="col-md-6">
                                 <label class="form-label fs-12">Role</label>
-                                <input class="form-control form-control-sm text-black" name="role"
-                                    value="{{ $profile->role ?? '' }}" disabled>
+                                <select class="form-control form-control-sm" name="role">
+                                    <option value="">-- Pilih Role --</option>
+                                    <option value="kecamatan"
+                                        {{ old('role', $profile->role ?? '') == 'kecamatan' ? 'selected' : '' }}>Kecamatan
+                                    </option>
+                                    <option value="desa"
+                                        {{ old('role', $profile->role ?? '') == 'desa' ? 'selected' : '' }}>Desa</option>
+                                </select>
                                 @error('role')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
 
+                            <div class="col-md-6">
+                                <label class="form-label fs-12">Desa</label>
+                                <input type="text" class="form-control form-control-sm" name="desa"
+                                    value="{{ $profile->desa ?? '' }}">
+                                @error('desa')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
                             <div class="col-md-6">
                                 <label class="form-label fs-12">Email</label>
                                 <input type="email" class="form-control form-control-sm" name="email"
@@ -97,7 +111,6 @@
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
-
                             <div class="row mt-4">
                                 <div class="col-6">
                                     <a href="{{ route('kecamatan.dataDesa.index') }}"

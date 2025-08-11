@@ -129,7 +129,7 @@
                 <!-- Tombol -->
                 <div class="row align-items-center">
                     <div class="col-md-12 d-flex justify-content-end">
-                        <a href="{{ route('realisasi.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
+                        <a href="{{ route('kecamatan.realisasi.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
                             <i class="bi bi-x-square"></i> Close
                         </a>
                     </div>

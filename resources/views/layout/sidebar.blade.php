@@ -15,16 +15,15 @@
         </div>
         <!-- menu -->
         <ul class="nav nav-pills flex-column ps-3 pe-3 pt-3">
-
             <!-- Menu umum -->
-            <li class="nav-item">
-                <a href="{{ route('dashboard.index') }}"
-                    class="nav-link fs-12 d-flex {{ Request::is('dashboard*') ? 'tx-green' : 'tx-dark' }} justify-content-between align-items-center">
-                    dashboard
-                    <i class="bi bi-house-door-fill {{ Request::is('dashboard*') ? 'tx-orange' : '' }}"></i>
-                </a>
-            </li>
             @if (auth()->user()->role === 'desa')
+                <li class="nav-item">
+                    <a href="{{ route('desa.dashboard.index') }}"
+                        class="{{ Request::is('dashboard*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                        dashboard
+                        <i class="bi bi-house-door-fill {{ Request::is('dashboard*') ? 'tx-orange' : '' }}"></i>
+                    </a>
+                </li>
                 <li>
                     <a class="nav-link d-flex justify-content-between align-items-center text-dark fs-12"
                         data-bs-toggle="collapse" href="#capaianMenu" role="button" aria-expanded="false"
@@ -35,7 +34,7 @@
                     <div class="collapse show mt-2" id="capaianMenu">
                         <ul class="list-unstyled ps-3">
                             <li>
-                                <a href="{{ route('target.index') }}"
+                                <a href="{{ route('desa.target.index') }}"
                                     class="text-decoration-none {{ Request::is('target*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
                                     <i
                                         class="bi bi-arrow-right-short {{ Request::is('target*') ? 'tx-orange' : '' }}"></i>
@@ -43,7 +42,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('realisasi.index') }}"
+                                <a href="{{ route('desa.realisasi.index') }}"
                                     class="text-decoration-none {{ Request::is('realisasi*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
                                     <i
                                         class="bi bi-arrow-right-short {{ Request::is('realisasi*') ? 'tx-orange' : '' }}"></i>
@@ -51,7 +50,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('capaian.index') }}"
+                                <a href="{{ route('desa.capaian.index') }}"
                                     class="text-decoration-none {{ Request::is('capaian*') ? 'tx-green' : 'text-dark' }} d-block fs-12">
                                     <i
                                         class="bi bi-arrow-right-short {{ Request::is('capaian*') ? 'tx-orange' : '' }}"></i>
@@ -65,6 +64,14 @@
 
             <!-- Menu untuk role kecamatan -->
             @if (auth()->user()->role === 'kecamatan')
+                <li class="nav-item">
+                    <a href="{{ route('kecamatan.dashboard.index') }}"
+                        class="{{ Request::is('kecamatan/dashboard*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                        dashboard
+                        <i
+                            class="bi bi-house-door-fill {{ Request::is('kecamatan/dashboard*') ? 'tx-orange' : '' }}"></i>
+                    </a>
+                </li>
                 <li>
                     <a class="nav-link d-flex justify-content-between align-items-center text-dark fs-12"
                         data-bs-toggle="collapse" href="#capaianMenu" role="button" aria-expanded="false"
@@ -72,26 +79,26 @@
                         capaian RKP
                         <i class="bi bi-clipboard-fill fs-12 text-dark"></i>
                     </a>
-                    <div class="collapse show mt-2" id="capaianMenu">
+                    <div class="collapse show my-2" id="capaianMenu">
                         <ul class="list-unstyled ps-3">
                             <li>
-                                <a href="{{ route('targetKec.index') }}"
-                                    class="text-decoration-none {{ Request::is('kecamatan/targetKec*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
+                                <a href="{{ route('kecamatan.target.index') }}"
+                                    class="text-decoration-none {{ Request::is('kecamatan/target*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
                                     <i
-                                        class="bi bi-arrow-right-short {{ Request::is('target*') ? 'tx-orange' : '' }}"></i>
+                                        class="bi bi-arrow-right-short {{ Request::is('kecamatan/target*') ? 'tx-orange' : '' }}"></i>
                                     target
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('realisasi.index') }}"
-                                    class="text-decoration-none {{ Request::is('realisasi*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
+                                <a href="{{ route('kecamatan.realisasi.index') }}"
+                                    class="text-decoration-none {{ Request::is('kecamatan/realisasi*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
                                     <i
-                                        class="bi bi-arrow-right-short {{ Request::is('realisasi*') ? 'tx-orange' : '' }}"></i>
+                                        class="bi bi-arrow-right-short {{ Request::is('kecamatan/realisasi*') ? 'tx-orange' : '' }}"></i>
                                     realisasi
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('capaian.index') }}"
+                                <a href="{{ route('kecamatan.capaian.index') }}"
                                     class="text-decoration-none {{ Request::is('capaian*') ? 'tx-green' : 'text-dark' }} d-block fs-12">
                                     <i
                                         class="bi bi-arrow-right-short {{ Request::is('capaian*') ? 'tx-orange' : '' }}"></i>
@@ -103,15 +110,23 @@
                 </li>
             @endif
 
-            <!-- Menu profil -->
+            <!-- Menu User -->
             <li class="nav-item">
-                <a href="{{ route('profile.index') }}"
-                    class="{{ Request::is('profile*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
-                    profil
-                    <i class="bi bi-person-fill {{ Request::is('profile*') ? 'tx-green' : 'text-dark' }}"></i>
+                <a href="{{ route('kecamatan.dataDesa.index') }}"
+                    class="{{ Request::is('kecamatan/data-desa*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                    data desa
+                    <i
+                        class="bi bi-person-fill {{ Request::is('kecamatan/data-desa*') ? 'tx-orange' : 'text-dark' }}"></i>
                 </a>
             </li>
-
+            <!-- Menu profil -->
+            <li class="nav-item">
+                <a href="{{ route('kecamatan.profile.index') }}"
+                    class="{{ Request::is('kecamatan/profile*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                    profil
+                    <i
+                        class="bi bi-person-fill {{ Request::is('kecamatan/profile*') ? 'tx-orange' : 'text-dark' }}"></i>
+                </a>
+            </li>
         </ul>
-
     </div>

@@ -50,24 +50,24 @@
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">uraian keluaran</label>
                                 <input type="text" class="form-control form-control-sm rounded-1" name="uraian_keluaran"
-                                    placeholder="uraian keluaran" />
+                                    placeholder="uraian keluaran" required/>
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">volume</label>
                                 <input type="number" name="volume_keluaran" class="form-control form-control-sm rounded-1"
-                                    placeholder="volume" />
+                                    placeholder="volume" required/>
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">tenaga kerja</label>
                                 <input type="number" class="form-control form-control-sm rounded-1" name="tenaga_kerja"
-                                    placeholder="jumlah tenaga kerja" />
+                                    placeholder="jumlah tenaga kerja" required/>
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">upah</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text rounded-1 text-secondary">Rp</span>
                                     <input type="number" name="upah" class="form-control rounded-1"
-                                        placeholder="upah" />
+                                        placeholder="upah" required/>
                                 </div>
                             </div>
                             <div class="mb-2">
@@ -75,12 +75,12 @@
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text rounded-1 text-secondary">Rp</span>
                                     <input type="number" class="form-control rounded-1" name="BLT"
-                                        placeholder="masukkan jumlah BLT" />
+                                        placeholder="masukkan jumlah BLT" required/>
                                 </div>
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">keterangan</label>
-                                <textarea name="keterangan" class="form-control form-control-sm rounded-1" rows="3" placeholder="keterangan"></textarea>
+                                <textarea required name="keterangan" class="form-control form-control-sm rounded-1" rows="3" placeholder="keterangan"></textarea>
                             </div>
                         </div>
 
@@ -89,12 +89,12 @@
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">cara pengadaan</label>
                                 <input type="text" class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                    placeholder="cara_pengadaan" />
+                                    required placeholder="cara_pengadaan" />
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">tahun</label>
                                 <select required name="tahun"
-                                    class="form-select form-select-sm rounded-1 text-secondary">
+                                    class="form-select form-select-sm rounded-1 text-black required">
                                     <option value="">pilih tahun</option>
                                     <option value="2024">2024</option>
                                     <option value="2025">2025</option>
@@ -105,18 +105,18 @@
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text rounded-1 text-secondary">Rp</span>
                                     <input type="number" name="anggaran_target" class="form-control rounded-1"
-                                        placeholder="anggaran" />
+                                        placeholder="anggaran" required/>
                                 </div>
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">durasi</label>
                                 <input type="number" name="durasi" class="form-control form-control-sm rounded-1"
-                                    placeholder="durasi" />
+                                    placeholder="durasi" required/>
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">jumlah KPM</label>
                                 <input type="number" class="form-control form-control-sm rounded-1" name="KPM"
-                                    placeholder="jumlah KPM" />
+                                    placeholder="jumlah KPM" required/>
                             </div>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                     <!-- Tombol -->
                     <div class="row align-items-center">
                         <div class="col-md-12 d-flex justify-content-end">
-                            <a href="{{ route('target.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
+                            <a href="{{ route('desa.target.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
                                 <i class="bi bi-x-square"></i> batal
                             </a>
 

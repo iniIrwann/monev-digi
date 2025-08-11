@@ -15,7 +15,7 @@
             <div class="card-body p-3">
                 <p class="fs-14 sb mb-3">update realisasi subkegiatan</p>
                 <hr class="my-1">
-                <form action="{{ route('realisasi.store.sub') }}" method="POST">
+                <form action="{{ route('kecamatan.realisasi.store.sub') }}" method="POST">
                     @csrf
                     <input type="hidden" value="{{ $bidang->id }}" name="bidang_id" class="form-control">
                     <input type="hidden" value="{{ $kegiatan->id }}" name="kegiatan_id" class="form-control">
@@ -53,7 +53,7 @@
                                 <label class="fs-12 txt-tb-grey">uraian keluaran</label>
                                 <input type="text" value="{{ $realisasi->uraian_keluaran }}"
                                     class="form-control form-control-sm rounded-1" name="uraian_keluaran"
-                                    placeholder="uraian keluaran" />
+                                    placeholder="uraian keluaran" disabled/>
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">volume</label>
@@ -96,11 +96,11 @@
                                 <label class="fs-12 txt-tb-grey">cara pengadaan</label>
                                 <input required value="{{ $realisasi->cara_pengadaan }}" type="text"
                                     class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                    placeholder="cara_pengadaan" />
+                                    placeholder="cara_pengadaan" disabled/>
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">tahun</label>
-                                <select name="tahun" required
+                                <select name="tahun" required disabled
                                     class="form-select form-select-sm rounded-1 text-secondary">
                                     <option value="">pilih tahun</option>
                                     <option value="2024" {{ $realisasi->tahun == 2024 ? 'selected' : '' }}>2024</option>
@@ -134,7 +134,7 @@
                     <!-- Tombol -->
                     <div class="row align-items-center">
                         <div class="col-md-12 d-flex justify-content-end">
-                            <a href="{{ route('realisasi.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
+                        <a href="{{ route('kecamatan.realisasi.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
                                 <i class="bi bi-x-square"></i> batal
                             </a>
                             <button type="submit" class="btn btn-success btn-sm fs-12 text-white">

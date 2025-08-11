@@ -150,6 +150,11 @@ td {
     height: 30px;
 }
 
+.w-63 {
+    width: 63px !important;
+    height: auto;
+}
+
 /* color */
 .tx-gray {
     color: #4c4c4c;

@@ -15,7 +15,7 @@
             <div class="card-body p-3">
                 <p class="fs-14 sb mb-3">detail target sub kegiatan</p>
                 <hr class="my-1">
-                <form action="{{ route('target.update.sub') }}" method="POST">
+                <form action="{{ route('desa.target.update.sub') }}" method="POST">
                     @csrf
                     <input type="hidden" value="{{ $bidang->id }}" name="bidang_id" class="form-control">
                     <input type="hidden" value="{{ $kegiatan->id }}" name="kegiatan_id" class="form-control">
@@ -133,7 +133,7 @@
                     <!-- Tombol -->
                     <div class="row align-items-center">
                         <div class="col-md-12 d-flex justify-content-end">
-                            <a href="{{ route('target.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
+                            <a href="{{ route('desa.target.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
                                 <i class="bi bi-x-square"></i> batal
                             </a>
                             <button type="submit" class="btn btn-warning btn-sm fs-12 text-white">

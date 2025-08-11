@@ -17,6 +17,12 @@ class ProfileController extends Controller
         // Logic to display the profile page
         return view('page.profile.profile', compact('profile'));
     }
+    public function indexKec()
+    {
+        $login_credential = User::find(auth()->id());
+        // Logic to display the profile login_credential
+        return view('page.kecamatan.profile.index', compact('login_credential'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -54,6 +60,12 @@ class ProfileController extends Controller
         $profile = User::findOrFail($id);
 
         return view('page.profile.edit_profile', compact('profile'));
+    }
+    public function editKec(string $id)
+    {
+        $profile = User::findOrFail($id);
+
+        return view('page.kecamatan.profile.edit_profile', compact('profile'));
     }
 
     /**

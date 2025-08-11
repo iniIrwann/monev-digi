@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title', 'Target - Monev Digi Dana Desa')
+
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">
@@ -16,11 +18,13 @@
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <p class="fs-18 mb-0">Filter</p>
                 </div>
-                <form action="{{ route('targetKec.index') }}" method="GET" class="mb-3">
+                <form action="{{ route('kecamatan.target.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
+                        <!-- Pilih Desa -->
                         <div class="col-12 col-md-4">
-                            <label for="" class="fs-12 mb-1">Pilih Desa</label>
+                            <label class="fs-12 mb-1">Pilih Desa</label>
                             <select name="desa" class="fs-12 form-select">
+                                <option value="">{{ __('-- Semua Desa --') }}</option>
                                 @foreach ($selectDesa as $d)
                                     <option value="{{ $d->id }}" {{ request('desa') == $d->id ? 'selected' : '' }}>
                                         {{ $d->desa }}
@@ -69,14 +73,15 @@
                 <p class="fs-12 my-2">
                     @if ($desa)
                         kinerja dan anggaran dana <span class="fw-bold">{{ $desa->desa }}</span> tahun
-                        {{ $tahun ?? '( semua tahun )' }}. <span class="fw-bold">{{ $bidang->nama_bidang ?? 'semua bidang' }}</span>
+                        {{ $tahun ?? '( semua tahun )' }}. <span
+                            class="fw-bold">{{ $bidang->nama_bidang ?? 'semua bidang' }}</span>
                     @else
                         Menampilkan Semua Target Desa.
                     @endif
                 </p>
 
                 <hr />
-                <form action=" {{ route('targetKec.index') }} " method="GET" class="mb-3">
+                <form action=" {{ route('kecamatan.target.index') }} " method="GET" class="mb-3">
                     <div class="d-flex align-items-center gap-2 mb-3">
 
                         <!-- Input text -->
@@ -141,7 +146,7 @@
                                                 <a href="#" class="btn btn-sm btn-secondary"><i
                                                         class="bi bi-eye-fill"></i></a>
                                                 <a class="btn btn-sm btn-success"
-                                                    href="{{ route('targetKec.create.subkegiatan', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id]) }} "><i
+                                                    href="{{ route('kecamatan.target.create.subkegiatan', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id]) }} "><i
                                                         class="bi bi-plus-square"></i></a>
                                                 <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                                     data-bs-target="#ModalEditKegiatanKecamatan"
@@ -171,10 +176,10 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-2 justify-content-end">
-                                                    <a href="{{ route('targetKec.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('kecamatan.target.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-secondary"><i
                                                             class="bi bi-eye-fill"></i></a>
-                                                    <a href="{{ route('targetKec.edit.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('kecamatan.target.edit.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-warning"><i
                                                             class="bi bi-pencil-fill text-white"></i></a>
                                                     <button data-bs-toggle="modal"
@@ -266,7 +271,7 @@
                             <div class="modal-body p-3">
                                 <p class="modal-title fs-14 sb grey" id="tmbhbidang">Bidang baru</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
-                                <form action="{{ route('targetKec.store.bidang') }}" method="POST">
+                                <form action="{{ route('kecamatan.target.store.bidang') }}" method="POST">
                                     @csrf
                                     <div class="row g-2 align-items-center mb-2 ms-1 me-1">
                                         <div class="col-3">
@@ -332,7 +337,7 @@
                             <div class="modal-body p-3">
                                 <p class="modal-title fs-14 sb grey" id="ModalTambahKegiatan">Kegiatan baru</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
-                                <form action="{{ route('targetKec.store.kegiatan') }}" method="POST">
+                                <form action="{{ route('kecamatan.target.store.kegiatan') }}" method="POST">
                                     @csrf
                                     <div class="row g-2 align-items-center mb-2 ms-1 me-1">
                                         <div class="col-3">

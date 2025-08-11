@@ -1,30 +1,25 @@
 @extends('layout.app')
 
-@section('title', 'Profile - Monev Digi Dana Desa')
+@section('title', 'Manajemen Desa - Monev Digi Dana Desa')
 
 
 @section('main')
     <div class="card border-0 w-100 rounded-3 mb-4">
         <div class="card-body p-3">
             <div class="d-flex justify-content-between align-items-center">
-                <p class="fs-14 sb mb-3">Profile</p>
-                {{-- <a href="{{ route('profile.edit', [$profile->id]) }}" class="btn btn-sm btn-warning px-3 py-2">
-                    <i class="bi bi-pencil-fill text-white"></i>
-                </a> --}}
+                <p class="fs-14 sb mb-3">Tambah Pengguna</p>
             </div>
             <hr class="my-3">
 
-            <form action="{{ route('profile.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('kecamatan.dataDesa.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
                 <div class="row align-items-start flex-wrap">
                     <!-- FOTO -->
                     <div class="col-md-3 text-center mb-3 mb-md-0">
-                        <img id="currentProfile"
-                            src="{{ $profile->foto_profile === null ? asset('assets/images/new_profile.jpeg') : asset('assets/images/' . ($profile->foto_profile ?? 'default.png')) }}"
+                        <img id="currentProfile" src="{{ asset('assets/images/new_profile.jpeg') }}"
                             class="img-fluid rounded" alt="Foto Pengguna">
                         <div class="mb-2 mt-3">
-                            <label class="form-label fs-12">Ganti Foto Profile</label>
+                            <label class="form-label fs-12">Foto Profile</label>
                             <input type="file" class="form-control form-control-sm" name="foto_profile" accept="image/*"
                                 onchange="previewImage(event)">
                             @error('foto_profile')
@@ -39,19 +34,19 @@
                         <p class="fs-14 sb mb-1">Informasi Pengguna</p>
                         <div class="row gy-2">
                             <div class="col-md-6">
-                                <label class="form-label fs-12">Username</label>
-                                <input type="text" class="form-control form-control-sm" name="username"
-                                    value="{{ $profile->username ?? '' }}">
+                                <label class="form-label fs-12">username</label>
+                                <input placeholder="username" type="text" class="form-control form-control-sm"
+                                    name="username" value="{{ old('username') }}">
                                 @error('username')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fs-12">Password</label>
+                                <label class="form-label fs-12">password</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="password" class="form-control" id="password1" name="password"
-                                        placeholder="Biarkan kosong jika tidak diubah">
+                                    <input placeholder="password" type="password" class="form-control" id="password1"
+                                        name="password" required>
                                     <span class="input-group-text bg-white" id="togglePassword1" style="cursor: pointer;">
                                         <i class="bi bi-eye"></i>
                                     </span>
@@ -62,37 +57,50 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fs-12">Nama</label>
-                                <input type="text" class="form-control form-control-sm" name="name"
-                                    value="{{ $profile->name ?? '' }}">
+                                <label class="form-label fs-12">nama</label>
+                                <input placeholder="nama" type="text" class="form-control form-control-sm" name="name"
+                                    value="{{ old('name') }}">
                                 @error('name')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fs-12">Role</label>
-                                <input class="form-control form-control-sm text-black" name="role"
-                                    value="{{ $profile->role ?? '' }}" disabled>
+                                <label class="form-label fs-12">role</label>
+                                <select class="form-control form-control-sm" name="role">
+                                    <option value="">-- Pilih Role --</option>
+                                    <option value="admin" {{ old('role') == 'kecamatan' ? 'selected' : '' }}>kecamatan
+                                    </option>
+                                    <option value="desa" {{ old('role') == 'desa' ? 'selected' : '' }}>desa</option>
+                                </select>
                                 @error('role')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fs-12">Email</label>
-                                <input type="email" class="form-control form-control-sm" name="email"
-                                    value="{{ $profile->email ?? '' }}">
+                                <label class="form-label fs-12">desa</label>
+                                <input placeholder="desa" type="text" class="form-control form-control-sm" name="desa"
+                                    value="{{ old('desa') }}">
+                                @error('desa')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fs-12">email</label>
+                                <input placeholder="email" type="email" class="form-control form-control-sm"
+                                    name="email" value="{{ old('email') }}">
                                 @error('email')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fs-12">Nomor HP</label>
-                                <input type="tel" pattern="[0-9]{10,15}" maxlength="15"
+                                <label class="form-label fs-12">nomor hp</label>
+                                <input placeholder="nomor handphone" type="tel" pattern="[0-9]{10,15}" maxlength="15"
                                     title="Masukkan 10-15 digit angka" class="form-control form-control-sm" name="nohp"
-                                    value="{{ $profile->nohp ?? '' }}">
+                                    value="{{ old('nohp') }}">
                                 @error('nohp')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
@@ -117,14 +125,9 @@
             </form>
         </div>
     </div>
-    @if (session('success'))
-        <script>
-            new Notyf().success('{{ session('success') }}');
-        </script>
-    @endif
+
     <!-- SCRIPT -->
     <script>
-        // Toggle Password Visibility
         document.getElementById('togglePassword1').addEventListener('click', function() {
             const input = document.getElementById('password1');
             const icon = this.querySelector('i');
@@ -139,7 +142,6 @@
             }
         });
 
-        // Preview Image Before Upload
         function previewImage(event) {
             const input = event.target;
             const preview = document.getElementById('preview');

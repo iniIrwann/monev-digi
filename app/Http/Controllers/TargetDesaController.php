@@ -119,7 +119,7 @@ class TargetDesaController extends Controller
             ->first();
 
         if (!$target) {
-            return redirect()->route('target.index')->with('error', 'Data target tidak ditemukan.');
+            return redirect()->route('desa.target.index')->with('error', 'Data target tidak ditemukan.');
         }
 
         // Update Sub
@@ -140,7 +140,7 @@ class TargetDesaController extends Controller
         $target->keterangan = $request->keterangan;
         $target->save();
 
-        return redirect()->route('target.index')->with('success', 'Data target berhasil disimpan atau diperbarui.');
+        return redirect()->route('desa.target.index')->with('success', 'Data target berhasil disimpan atau diperbarui.');
     }
     public function storeBidang(Request $request)
     {
@@ -167,7 +167,7 @@ class TargetDesaController extends Controller
         $bidang->keterangan = $request->keterangan;
         $bidang->save();
 
-        return redirect()->route('target.index')
+        return redirect()->route('desa.target.index')
             ->with('success', 'Bidang berhasil ditambahkan.');
     }
     public function storeKegiatan(Request $request)
@@ -197,7 +197,7 @@ class TargetDesaController extends Controller
         $kegiatan->kategori = $request->kategori;
         $kegiatan->save();
 
-        return redirect()->route('target.index')
+        return redirect()->route('desa.target.index')
             ->with('success', 'Kegiatan berhasil ditambahkan.');
     }
 
@@ -240,6 +240,9 @@ class TargetDesaController extends Controller
             'sub_kegiatan_id' => $sub->id,
             'user_id' => auth()->id(),
             'uraian_keluaran' => $request->uraian_keluaran,
+            'cara_pengadaan' => $request->cara_pengadaan,
+            'tahun' => $request->tahun,
+
         ]);
 
         // Simpan ke tabel target
@@ -266,7 +269,7 @@ class TargetDesaController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect()->route('target.index')
+        return redirect()->route('desa.target.index')
             ->with('success', 'Sub Kegiatan dan Target berhasil ditambahkan.');
     }
 
@@ -294,7 +297,7 @@ class TargetDesaController extends Controller
         $kegiatan->kategori = $request->kategori;
         $kegiatan->save();
 
-        return redirect()->route('target.index')
+        return redirect()->route('desa.target.index')
             ->with('success', 'Kegiatan berhasil diperbarui.');
     }
     public function updateBidang(Request $request, string $id)
@@ -310,7 +313,7 @@ class TargetDesaController extends Controller
         $bidang->keterangan = $request->keterangan;
         $bidang->save();
 
-        return redirect()->route('target.index')
+        return redirect()->route('desa.target.index')
             ->with('success', 'Bidang berhasil diperbarui.');
     }
     // Delete
@@ -329,7 +332,7 @@ class TargetDesaController extends Controller
         // Hapus bidang
         $bidang->delete();
 
-        return redirect()->route('target.index')
+        return redirect()->route('desa.target.index')
             ->with('success', 'Bidang beserta seluruh Kegiatan dan Sub Kegiatan berhasil dihapus.');
     }
     public function deleteKegiatan(string $id)
@@ -345,7 +348,7 @@ class TargetDesaController extends Controller
         // Hapus kegiatan
         $kegiatan->delete();
 
-        return redirect()->route('target.index')
+        return redirect()->route('desa.target.index')
             ->with('success', 'Kegiatan beserta seluruh Sub Kegiatan berhasil dihapus.');
     }
     public function deleteSubKegiatan(string $id)
@@ -358,7 +361,7 @@ class TargetDesaController extends Controller
         // Hapus subkegiatan
         $subKegiatan->delete();
 
-        return redirect()->route('target.index')
+        return redirect()->route('desa.target.index')
             ->with('success', 'Sub Kegiatan berhasil dihapus.');
     }
 }

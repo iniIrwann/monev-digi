@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Target - Monev Digi Dana Desa')
+
+
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">
@@ -108,9 +111,8 @@
                             <label class="fs-12 txt-tb-grey">target keuangan</label>
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                <input value="{{ $target->anggaran_target }}" required type="number"
-                                    name="target" class="form-control rounded-1"
-                                    placeholder="target keuangan" />
+                                <input value="{{ $target->anggaran_target }}" required type="number" name="target"
+                                    class="form-control rounded-1" placeholder="target keuangan" />
                             </div>
                         </div>
                         <div class="mb-2">
@@ -130,7 +132,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-12 d-flex justify-content-end">
                         <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
-                           <i class="bi bi-arrow-return-left me-1"></i> Kembali
+                            <i class="bi bi-arrow-return-left me-1"></i> Kembali
                         </a>
                     </div>
                 </div>

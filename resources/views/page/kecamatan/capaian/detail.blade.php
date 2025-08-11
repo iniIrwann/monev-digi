@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Capaian - Monev Digi Dana Desa')
+
+
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">

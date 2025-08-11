@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Target - Monev Digi Dana Desa')
+
+
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">
@@ -15,7 +18,7 @@
             <div class="card-body p-3">
                 <p class="fs-14 sb mb-3">edit target sub kegiatan</p>
                 <hr class="my-1">
-                <form action="{{ route('targetKec.update.sub') }}" method="POST">
+                <form action="{{ route('kecamatan.target.update.sub') }}" method="POST">
                     @csrf
                     <input type="hidden" value="{{ $bidang->id }}" name="bidang_id" class="form-control">
                     <input type="hidden" value="{{ $kegiatan->id }}" name="kegiatan_id" class="form-control">
@@ -57,9 +60,8 @@
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">volume</label>
-                                <input required value="{{ $target->volume_keluaran }}" type="number"
-                                    name="volume_keluaran" class="form-control form-control-sm rounded-1"
-                                    placeholder="volume" />
+                                <input required value="{{ $target->volume_keluaran }}" type="number" name="volume_keluaran"
+                                    class="form-control form-control-sm rounded-1" placeholder="volume" />
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">tenaga kerja</label>
@@ -133,7 +135,7 @@
                     <!-- Tombol -->
                     <div class="row align-items-center">
                         <div class="col-md-12 d-flex justify-content-end">
-                            <a href="{{ route('targetKec.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
+                            <a href="{{ route('kecamatan.target.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
                                 <i class="bi bi-x-square"></i> batal
                             </a>
                             <button type="submit" class="btn btn-warning btn-sm fs-12 text-white">

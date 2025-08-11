@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title', 'Capaian - Monev Digi Dana Desa')
+
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">
@@ -217,7 +219,8 @@
                     <!-- Tombol -->
                     <div class="row align-items-center">
                         <div class="col-md-12 d-flex justify-content-end">
-                            <a href="{{ route('capaian.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
+                            <a href="{{ route('capaian.index') }}"
+                                class="btn btn-secondary btn-sm fs-12 text-white me-2">
                                 <i class="bi bi-x-square"></i> Close
                             </a>
                         </div>

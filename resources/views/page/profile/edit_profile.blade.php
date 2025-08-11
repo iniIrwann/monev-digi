@@ -1,13 +1,16 @@
 @extends('layout.app')
 
+@section('title', 'Profile - Monev Digi Dana Desa')
+
+
 @section('main')
     <div class="card border-0 w-100 rounded-3 mb-4">
         <div class="card-body p-3">
             <div class="d-flex justify-content-between align-items-center">
                 <p class="fs-14 sb mb-3">Profile</p>
-                <a href="{{ route('profile.edit', [$profile->id]) }}" class="btn btn-sm btn-warning px-3 py-2">
+                {{-- <a href="{{ route('profile.edit', [$profile->id]) }}" class="btn btn-sm btn-warning px-3 py-2">
                     <i class="bi bi-pencil-fill text-white"></i>
-                </a>
+                </a> --}}
             </div>
             <hr class="my-3">
 

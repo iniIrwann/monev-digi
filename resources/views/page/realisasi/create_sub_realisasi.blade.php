@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Realisasi - Monev Digi Dana Desa')
+
+
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">
@@ -53,7 +56,7 @@
                                 <label class="fs-12 txt-tb-grey">uraian keluaran</label>
                                 <input type="text" value="{{ $realisasi->uraian_keluaran }}"
                                     class="form-control form-control-sm rounded-1" name="uraian_keluaran"
-                                    placeholder="uraian keluaran" />
+                                    placeholder="uraian keluaran" disabled />
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">volume</label>
@@ -96,11 +99,11 @@
                                 <label class="fs-12 txt-tb-grey">cara pengadaan</label>
                                 <input required value="{{ $realisasi->cara_pengadaan }}" type="text"
                                     class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                    placeholder="cara_pengadaan" />
+                                    placeholder="cara_pengadaan" disabled />
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">tahun</label>
-                                <select name="tahun" required
+                                <select name="tahun" required disabled
                                     class="form-select form-select-sm rounded-1 text-secondary">
                                     <option value="">pilih tahun</option>
                                     <option value="2024" {{ $realisasi->tahun == 2024 ? 'selected' : '' }}>2024</option>
@@ -134,7 +137,7 @@
                     <!-- Tombol -->
                     <div class="row align-items-center">
                         <div class="col-md-12 d-flex justify-content-end">
-                            <a href="{{ route('realisasi.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
+                            <a href="{{ route('desa.realisasi.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
                                 <i class="bi bi-x-square"></i> batal
                             </a>
                             <button type="submit" class="btn btn-success btn-sm fs-12 text-white">

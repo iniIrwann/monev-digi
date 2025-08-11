@@ -46,6 +46,7 @@ class TargetKecamatanController extends Controller
         }
 
         if (!empty($bidangId) && is_numeric($bidangId)) {
+            $query->where('id', $bidangId);
             $bidang = Bidang::find($bidangId);
         }
 
@@ -54,6 +55,7 @@ class TargetKecamatanController extends Controller
                 $q->where('tahun', $tahun);
             });
         }
+
 
         // Filter: pencarian teks (jika nanti kamu tambahkan input text)
         if (!empty($search)) {
@@ -163,7 +165,7 @@ class TargetKecamatanController extends Controller
         $target->keterangan = $request->keterangan;
         $target->save();
 
-        return redirect()->route('targetKec.index')->with('success', 'Data target berhasil disimpan atau diperbarui.');
+        return redirect()->route('kecamatan.target.index')->with('success', 'Data target berhasil disimpan atau diperbarui.');
     }
     public function storeBidang(Request $request)
     {
@@ -274,8 +276,10 @@ class TargetKecamatanController extends Controller
             'bidang_id' => $request->bidang_id,
             'kegiatan_id' => $request->kegiatan_id,
             'sub_kegiatan_id' => $sub->id,
-            'user_id' => $bidang->user_id,
+            'user_id' => auth()->id(),
             'uraian_keluaran' => $request->uraian_keluaran,
+            'cara_pengadaan' => $request->cara_pengadaan,
+            'tahun' => $request->tahun,
         ]);
 
         // Simpan ke tabel target
@@ -302,7 +306,7 @@ class TargetKecamatanController extends Controller
             'user_id' => $bidang->user_id,
         ]);
 
-        return redirect()->route('targetKec.index')
+        return redirect()->route('kecamatan.target.index')
             ->with('success', 'Sub Kegiatan dan Target berhasil ditambahkan.');
     }
 
@@ -381,7 +385,7 @@ class TargetKecamatanController extends Controller
         // Hapus kegiatan
         $kegiatan->delete();
 
-        return redirect()->route('targetKec.index')
+        return redirect()->route('kecamatan.target.index')
             ->with('success', 'Kegiatan beserta seluruh Sub Kegiatan berhasil dihapus.');
     }
     public function deleteSubKegiatan(string $id)

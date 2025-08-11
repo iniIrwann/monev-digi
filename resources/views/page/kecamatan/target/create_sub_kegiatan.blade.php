@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Target - Monev Digi Dana Desa')
+
+
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">
@@ -15,7 +18,7 @@
             <div class="card-body p-3">
                 <p class="fs-14 sb mb-3">subkegiatan baru</p>
                 <hr class="my-1">
-                <form action="{{ route('targetKec.store.subkegiatan') }}" method="POST">
+                <form action="{{ route('kecamatan.target.store.subkegiatan') }}" method="POST">
                     @csrf
                     <input type="hidden" value="{{ $bidang->id }}" name="bidang_id" class="form-control">
                     <input type="hidden" value="{{ $kegiatan->id }}" name="kegiatan_id" class="form-control">
@@ -124,7 +127,7 @@
                     <!-- Tombol -->
                     <div class="row align-items-center">
                         <div class="col-md-12 d-flex justify-content-end">
-                            <a href="{{ route('targetKec.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
+                            <a href="{{ route('kecamatan.target.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
                                 <i class="bi bi-x-square"></i> batal
                             </a>
 

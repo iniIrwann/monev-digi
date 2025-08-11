@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Realisasi - Monev Digi Dana Desa')
+
+
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">
@@ -16,7 +19,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <p class="fs-18 mb-0">Filter</p>
                 </div>
-                <form action="{{ route('realisasi.index') }}" method="GET" class="mb-3">
+                <form action="{{ route('desa.realisasi.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <div class="col-12 col-md-6">
                             <label for="" class="fs-12 mb-1">Pilih Tahun</label>
@@ -60,7 +63,7 @@
                     pembangunan
                 </p>
                 <hr />
-                <form action=" {{ route('realisasi.index') }} " method="GET" class="mb-3">
+                <form action=" {{ route('desa.realisasi.index') }} " method="GET" class="mb-3">
                     <div class="d-flex align-items-center gap-2 mb-3">
 
                         <!-- Input text -->

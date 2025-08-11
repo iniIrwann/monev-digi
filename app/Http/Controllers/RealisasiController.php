@@ -101,7 +101,7 @@ class RealisasiController extends Controller
             ->first();
 
         if (!$realisasi) {
-            return redirect()->route('realisasi.index')->with('error', 'Data realisasi tidak ditemukan.');
+            return redirect()->route('desa.realisasi.index')->with('error', 'Data realisasi tidak ditemukan.');
         }
 
         // Update atau isi data
@@ -149,7 +149,7 @@ class RealisasiController extends Controller
                 ]
         );
 
-        return redirect()->route('realisasi.index')->with('success', 'Data realisasi berhasil disimpan atau diperbarui.');
+        return redirect()->route('desa.realisasi.index')->with('success', 'Data realisasi berhasil disimpan atau diperbarui.');
     }
     public function deleteSubKegiatan($id)
     {
@@ -171,7 +171,7 @@ class RealisasiController extends Controller
 
         $realisasi->save();
 
-        return redirect()->route('realisasi.index')->with('success', 'Data realisasi berhasil dihapus.');
+        return redirect()->route('desa.realisasi.index')->with('success', 'Data realisasi berhasil dihapus.');
     }
     public function detail($bidang_id, $kegiatan_id, $subkegiatan_id)
     {

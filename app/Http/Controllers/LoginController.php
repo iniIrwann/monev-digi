@@ -25,9 +25,9 @@ class LoginController extends Controller
             $user = Auth::user();
 
             if ($user->role === 'desa') {
-                return redirect()->route('dashboard.index')->with('success', 'Login berhasil sebagai Desa!');
+                return redirect()->route('desa.dashboard.index')->with('success', 'Login berhasil sebagai Desa!');
             } elseif ($user->role === 'kecamatan') {
-                return redirect()->route('targetKec.index')->with('success', 'Login berhasil sebagai Kecamatan!');
+                return redirect()->route('kecamatan.target.index')->with('success', 'Login berhasil sebagai Kecamatan!');
             }
 
             Auth::logout();
