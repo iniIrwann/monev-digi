@@ -21,10 +21,8 @@ class TargetController extends Controller
         $bidangId = $request->input('bidang');
         $search = $request->input('query');
 
-        // Ambil semua bidang (untuk dropdown filter)
+        // Desa
         $filterBidangs = Bidang::userOnly()->select('id', 'nama_bidang')->get();
-
-        // Query utama
         $query = Bidang::userOnly()->with(['kegiatan.subkegiatan.targets']);
 
         // Filter Tahun
@@ -100,6 +98,7 @@ class TargetController extends Controller
             'kegiatan_id' => 'required|exists:kegiatans,id',
             'subkegiatan_id' => 'required|exists:sub_kegiatans,id',
             'uraian_keluaran' => 'required|string|max:255',
+            'nama_subkegiatan' => 'required|string|max:255',
             'volume_keluaran' => 'required|numeric',
             'tenaga_kerja' => 'nullable|numeric',
             'upah' => 'nullable|numeric',
@@ -112,6 +111,9 @@ class TargetController extends Controller
             'KPM' => 'nullable|numeric',
         ]);
 
+        $subkegiatan = SubKegiatan::findOrFail($request->subkegiatan_id);
+
+
         // Cari entri target berdasarkan kombinasi bidang, kegiatan, subkegiatan, dan tahun
         $target = Target::userOnly()
             ->where('bidang_id', $request->bidang_id)
@@ -122,6 +124,10 @@ class TargetController extends Controller
         if (!$target) {
             return redirect()->route('target.index')->with('error', 'Data target tidak ditemukan.');
         }
+
+        // Update Sub
+        $subkegiatan->nama_subkegiatan = $request->nama_subkegiatan;
+        $subkegiatan->save();
 
         // Update atau isi data
         $target->volume_keluaran = $request->volume_keluaran;

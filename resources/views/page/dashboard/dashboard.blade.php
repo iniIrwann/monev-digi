@@ -76,7 +76,7 @@
                 <!-- Line Chart -->
                 <div class="col-12 col-md-6">
                     <div class="p-4 bg-white rounded shadow-sm d-flex flex-column justify-content-between h-100">
-                        <p class="mb-3 fs-14 sb">Data Target yang Ditambahkan</p>
+                        <p class="mb-3 fs-14 sb">Data Target Yang Ditambahkan</p>
                         <canvas id="targetLineChart" class="flex-grow-1" style="height: 220px; width: 100%;"></canvas>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
         <div class="col-12">
             <div class="p-4 bg-white rounded shadow-sm h-100">
                 <!-- Judul -->
-                <p class="mb-2 fs-14 sb">capaian keluaran dan capaian keuangan</p>
+                <p class="mb-2 fs-14 sb text-capitalize">capaian keluaran dan capaian keuangan</p>
 
                 <!-- Tabel capaian keluaran -->
                 <div class="row">
@@ -179,13 +179,28 @@
 
                 <!-- Keterangan -->
                 <p class="fs-12 sb mb-1">keterangan:</p>
-                <p class="fs-12 text-muted mb-0">
-                    &lt; 40 = Capaian sangat rendah, perlu diadakan evaluasi menyeluruh dan perbaikan<br>
-                    40 &lt; 60 = Banyak Target tidak tercapai, perlu peningkatan signifikan <br>
-                    60 &lt; 75 = Capaian sedang, masih ada kekurangan yang perlu diperbaiki <br>
-                    75 &lt; 90 = Sebagian besar target capaian, pelaksanaan berjalan baik <br>
-                    90 &lt; 100 = Capaian optimal, seluruh target kegiatan atau keuangan tercapai
-                </p>
+                <ul class="mb-0 fs-12">
+                                <li><strong>&lt; 40%</strong>: <em class="fw-bold text-danger">Sangat Kurang</em> – Capaian
+                                    sangat
+                                    rendah, perlu evaluasi
+                                    menyeluruh dan perbaikan.</li>
+                                <li><strong>40% - &lt; 60%</strong>: <em class="fw-bold "
+                                        style="color: #fd7e14">Kurang</em> – Banyak
+                                    target tidak tercapai, perlu
+                                    peningkatan signifikan.</li>
+                                <li><strong>60% - &lt; 75%</strong>: <em class="fw-bold text-warning">Cukup</em> – Capaian
+                                    sedang, masih
+                                    ada kekurangan yang
+                                    perlu diperbaiki.</li>
+                                <li><strong>75% - &lt; 90%</strong>: <em class="fw-bold text-success">Baik</em> – Sebagian
+                                    besar target
+                                    tercapai, pelaksanaan
+                                    berjalan baik.</li>
+                                <li><strong>90% - 100%</strong>: <em class="fw-bold text-primary">Sangat Baik</em> –
+                                    Capaian optimal,
+                                    seluruh target
+                                    kegiatan/keuangan tercapai.</li>
+                            </ul>
             </div>
         </div>
 

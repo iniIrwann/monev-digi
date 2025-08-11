@@ -19,7 +19,7 @@
                 <form action="{{ route('realisasi.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <div class="col-12 col-md-6">
-                            <label for="" class="fs-12 mb-1">Pilih Tahun</label>
+                            <label for="" class="fs-12 mb-1">Pilih tahun</label>
                             <select name="tahun" class="fs-12 form-select">
                                 <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>Tahun 2024
                                 </option>
@@ -30,7 +30,7 @@
 
                         </div>
                         <div class="col-12 col-md-5">
-                            <label for="" class="fs-12 mb-1">Pilih Bidang</label>
+                            <label for="" class="fs-12 mb-1">Pilih bidang</label>
                             <select name="bidang" class="fs-12 form-select">
                                 @foreach ($filterBidangs as $bidang)
                                     <option value="{{ $bidang->id }}"
@@ -75,11 +75,11 @@
                         <thead class="border-bottom" style="border-color: #999999">
                             <tr class="text-start">
                                 <th class="text-center">Aksi</th>
-                                <th>Kode<br />Rekening</th>
-                                <th>Rencana Kegiatan</th>
+                                <th>Kode rekening</th>
+                                <th>Rencana kegiatan</th>
                                 <th>Volume</th>
                                 <th>Uraian</th>
-                                <th>Realisasi Keuangan</th>
+                                <th>Realisasi keuangan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -243,8 +243,8 @@
                 <div class="modal-body p-4">
                     <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteSubKegiatan">Konfirmasi
                         Hapus
-                        Sub Kegiatan</h5>
-                    <p class="text-muted mb-3">
+                        Subkegiatan</h5>
+                    <p class="text-muted mb-3 fs-14">
                         Tindakan ini akan menghapus <strong>semua isi data ( selain kode rekening, dan rencana kegiatan )
                             secara permanen </strong>. Data
                         yang terhapus tidak dapat
@@ -259,11 +259,11 @@
 
                         <!-- Aksi -->
                         <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-outline-secondary btn-sm me-2" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-outline-danger btn-sm me-2" data-bs-dismiss="modal">
                                 <i class="bi bi-x-square"></i> Batal
                             </button>
                             <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="bi bi-trash"></i> Hapus Sekarang
+                                <i class="bi bi-trash"></i> Hapus
                             </button>
                         </div>
                     </form>

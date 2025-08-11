@@ -13,7 +13,7 @@
             <div class="card border-0 w-100 rounded-3 mb-4">
             <div class="card-body ps-3 pt-3 pe-3 pb-4">                
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <p class="fs-14 sb mb-0">profil</p>
+                    <p class="fs-14 sb mb-0">Profil</p>
                     <a href="{{ route('profile.edit', [$profile->id]) }}" class="btn btn-warning btn-sm fs-12 text-white">
                         <i class="bi bi-pencil me-1"></i> Edit pengguna
                     </a>
@@ -29,33 +29,33 @@
 
                 <!-- FORM -->
                 <div class="col-md-9">
-                    <p class="fs-14 sb mb-1">informasi pengguna</p>
+                    <p class="fs-14 sb mb-1">Informasi pengguna</p>
                     <form>
                     <div class="row gy-2">
                         <div class="col-md-6">
-                        <label class="form-label fs-12">username</label>
+                        <label class="form-label fs-12">Username</label>
                         <input type="text" class="form-control form-control-sm" value="{{ $profile->username ?? '' }}" disabled>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fs-12">password</label>
+                            <label class="form-label fs-12">Password</label>
                             <input type="password" class="form-control form-control-sm" id="password1" value="•••••" disabled>
                         </div>
 
                         <div class="col-md-6">
-                        <label class="form-label fs-12">nama</label>
+                        <label class="form-label fs-12">Nama</label>
                         <input type="text" class="form-control form-control-sm" value="{{ $profile->name ?? '' }}" disabled>
                     </div>
                     <div class="col-md-6">
-                            <label class="form-label fs-12">role</label>
+                            <label class="form-label fs-12">Role</label>
                             <input type="text" class="form-control form-control-sm" value="{{ $profile->role ?? '' }}" disabled>
                         </div>
 
                         <div class="col-md-6">
-                        <label class="form-label fs-12">email</label>
+                        <label class="form-label fs-12">Email</label>
                         <input type="email" class="form-control form-control-sm" value="{{ $profile->email ?? '' }}" disabled>
                         </div>
                         <div class="col-md-6">
-                        <label class="form-label fs-12">nomor hp</label>
+                        <label class="form-label fs-12">Nomor HP</label>
                         <input type="text" class="form-control form-control-sm" value="{{ $profile->nohp ?? '' }}" disabled>
                         </div>
 

@@ -26,7 +26,7 @@
                             <div class="mb-2 mt-3">
                                 <!-- Tombol untuk memicu input file -->
                                 <button type="button" class="btn btn-success w-100 fs-12 text-white" onclick="document.getElementById('fotoInput').click()">
-                                    <i class="bi bi-image"></i> Ganti foto
+                                    <i class="bi bi-image me-1"></i> Ganti foto
                                 </button>
 
                                 <!-- Input file disembunyikan -->
@@ -44,7 +44,7 @@
 
                         <!-- FORM -->
                         <div class="col-md-9">
-                            <p class="fs-14 sb mb-1">Informasi Pengguna</p>
+                            <p class="fs-14 sb mb-1">Informasi pengguna</p>
                             <div class="row gy-2">
                                 <div class="col-md-6">
                                     <label class="form-label fs-12">Username</label>
@@ -59,7 +59,7 @@
                                     <label class="form-label fs-12">Password</label>
                                     <div class="input-group input-group-sm">
                                         <input type="password" class="form-control" id="password1" name="password"
-                                            placeholder="Biarkan kosong jika tidak diubah">
+                                            placeholder="biarkan kosong jika tidak diubah">
                                         <span class="input-group-text bg-white" id="togglePassword1" style="cursor: pointer;">
                                             <i class="bi bi-eye"></i>
                                         </span>
