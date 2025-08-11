@@ -114,7 +114,7 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-6">
-                                        <a href="{{ route('kecamatan.profile.indexKec') }}"
+                                        <a href="{{ route('kecamatan.profile.index') }}"
                                             class="btn btn-secondary w-100 fs-12 text-white">
                                             Kembali
                                         </a>

@@ -100,13 +100,13 @@ class ProfileController extends Controller
         // Upload foto profil jika ada
         if ($request->hasFile('foto_profile')) {
             // Hapus foto lama jika ada dan bukan default
-            if ($user->foto_profile && file_exists(public_path('assets/images/' . $user->foto_profile))) {
+            if ($user->foto_profile && file_exists(public_path('assets/images/foto_profile/' . $user->foto_profile))) {
                 unlink(public_path('assets/images/' . $user->foto_profile));
             }
 
             $file = $request->file('foto_profile');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets/images'), $filename);
+            $file->move(public_path('assets/images/foto_profile'), $filename);
             $user->foto_profile = $filename;
         }
 
@@ -143,18 +143,18 @@ class ProfileController extends Controller
         // Upload foto profil jika ada
         if ($request->hasFile('foto_profile')) {
             // Hapus foto lama jika ada dan bukan default
-            if ($user->foto_profile && file_exists(public_path('assets/images/' . $user->foto_profile))) {
-                unlink(public_path('assets/images/' . $user->foto_profile));
+            if ($user->foto_profile && file_exists(public_path('assets/images/foto_profile/' . $user->foto_profile))) {
+                unlink(public_path('assets/images/foto_profile/' . $user->foto_profile));
             }
 
             $file = $request->file('foto_profile');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets/images'), $filename);
+            $file->move(public_path('assets/images/foto_profile'), $filename);
             $user->foto_profile = $filename;
         }
 
         $user->save();
 
-        return view('page.kecamatan.profile.index')->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->route('kecamatan.profile.index')->with('success', 'Profil berhasil diperbarui.');
     }
 }

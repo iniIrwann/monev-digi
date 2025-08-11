@@ -36,7 +36,8 @@ class DataDesaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+    public function updateKec(Request $request, string $id)
     {
         $user = User::findOrFail($id);
 
@@ -45,7 +46,6 @@ class DataDesaController extends Controller
             'password' => 'nullable|string|min:6',
             'name' => 'required|string|max:255',
             // 'role' => 'required|string|max:255',
-            'desa' => 'required|string|max:100',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'nohp' => 'nullable|numeric|digits_between:10,15',
             'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -56,7 +56,6 @@ class DataDesaController extends Controller
         $user->name = $validated['name']; // huruf kapital
         // $user->role = $validated['role'];
         $user->email = $validated['email'];
-        $user->desa = $validated['desa'];
         $user->nohp = $validated['nohp'];
 
         // Update password jika diisi
@@ -73,13 +72,57 @@ class DataDesaController extends Controller
 
             $file = $request->file('foto_profile');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets/images'), $filename);
+            $file->move(public_path('assets/images/foto_profile'), $filename);
             $user->foto_profile = $filename;
         }
 
         $user->save();
 
-        return redirect()->route('kecamatan.dataDesa.index')->with('success', 'Data Desa berhasil diperbarui.');
+        return redirect()->route(route: 'kecamatan.profile.index')->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'password' => 'nullable|string|min:6',
+            'name' => 'required|string|max:255',
+            // 'role' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'nohp' => 'nullable|numeric|digits_between:10,15',
+            'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Update data
+        $user->username = $validated['username'];
+        $user->name = $validated['name']; // huruf kapital
+        // $user->role = $validated['role'];
+        $user->email = $validated['email'];
+        $user->nohp = $validated['nohp'];
+
+        // Update password jika diisi
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        // Upload foto profil jika ada
+        if ($request->hasFile('foto_profile')) {
+            // Hapus foto lama jika ada dan bukan default
+            if ($user->foto_profile && file_exists(public_path('assets/images/foto_profile/' . $user->foto_profile))) {
+                unlink(public_path('assets/images/foto_profile/' . $user->foto_profile));
+            }
+
+            $file = $request->file('foto_profile');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('assets/images/foto_profile'), $filename);
+            $user->foto_profile = $filename;
+        }
+
+        $user->save();
+
+        return redirect()->route(route: 'kecamatan.dataDesa.index')->with('success', 'Data Desa berhasil diperbarui.');
     }
 
     public function destroy(string $id)

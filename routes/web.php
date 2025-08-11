@@ -117,5 +117,5 @@ Route::prefix('kecamatan')
         // Profile
         Route::get('/profile', [ProfileController::class, 'indexKec'])->name('profile.index');
         Route::get('/profile/edit/{id}', [ProfileController::class, 'editKec'])->name('profile.edit');
-        Route::put('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
+        Route::put('/profile/update/{id}', [ProfileController::class, 'updateKec'])->name('profile.update');
     });
