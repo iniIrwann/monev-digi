@@ -137,6 +137,8 @@ class RealisasiKecamatanController extends Controller
             'KPM' => 'nullable|numeric',
         ]);
 
+        $bidang = Bidang::findOrFail('id',$request->bidang_id);
+
         // updateOrCreate realisasi berdasarkan kombinasi bidang/kegiatan/subkegiatan/tahun
         $realisasi = Realisasi::updateOrCreate(
             [
@@ -146,7 +148,7 @@ class RealisasiKecamatanController extends Controller
                 'tahun' => $request->tahun,
             ],
             [
-                'user_id' => auth()->id(),
+                'user_id' => $bidang->user_id,
                 'uraian_keluaran' => $request->uraian_keluaran,
                 'volume_keluaran' => $request->volume_keluaran,
                 'cara_pengadaan' => $request->cara_pengadaan,
@@ -195,7 +197,7 @@ class RealisasiKecamatanController extends Controller
             ],
             [
                 'target_id' => $target ? $target->id : null,
-                'user_id' => auth()->id(),
+                'user_id' => $bidang->user_id,
                 'persen_capaian_keluaran' => $persen_volume,
                 'persen_capaian_keuangan' => $persen_keuangan,
                 'sisa' => $sisa,

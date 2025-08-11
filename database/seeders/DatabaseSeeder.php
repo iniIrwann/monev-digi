@@ -19,33 +19,33 @@ class DatabaseSeeder extends Seeder
         //     MonevSeeder::class,
         // ]);
         User::create([
-            'name' => 'Admin Satu',
-            'username' => 'admin',
+            'name' => 'Admin Desa Cileunyi Wetan',
+            'username' => 'admin2',
             'role' => 'desa',
             'nohp' => '08123456789',
-            'desa' => 'Desa Cipacing',
+            'desa' => 'Desa Cileunyi Wetan',
             'email' => 'admin1@example.com',
             'password' => Hash::make('123'),
         ]);
 
         User::create([
-            'name' => 'Admin Dua',
-            'username' => 'admin2',
+            'name' => 'Admin Desa Cileunyi Kulon',
+            'username' => 'admin3',
             'role' => 'desa',
             'nohp' => '082233445566',
-            'desa' => 'Desa Cileunyi',
+            'desa' => 'Desa Cileunyi Kulon',
             'email' => 'admin2@example.com',
             'password' => Hash::make('123'),
         ]);
 
         User::create([
-            'name' => 'Admin Kecamatan',
-            'username' => 'admin1',
+            'name' => 'Admin Kecamatan Cileunyi',
+            'username' => 'admin',
             'role' => 'kecamatan',
             'nohp' => '082233445566',
-            'desa' => 'Kecamatan Jatinangor',
+            'desa' => 'Kecamatan Cileunyi',
             'email' => 'admin_kec@example.com',
-            'password' => Hash::make('123'),
+            'password' => Hash::make('pass'),
         ]);
     }
 }

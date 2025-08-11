@@ -276,7 +276,7 @@ class TargetKecamatanController extends Controller
             'bidang_id' => $request->bidang_id,
             'kegiatan_id' => $request->kegiatan_id,
             'sub_kegiatan_id' => $sub->id,
-            'user_id' => auth()->id(),
+            'user_id' => $bidang->user_id,
             'uraian_keluaran' => $request->uraian_keluaran,
             'cara_pengadaan' => $request->cara_pengadaan,
             'tahun' => $request->tahun,

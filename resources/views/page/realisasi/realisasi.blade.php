@@ -22,7 +22,7 @@
                 <form action="{{ route('desa.realisasi.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <div class="col-12 col-md-6">
-                            <label for="" class="fs-12 mb-1">Pilih Tahun</label>
+                            <label for="" class="fs-12 mb-1">Pilih tahun</label>
                             <select name="tahun" class="fs-12 form-select">
                                 <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>Tahun 2024
                                 </option>
@@ -33,7 +33,7 @@
 
                         </div>
                         <div class="col-12 col-md-5">
-                            <label for="" class="fs-12 mb-1">Pilih Bidang</label>
+                            <label for="" class="fs-12 mb-1">Pilih bidang</label>
                             <select name="bidang" class="fs-12 form-select">
                                 @foreach ($filterBidangs as $bidang)
                                     <option value="{{ $bidang->id }}"
@@ -46,7 +46,7 @@
                         </div>
                         {{-- <input type="hidden" name="query" value=''> --}}
                         <div class="col-12 col-md-1 d-grid">
-                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
+                            <button type="submit" class="btn btn-success fs-12 text-white">
                                 <i class="bi bi-filter"></i>
                             </button>
                         </div>
@@ -57,22 +57,20 @@
 
         <!-- tabel -->
         <div class="card border-0 w-100 rd-5">
-            <div class="card-body p-3">
-                <p class="fs-12 my-2">
-                    kinerja dan anggaran dana desa ( nama desa a ) tahun 2024. bidang
-                    pembangunan
-                </p>
-                <hr />
+            <div class="card-body p-3"> 
                 <form action=" {{ route('desa.realisasi.index') }} " method="GET" class="mb-3">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-
-                        <!-- Input text -->
-                        <input type="text" name="query" class="form-control form-control-sm" placeholder="Pencarian..."
-                            style="width: 300px" />
-                        <!-- Tombol cari -->
-                        <button type="submit" class="btn btn-success btn-sm text-white">
-                            <i class="bi bi-search me-1"></i> Cari
-                        </button>
+                    <div class="row g-3 mb-2">
+                        <div class="col-auto">
+                            <!-- Input text -->
+                            <input type="text" name="query" class="form-control form-control-sm w-100"
+                                placeholder="Pencarian..." />
+                        </div>
+                        <div class="col-auto">
+                            <!-- Tombol cari -->
+                            <button type="submit" class="btn btn-success fs-12 text-white">
+                                <i class="bi bi-search me-1"></i> Cari
+                            </button>
+                        </div>
                     </div>
                 </form>
 
@@ -81,11 +79,11 @@
                         <thead class="border-bottom" style="border-color: #999999">
                             <tr class="text-start">
                                 <th class="text-center">Aksi</th>
-                                <th>Kode<br />Rekening</th>
-                                <th>Rencana Kegiatan</th>
+                                <th>Kode rekening</th>
+                                <th>Rencana kegiatan</th>
                                 <th>Volume</th>
                                 <th>Uraian</th>
-                                <th>Realisasi Keuangan</th>
+                                <th>Realisasi keuangan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -148,9 +146,9 @@
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-end">
                                                     {{-- Tambah Kegiatan --}}
-                                                    <a href="{{ route('realisasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('desa.realisasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-secondary"><i class="bi bi-eye-fill"></i></a>
-                                                    <a href="{{ route('realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('desa.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-warning"><i
                                                             class="bi bi-pencil-fill text-white"></i></a>
                                                     <button data-bs-toggle="modal"
@@ -176,7 +174,7 @@
                                                         Rp.{{ number_format($realisasi->realisasi_keuangan, 0, ',', '.') }}
                                                     @else
                                                         <a class="text-decoration-none"
-                                                            href="{{ route('realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"><span
+                                                            href="{{ route('desa.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"><span
                                                                 class="text-danger">Silahkan isi realisasi</span></a>
                                                     @endif
                                                 </td>
@@ -249,8 +247,8 @@
                 <div class="modal-body p-4">
                     <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteSubKegiatan">Konfirmasi
                         Hapus
-                        Sub Kegiatan</h5>
-                    <p class="text-muted mb-3">
+                        Subkegiatan</h5>
+                    <p class="text-muted mb-3 fs-14">
                         Tindakan ini akan menghapus <strong>semua isi data ( selain kode rekening, dan rencana kegiatan )
                             secara permanen </strong>. Data
                         yang terhapus tidak dapat
@@ -265,11 +263,11 @@
 
                         <!-- Aksi -->
                         <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-outline-secondary btn-sm me-2" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-outline-danger btn-sm me-2" data-bs-dismiss="modal">
                                 <i class="bi bi-x-square"></i> Batal
                             </button>
                             <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="bi bi-trash"></i> Hapus Sekarang
+                                <i class="bi bi-trash"></i> Hapus
                             </button>
                         </div>
                     </form>

@@ -18,7 +18,7 @@
     {{-- Notify --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <!-- icon web -->
-    <title>login - monev digi dana desa</title>
+    <title>Login - Monev Digi Dana Desa</title>
 </head>
 
 <body>

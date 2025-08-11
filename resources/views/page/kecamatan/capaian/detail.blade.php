@@ -18,7 +18,7 @@
             <div class="card-body p-3">
                 <p class="fs-14 sb mb-3">update realisasi subkegiatan</p>
                 <hr class="my-1">
-                <form action="{{ route('realisasi.store.sub') }}" method="POST">
+                <form action="{{ route('kecamatan.realisasi.store.sub') }}" method="POST">
                     @csrf
 
                     <input type="hidden" value="{{ $bidang->id }}" name="bidang_id" class="form-control">
@@ -220,7 +220,7 @@
                     <!-- Tombol -->
                     <div class="row align-items-center">
                         <div class="col-md-12 d-flex justify-content-end">
-                            <a href="{{ route('capaian.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
+                            <a href="{{ route('kecamatan.capaian.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
                                 <i class="bi bi-x-square"></i> Close
                             </a>
                         </div>

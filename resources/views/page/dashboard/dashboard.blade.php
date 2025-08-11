@@ -1,5 +1,8 @@
 @extends('layout.app')
 
+@section('title', 'Dashboard - Monev Digi Dana Desa')
+
+
 @section('main')
     <div class="main-content ps-3 pe-3 pt-4">
         <div class="row g-3">
@@ -75,11 +78,10 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Line Chart -->
                     <div class="col-12 col-md-6">
                         <div class="p-4 bg-white rounded shadow-sm d-flex flex-column justify-content-between h-100">
-                            <p class="mb-3 fs-14 sb">Data Target yang Ditambahkan</p>
+                            <p class="mb-3 fs-14 sb">Data Target Yang Ditambahkan</p>
                             <canvas id="targetLineChart" class="flex-grow-1" style="height: 220px; width: 100%;"></canvas>
                         </div>
                     </div>
@@ -89,7 +91,7 @@
             <div class="col-12">
                 <div class="p-4 bg-white rounded shadow-sm h-100">
                     <!-- Judul -->
-                    <p class="mb-2 fs-14 sb">capaian keluaran dan capaian keuangan</p>
+                    <p class="mb-2 fs-14 sb text-capitalize">capaian keluaran dan capaian keuangan</p>
 
                     <!-- Tabel capaian keluaran -->
                     <div class="row">
@@ -181,121 +183,116 @@
                     </div>
 
                     <!-- Keterangan -->
-                    <div class="card border-0 w-100 rd-5 fs-12 mb-4">
-                        <div class="card-body p-3">
-                            <p>Keterangan : </p>
-                            <ul class="mb-0 ">
-                                <li><strong>&lt; 40%</strong>: <em class="fw-bold text-danger">Sangat Kurang</em> – Capaian
-                                    sangat
-                                    rendah, perlu evaluasi
-                                    menyeluruh dan perbaikan.</li>
-                                <li><strong>40% - &lt; 60%</strong>: <em class="fw-bold "
-                                        style="color: #fd7e14">Kurang</em> – Banyak
-                                    target tidak tercapai, perlu
-                                    peningkatan signifikan.</li>
-                                <li><strong>60% - &lt; 75%</strong>: <em class="fw-bold text-warning">Cukup</em> – Capaian
-                                    sedang, masih
-                                    ada kekurangan yang
-                                    perlu diperbaiki.</li>
-                                <li><strong>75% - &lt; 90%</strong>: <em class="fw-bold text-success">Baik</em> – Sebagian
-                                    besar target
-                                    tercapai, pelaksanaan
-                                    berjalan baik.</li>
-                                <li><strong>90% - 100%</strong>: <em class="fw-bold text-primary">Sangat Baik</em> –
-                                    Capaian optimal,
-                                    seluruh target
-                                    kegiatan/keuangan tercapai.</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <p class="fs-12 sb mb-1">keterangan:</p>
+                    <ul class="mb-0 fs-12">
+                        <li><strong>&lt; 40%</strong>: <em class="fw-bold text-danger">Sangat Kurang</em> – Capaian
+                            sangat
+                            rendah, perlu evaluasi
+                            menyeluruh dan perbaikan.</li>
+                        <li><strong>40% - &lt; 60%</strong>: <em class="fw-bold " style="color: #fd7e14">Kurang</em> –
+                            Banyak
+                            target tidak tercapai, perlu
+                            peningkatan signifikan.</li>
+                        <li><strong>60% - &lt; 75%</strong>: <em class="fw-bold text-warning">Cukup</em> – Capaian
+                            sedang, masih
+                            ada kekurangan yang
+                            perlu diperbaiki.</li>
+                        <li><strong>75% - &lt; 90%</strong>: <em class="fw-bold text-success">Baik</em> – Sebagian
+                            besar target
+                            tercapai, pelaksanaan
+                            berjalan baik.</li>
+                        <li><strong>90% - 100%</strong>: <em class="fw-bold text-primary">Sangat Baik</em> –
+                            Capaian optimal,
+                            seluruh target
+                            kegiatan/keuangan tercapai.</li>
+                    </ul>
                 </div>
+
             </div>
-
         </div>
-    </div>
 
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+        <!-- Chart.js CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-    <script>
-        // Data untuk donut chart
-        const sudahTerpenuhi = {{ $jumlahTerpenuhi }};
-        const belumTerpenuhi = {{ $jumlahBelumTerpenuhi }};
+        <script>
+            // Data untuk donut chart
+            const sudahTerpenuhi = {{ $jumlahTerpenuhi }};
+            const belumTerpenuhi = {{ $jumlahBelumTerpenuhi }};
 
-        const donutCtx = document.getElementById('donutChart').getContext('2d');
-        new Chart(donutCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Sudah Terpenuhi', 'Belum Terpenuhi'],
-                datasets: [{
-                    data: [sudahTerpenuhi, belumTerpenuhi],
-                    backgroundColor: ['#00C49F', '#FF6384'],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                cutout: '70%',
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
+            const donutCtx = document.getElementById('donutChart').getContext('2d');
+            new Chart(donutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sudah Terpenuhi', 'Belum Terpenuhi'],
+                    datasets: [{
+                        data: [sudahTerpenuhi, belumTerpenuhi],
+                        backgroundColor: ['#00C49F', '#FF6384'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        // Data untuk line chart
-        const lineCtx = document.getElementById('targetLineChart').getContext('2d');
-        new Chart(lineCtx, {
-            type: 'line',
-            data: {
-                labels: {!! json_encode($labels) !!},
-                datasets: [{
-                    label: 'Jumlah Target',
-                    data: {!! json_encode($data) !!},
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    tension: 0.3,
-                    fill: true,
-                    pointBackgroundColor: 'white',
-                    pointBorderColor: 'rgba(54, 162, 235, 1)',
-                    pointRadius: 4,
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        labels: {
-                            font: {
-                                size: 14,
+            // Data untuk line chart
+            const lineCtx = document.getElementById('targetLineChart').getContext('2d');
+            new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: {!! json_encode($labels) !!},
+                    datasets: [{
+                        label: 'Jumlah Target',
+                        data: {!! json_encode($data) !!},
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: 'white',
+                        pointBorderColor: 'rgba(54, 162, 235, 1)',
+                        pointRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#222',
+                            titleFont: {
                                 weight: 'bold'
                             }
                         }
                     },
-                    tooltip: {
-                        backgroundColor: '#222',
-                        titleFont: {
-                            weight: 'bold'
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Tanggal'
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Jumlah'
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Tanggal'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Jumlah'
+                            }
                         }
                     }
                 }
-            }
-        });
-    </script>
-@endsection
+            });
+        </script>
+    @endsection

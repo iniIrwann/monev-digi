@@ -9,14 +9,11 @@
     <div class="main-content ps-3 pe-3 pt-4">
         <div class="d-flex align-items-center mb-2 mb-md-0 pb-4">
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
-                <i class="bi bi-bullseye fs-16 text-white"></i>
+                <i class="bi bi-award-fill fs-16 text-white"></i>
             </div>
             <p class="fs-14 ms-2 mb-0">Capaian</p>
         </div>
-
-
-
-        <div class="card border-0 w-100 rd-5 fs-12 mb-4">
+        {{-- <div class="card border-0 w-100 rd-5 fs-12 mb-4">
             <div class="card-body p-3">
                 <p>Keterangan : </p>
                 <ul class="mb-0 ">
@@ -38,15 +35,17 @@
                 </ul>
             </div>
         </div>
-        <div class="card border-0 w-100 rd-5 mb-4">
+        <div class="card border-0 w-100 rd-5 mb-4"> --}}
+        <div class="card border-0 w-100 rd-5 mb-3">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <p class="fs-18 mb-0">Filter</p>
                 </div>
-                <form action="{{ route('capaian.index') }}" method="GET" class="mb-3">
+                <form action="{{ route('desa.capaian.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <div class="col-12 col-md-6">
-                            <label class="fs-12 mb-1">Pilih Tahun</label>
+                            {{-- <label class="fs-12 mb-1">Pilih Tahun</label> --}}
+                            <label class="fs-12 mb-1">Pilih tahun</label>
                             <select name="tahun" class="fs-12 form-select">
                                 <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>
                                     Tahun 2024
@@ -57,7 +56,7 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-5">
-                            <label class="fs-12 mb-1">Pilih Bidang</label>
+                            <label class="fs-12 mb-1">Pilih bidang</label>
                             <select name="bidang" class="fs-12 form-select">
                                 @foreach ($filterBidangs as $bidang)
                                     <option value="{{ $bidang->id }}"
@@ -68,7 +67,7 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-1 d-grid">
-                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
+                            <button type="submit" class="btn btn-success fs-12 text-white">
                                 <i class="bi bi-filter"></i>
                             </button>
                         </div>
@@ -77,24 +76,46 @@
             </div>
         </div>
 
+        {{-- keterangan --}}
+        <div class="card border-0 w-100 rd-5 fs-12 mb-3">
+            <div class="card-body p-3">
+                <p class="fs-12 sb mb-1">Keterangan : </p>
+                <ul class="mb-0 ">
+                    <li><strong>&lt; 40%</strong>: <em class="fw-bold text-danger">Sangat Kurang</em> – Capaian sangat
+                        rendah, perlu evaluasi
+                        menyeluruh dan perbaikan.</li>
+                    <li><strong>40% - &lt; 60%</strong>: <em class="fw-bold " style="color: #fd7e14">Kurang</em> – Banyak
+                        target tidak tercapai, perlu
+                        peningkatan signifikan.</li>
+                    <li><strong>60% - &lt; 75%</strong>: <em class="fw-bold text-warning">Cukup</em> – Capaian sedang, masih
+                        ada kekurangan yang
+                        perlu diperbaiki.</li>
+                    <li><strong>75% - &lt; 90%</strong>: <em class="fw-bold text-success">Baik</em> – Sebagian besar target
+                        tercapai, pelaksanaan
+                        berjalan baik.</li>
+                    <li><strong>90% - 100%</strong>: <em class="fw-bold text-primary">Sangat Baik</em> – Capaian optimal,
+                        seluruh target
+                        kegiatan/keuangan tercapai.</li>
+                </ul>
+            </div>
+        </div>
+
         <!-- tabel -->
         <div class="card border-0 w-100 rd-5">
             <div class="card-body p-3">
-                <p class="fs-12 my-2">
-                    kinerja dan anggaran dana desa ( nama desa a ) tahun 2024. bidang
-                    pembangunan
-                </p>
-                <hr />
-                <form action=" {{ route('capaian.index') }} " method="GET" class="mb-3">
+                <form action=" {{ route('desa.capaian.index') }} " method="GET" class="mb-3">
                     <div class="d-flex align-items-center gap-2 mb-3">
-
-                        <!-- Input text -->
-                        <input type="text" name="query" class="form-control form-control-sm" placeholder="Pencarian..."
-                            style="width: 300px" />
-                        <!-- Tombol cari -->
-                        <button type="submit" class="btn btn-success btn-sm text-white">
-                            <i class="bi bi-search me-1"></i> Cari
-                        </button>
+                        <div class="col-auto">
+                            <!-- Input text -->
+                            <input type="text" name="query" class="form-control form-control-sm w-100"
+                                placeholder="Pencarian..." />
+                        </div>
+                        <div class="col-auto">
+                            <!-- Tombol cari -->
+                            <button type="submit" class="btn btn-success fs-12 text-white">
+                                <i class="bi bi-search me-1"></i> Cari
+                            </button>
+                        </div>
                     </div>
                 </form>
 
@@ -102,7 +123,7 @@
                     <table class="table align-middle fs-12 tx-gray">
                         <thead class="border-bottom" style="border-color: #999999">
                             <tr class="text-start">
-                                <th class="text-center">Aksi</th>
+                                {{-- <th class="text-center">Aksi</th>
                                 <th>Kode<br />Rekening</th>
                                 <th>Rencana Kegiatan</th>
                                 <th>Volume (Target)</th>
@@ -111,7 +132,17 @@
                                 <th>Realisasi Keuangan</th>
                                 <th>%Capaian<br />Keluaran</th>
                                 <th>%Capaian<br />Keuangan</th>
-                                <th>Sisa</th>
+                                <th>Sisa</th> --}}
+                                <th class="text-center fs-10">Aksi</th>
+                                <th class="fs-10">Kode rekening</th>
+                                <th class="fs-10 text-center">Rencana kegiatan</th>
+                                <th class="fs-10">Volume (Target)</th>
+                                <th class="fs-10">Volume (Realisasi)</th>
+                                <th class="fs-10">Anggaran / Targetan</th>
+                                <th class="fs-10">Realisasi keuangan</th>
+                                <th class="fs-10">%Capaian keluaran</th>
+                                <th class="fs-10">%Capaian keuangan</th>
+                                <th class="fs-10">Sisa</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -186,7 +217,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-end">
-                                                    <a href="{{ route('capaian.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('desa.capaian.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-secondary"><i class="bi bi-eye-fill"></i></a>
                                                 </div>
                                             </td>

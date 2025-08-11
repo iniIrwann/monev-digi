@@ -200,7 +200,7 @@
                                                 @php $target = $sub->targets->first(); @endphp
                                                 <td>{{ $target->volume_keluaran }}</td>
                                                 <td>{{ $target->uraian_keluaran }}</td>
-                                                <td>Rp{{ number_format($target->anggaran_target, 0, ',', '.') }}</td>
+                                                <td>Rp.{{ number_format($target->anggaran_target, 0, ',', '.') }}</td>
                                             @else
                                                 <td colspan="4" class="text-muted text-center">Belum ada target</td>
                                             @endif
@@ -679,7 +679,7 @@
 
                 // Set form action
                 const form = document.getElementById('formEditBidangKecamatan');
-                form.action = `/kecamatan/targetKec/update-bidang/${dataIdBidangEdit}`;
+                form.action = `/kecamatan/target/update-bidang/${dataIdBidangEdit}`;
             });
         });
         // Modal Edit Kegiatan Kecamatan
@@ -711,7 +711,7 @@
 
                 // Set form action
                 const form = document.getElementById('formEditKegiatanKecamatan');
-                form.action = `/kecamatan/targetKec/update-kegiatan/${id}`;
+                form.action = `/kecamatan/target/update-kegiatan/${id}`;
             });
         });
 
@@ -728,7 +728,7 @@
 
                 // Set form action
                 const form = document.getElementById('formDeleteBidangKecamatan');
-                form.action = `targetKec/delete-bidang/${dataIdBidangDelete}`;
+                form.action = `target/delete-bidang/${dataIdBidangDelete}`;
             });
         });
         // Modal Delete Kegiatan
@@ -744,7 +744,7 @@
 
                 // Set form action
                 const form = document.getElementById('formDeleteKegiatanKecamatan');
-                form.action = `/kecamatan/targetKec/delete-kegiatan/${dataIdKegiatanDelete}`;
+                form.action = `/kecamatan/target/delete-kegiatan/${dataIdKegiatanDelete}`;
             });
         });
         // Modal Delete Sub Kegiatan
@@ -760,7 +760,7 @@
 
                 // Set form action
                 const form = document.getElementById('formDeleteSubKegiatanKecamatan');
-                form.action = `/kecamatan/targetKec/delete-subKegiatan/${dataIdSubKegiatanDeletekec}`;
+                form.action = `/kecamatan/target/delete-subKegiatan/${dataIdSubKegiatanDeletekec}`;
             });
         });
 

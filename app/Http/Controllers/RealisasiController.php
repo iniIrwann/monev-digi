@@ -76,29 +76,29 @@ class RealisasiController extends Controller
     }
     public function storeSub(Request $request)
     {
+        // dd($request);
         // Validasi input
         $request->validate([
             'bidang_id' => 'required|exists:bidangs,id',
             'kegiatan_id' => 'required|exists:kegiatans,id',
             'subkegiatan_id' => 'required|exists:sub_kegiatans,id',
-            'uraian_keluaran' => 'required|string|max:255',
             'volume_keluaran' => 'required|numeric',
             'tenaga_kerja' => 'nullable|numeric',
             'upah' => 'nullable|numeric',
             'BLT' => 'nullable|numeric',
             'keterangan' => 'nullable|string',
-            'cara_pengadaan' => 'required|string|max:255',
-            'tahun' => 'required|numeric',
             'realisasi_keuangan' => 'required|numeric',
             'durasi' => 'nullable|numeric',
             'KPM' => 'nullable|numeric',
         ]);
 
         // Cari entri realisasi berdasarkan kombinasi bidang, kegiatan, subkegiatan, dan tahun
-        $realisasi = Realisasi::userOnly()->where('bidang_id', $request->bidang_id)
+        $realisasi = Realisasi::userOnly()
+            ->where('bidang_id', $request->bidang_id)
             ->where('kegiatan_id', $request->kegiatan_id)
-            ->where('sub_kegiatan_id', operator: $request->subkegiatan_id)
+            ->where('sub_kegiatan_id', $request->subkegiatan_id)
             ->first();
+
 
         if (!$realisasi) {
             return redirect()->route('desa.realisasi.index')->with('error', 'Data realisasi tidak ditemukan.');
@@ -107,14 +107,14 @@ class RealisasiController extends Controller
         // Update atau isi data
         $realisasi->user_id = auth()->id();
         $realisasi->volume_keluaran = $request->volume_keluaran;
-        $realisasi->cara_pengadaan = $request->cara_pengadaan;
+        // $realisasi->cara_pengadaan = $request->cara_pengadaan;
         $realisasi->realisasi_keuangan = $request->realisasi_keuangan;
         $realisasi->tenaga_kerja = $request->tenaga_kerja;
         $realisasi->durasi = $request->durasi;
         $realisasi->upah = $request->upah;
         $realisasi->KPM = $request->KPM;
         $realisasi->BLT = $request->BLT;
-        $realisasi->tahun = $request->tahun;
+        // $realisasi->tahun = $request->tahun;
         $realisasi->keterangan = $request->keterangan;
         $realisasi->save();
 
@@ -134,7 +134,7 @@ class RealisasiController extends Controller
             $realisasi->realisasi_keuangan /
             $target->anggaran_target;
 
-        $sisa = $realisasi->realisasi_keuangan - $target->anggaran_target ;
+        $sisa = $realisasi->realisasi_keuangan - $target->anggaran_target;
 
         Capaian::userOnly()->updateOrCreate(
             [
@@ -146,7 +146,7 @@ class RealisasiController extends Controller
                 'persen_capaian_keluaran' => $persenan_capaian_volume * 100,
                 'persen_capaian_keuangan' => $persenan_capaian_keuangan * 100,
                 'sisa' => $sisa,
-                ]
+            ]
         );
 
         return redirect()->route('desa.realisasi.index')->with('success', 'Data realisasi berhasil disimpan atau diperbarui.');

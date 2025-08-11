@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title', 'Target - Monev Digi Dana Desa')
+
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">
@@ -7,7 +9,7 @@
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
                 <i class="bi bi-bullseye fs-16 text-white"></i>
             </div>
-            <p class="fs-14 ms-2 mb-0">target</p>
+            <p class="fs-14 ms-2 mb-0">Target</p>
         </div>
 
         <!-- filter -->
@@ -19,7 +21,7 @@
                 <form action="{{ route('desa.target.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <div class="col-12 col-md-6">
-                            <label for="" class="fs-12 mb-1">Pilih Tahun</label>
+                            <label for="" class="fs-12 mb-1">Pilih tahun</label>
                             <select name="tahun" class="fs-12 form-select">
                                 <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>Tahun 2024
                                 </option>
@@ -30,7 +32,7 @@
 
                         </div>
                         <div class="col-12 col-md-5">
-                            <label for="" class="fs-12 mb-1">Pilih Bidang</label>
+                            <label for="" class="fs-12 mb-1">Pilih bidang</label>
                             <select name="bidang" class="fs-12 form-select">
                                 {{-- Opsi 1 --}}
                                 {{-- @foreach ($data as $bidang)
@@ -65,16 +67,17 @@
                     data-bs-target="#ModalTambahBidang">
                     <i class="bi bi-plus-square me-1"></i> Tambah
                 </button>
-                <p class="fs-12 my-2">
+                {{-- <p class="fs-12 my-2">
                     kinerja dan anggaran dana desa ( nama desa a ) tahun 2024. bidang
                     pembangunan
-                </p>
-                <hr/>
+                </p> --}}
+                <hr />
                 <form action="{{ route('desa.target.index') }}" method="GET" class="mb-3">
                     <div class="row g-3 mb-2">
                         <div class="col-auto">
                             <!-- Input text -->
-                            <input type="text" name="query" class="form-control form-control-sm w-100" placeholder="Pencarian..." />
+                            <input type="text" name="query" class="form-control form-control-sm w-100"
+                                placeholder="Pencarian..." />
                         </div>
                         <div class="col-auto">
                             <!-- Tombol cari -->
@@ -90,8 +93,8 @@
                         <thead class="border-bottom" style="border-color: #999999">
                             <tr class="text-start">
                                 <th class="text-center">Aksi</th>
-                                <th>Kode<br />Rekening</th>
-                                <th>Rencana Kegiatan</th>
+                                <th>Kode rekening</th>
+                                <th>Rencana kegiatan</th>
                                 <th>Volume</th>
                                 <th>Uraian</th>
                                 <th>Anggaran / Target</th>
@@ -189,7 +192,7 @@
                                                 @php $target = $sub->targets->first(); @endphp
                                                 <td>{{ $target->volume_keluaran }}</td>
                                                 <td>{{ $target->uraian_keluaran }}</td>
-                                                <td>Rp{{ number_format($target->anggaran_target, 0, ',', '.') }}</td>
+                                                <td>Rp.{{ number_format($target->anggaran_target, 0, ',', '.') }}</td>
                                             @else
                                                 <td colspan="4" class="text-muted text-center">Belum ada target</td>
                                             @endif
@@ -290,9 +293,9 @@
                                     <div class="row align-items-center">
                                         <div class="col-md-12 d-flex justify-content-end">
                                             <button type="button" class="btn btn-danger btn-sm fs-12 text-white me-2"
-                                                data-bs-dismiss="modal"><i class="bi bi-x-square"></i> batal</button>
+                                                data-bs-dismiss="modal"><i class="bi bi-x-square"></i> Batal</button>
                                             <button type="submit" class="btn btn-success btn-sm fs-12 text-white"><i
-                                                    class="bi bi-plus-square"></i> tambah bidang</button>
+                                                    class="bi bi-plus-square me-1"></i> Tambah bidang</button>
                                         </div>
                                     </div>
                                 </form>
@@ -351,9 +354,9 @@
                                     <div class="row align-items-center">
                                         <div class="col-md-12 d-flex justify-content-end">
                                             <button type="button" class="btn btn-danger btn-sm fs-12 text-white me-2"
-                                                data-bs-dismiss="modal"><i class="bi bi-x-square"></i> batal</button>
+                                                data-bs-dismiss="modal"><i class="bi bi-x-square"></i> Batal</button>
                                             <button type="submit" class="btn btn-success btn-sm fs-12 text-white"><i
-                                                    class="bi bi-plus-square"></i> tambah kegiatan</button>
+                                                    class="bi bi-plus-square me-1"></i> Tambah kegiatan</button>
                                         </div>
                                     </div>
                                 </form>
@@ -361,120 +364,14 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal Tambah Sub_Kegiatan  -->
-                <div class="modal fade" id="ModalTambahSubKegiatan" tabindex="-1"
-                    aria-labelledby="ModalTambahSubKegiatanLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg"> <!-- modal-lg untuk ukuran besar -->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title fs-4" id="ModalTambahSubKegiatanLabel">Tambah Data Target</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body fs-6">
-                                <form action="{{ route('desa.target.store.subkegiatan') }}" method="POST">
-                                    @csrf
-                                    <div class="row g-3">
-                                        <div class="col-md-4">
-                                            <label for="inputKodeRekBidang" class="form-label">Kode
-                                                Bidang</label>
-                                            <input type="text" class="form-control" id="inputKodeRekBidang" readonly>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label for="inputKodeRekKegiatan" class="form-label">Kode
-                                                Kegiatan</label>
-                                            <input type="text" class="form-control" id="inputKodeRekKegiatan"
-                                                readonly>
-                                        </div>
-                                        <div class="col-md-4">
-                                            {{-- <label for="inputBidangId" class="form-label">Kode
-                                                SubKegiatan</label>
-                                            <input type="text" name="bidang_id" id="inputBidangId"
-                                                class="form-control"> --}}
-                                            <input type="hidden" id="sbinputBidangId" name="bidang_id"
-                                                class="form-control">
-                                            <input type="hidden" id="inputKegiatanId" name="kegiatan_id"
-                                                class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="nama_subkegiatan" class="form-label">Nama SubKegiatan</label>
-                                        <input type="text" name="nama_subkegiatan" class="form-control">
-                                    </div>
-                                    <div class="row g-2 my-2">
-                                        <div class="col-md-6">
-                                            <label for="uraian_keluaran" class="form-label">Uraian Keluaran</label>
-                                            <input type="text" name="uraian_keluaran" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="volume_keluaran" class="form-label">Volume</label>
-                                            <input type="number" name="volume_keluaran" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="anggaran_target" class="form-label">Anggaran (Rp)</label>
-                                        <input type="number" name="anggaran_target" class="form-control">
-                                    </div>
-                                    <div class="row g-3 my-2">
-                                        <div class="col-md-4">
-                                            <label for="tenaga_kerja" class="form-label">Tenaga Kerja</label>
-                                            <input type="text" name="tenaga_kerja" class="form-control">
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label for="durasi" class="form-label">Durasi (hari)</label>
-                                            <input type="number" name="durasi" class="form-control">
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label for="upah" class="form-label">Upah (Rp)</label>
-                                            <input type="number" name="upah" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label for="KPM" class="form-label">Jumlah KPM</label>
-                                            <input type="number" name="KPM" class="form-control">
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <label for="BLT" class="form-label">BLT (Rp)</label>
-                                            <input type="number" name="BLT" class="form-control">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="tahun" class="form-label">Tahun</label>
-                                            <select name="tahun" id="tahun" class="form-control">
-                                                <option value=""></option>
-                                                <option value="2024">2024</option>
-                                                <option value="2025">2025</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="keterangan" class="form-label">Keterangan</label>
-                                        <textarea name="keterangan" class="form-control" rows="3"></textarea>
-                                    </div>
-                                    <div class="mt-4 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-secondary me-2"
-                                            data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-success">Simpan</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 {{-- Modals Edit --}}
-
                 {{-- modal edit bidang --}}
                 <div class="modal fade" id="ModalEditBidang" tabindex="-1" aria-labelledby="tmbhbidang"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-0">
                             <div class="modal-body p-3">
-                                <p class="modal-title fs-14 sb grey" id="tmbhbidang">Edit Bidang</p>
+                                <p class="modal-title fs-14 sb grey" id="tmbhbidang">Edit bidang</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
                                 <form id="formEditBidang" method="POST">
                                     @csrf
@@ -523,10 +420,10 @@
                                         <div class="col-md-12 d-flex justify-content-end">
                                             <button type="button" class="btn btn-danger btn-sm fs-12 text-white me-2"
                                                 data-bs-dismiss="modal">
-                                                <i class="bi bi-x-square"></i> batal
+                                                <i class="bi bi-x-square"></i> Batal
                                             </button>
-                                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
-                                                <i class="bi bi-save"></i> simpan perubahan
+                                            <button type="submit" class="btn btn-warning btn-sm fs-12 text-white">
+                                                <i class="bi bi-pencil-fill me-1"></i> Edit bidang
                                             </button>
                                         </div>
                                     </div>
@@ -541,7 +438,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content rounded-0">
                             <div class="modal-body p-3">
-                                <p class="modal-title fs-14 sb grey" id="ModalEditKegiatan">Edit Kegiatan</p>
+                                <p class="modal-title fs-14 sb grey" id="ModalEditKegiatan">Edit kegiatan</p>
                                 <hr style="border: 1px solid #919191;" class="mb-3">
                                 <form method="POST" id="formEditKegiatan" action="">
                                     @csrf
@@ -591,9 +488,13 @@
                                     </div>
 
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-sm btn-danger me-2"
-                                            data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                        <button type="button" class="btn btn-danger btn-sm fs-12 text-white me-2"
+                                            data-bs-dismiss="modal">
+                                            <i class="bi bi-x-square"></i> Batal
+                                        </button>
+                                        <button type="submit" class="btn btn-warning btn-sm fs-12 text-white">
+                                            <i class="bi bi-pencil-fill me-1"></i> Edit kegiatan
+                                        </button>
                                     </div>
                                 </form>
 
@@ -612,9 +513,9 @@
                             <div class="modal-body p-4">
                                 <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteBidang">Konfirmasi Hapus
                                     Bidang</h5>
-                                <p class="text-muted mb-3">
+                                <p class="text-muted mb-3 fs-14">
                                     Tindakan ini akan <strong>menghapus bidang secara permanen</strong> beserta seluruh
-                                    <strong>kegiatan</strong> dan <strong> sub kegiatan</strong> yang ada di dalamnya. Data
+                                    <strong>kegiatan</strong> dan <strong> subkegiatan</strong> yang ada di dalamnya. Data
                                     yang terhapus tidak dapat
                                     dikembalikan.
                                 </p>
@@ -627,12 +528,12 @@
 
                                     <!-- Aksi -->
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                                        <button type="button" class="btn btn-outline-danger btn-sm me-2"
                                             data-bs-dismiss="modal">
                                             <i class="bi bi-x-square"></i> Batal
                                         </button>
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Hapus Sekarang
+                                            <i class="bi bi-trash-fill"></i> Hapus
                                         </button>
                                     </div>
                                 </form>
@@ -649,9 +550,9 @@
                                 <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteKegiatan">Konfirmasi
                                     Hapus
                                     Kegiatan</h5>
-                                <p class="text-muted mb-3">
+                                <p class="text-muted mb-3 fs-14">
                                     Tindakan ini akan <strong>menghapus kegiatan secara permanen</strong> beserta seluruh
-                                    <strong>sub kegiatan</strong> yang ada di dalamnya. Data
+                                    <strong>subkegiatan</strong> yang ada di dalamnya. Data
                                     yang terhapus tidak dapat
                                     dikembalikan.
                                 </p>
@@ -664,12 +565,12 @@
 
                                     <!-- Aksi -->
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                                        <button type="button" class="btn btn-outline-danger btn-sm me-2"
                                             data-bs-dismiss="modal">
                                             <i class="bi bi-x-square"></i> Batal
                                         </button>
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Hapus Sekarang
+                                            <i class="bi bi-trash-fill"></i> Hapus
                                         </button>
                                     </div>
                                 </form>
@@ -686,9 +587,9 @@
                             <div class="modal-body p-4">
                                 <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteSubKegiatan">Konfirmasi
                                     Hapus
-                                    Sub Kegiatan</h5>
-                                <p class="text-muted mb-3">
-                                    Tindakan ini akan menghapus <strong>sub kegiatan target</strong> dan <strong>data sub
+                                    Subkegiatan</h5>
+                                <p class="text-muted mb-3 fs-14">
+                                    Tindakan ini akan menghapus <strong>subkegiatan target</strong> dan <strong>data sub
                                         kegiatan di realisasi secara permanen</strong>. Data
                                     yang terhapus tidak dapat
                                     dikembalikan.
@@ -702,12 +603,12 @@
 
                                     <!-- Aksi -->
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                                        <button type="button" class="btn btn-outline-danger btn-sm me-2"
                                             data-bs-dismiss="modal">
                                             <i class="bi bi-x-square"></i> Batal
                                         </button>
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Hapus Sekarang
+                                            <i class="bi bi-trash-fill"></i> Hapus
                                         </button>
                                     </div>
                                 </form>

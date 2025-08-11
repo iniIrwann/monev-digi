@@ -77,24 +77,24 @@ Route::prefix('kecamatan')
         Route::delete('/realisasi/delete-sub/{id}', [RealisasiKecamatanController::class, 'deleteSubKegiatan'])->name('realisasi.sub.delete');
 
         // Target Detail, Edit
-        Route::get('/targetKec/detail-sub/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [TargetKecamatanController::class, 'detailSub'])->name('target.detail');
-        Route::get('/targetKec/edit-sub/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [TargetKecamatanController::class, 'editSub'])->name('target.edit.sub');
-        Route::post('/targetKec/update-sub', [TargetKecamatanController::class, 'updateSub'])->name('target.update.sub');
+        Route::get('/target/detail-sub/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [TargetKecamatanController::class, 'detailSub'])->name('target.detail');
+        Route::get('/target/edit-sub/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [TargetKecamatanController::class, 'editSub'])->name('target.edit.sub');
+        Route::post('/target/update-sub', [TargetKecamatanController::class, 'updateSub'])->name('target.update.sub');
 
         // Target Tambah Data
-        Route::post('/targetKec/store-bidang', [TargetKecamatanController::class, 'storeBidang'])->name('target.store.bidang');
-        Route::post('/targetKec/store-kegiatan', [TargetKecamatanController::class, 'storeKegiatan'])->name('target.store.kegiatan');
+        Route::post('/target/store-bidang', [TargetKecamatanController::class, 'storeBidang'])->name('target.store.bidang');
+        Route::post('/target/store-kegiatan', [TargetKecamatanController::class, 'storeKegiatan'])->name('target.store.kegiatan');
         Route::get('/subkegiatan/create/{bidang_id}/{kegiatan_id}', [TargetKecamatanController::class, 'createSubKegiatan'])->name('target.create.subkegiatan');
-        Route::post('/targetKec/store-subkegiatan', [TargetKecamatanController::class, 'storeSubKegiatan'])->name('target.store.subkegiatan');
+        Route::post('/target/store-subkegiatan', [TargetKecamatanController::class, 'storeSubKegiatan'])->name('target.store.subkegiatan');
 
         // Target Update
-        Route::put('/targetKec/update-kegiatan/{id}', [TargetKecamatanController::class, 'updateKegiatan'])->name('target.update.kegiatan');
-        Route::put('/targetKec/update-bidang/{id}', [TargetKecamatanController::class, 'updateBidang'])->name('target.update.bidang');
+        Route::put('/target/update-kegiatan/{id}', [TargetKecamatanController::class, 'updateKegiatan'])->name('target.update.kegiatan');
+        Route::put('/target/update-bidang/{id}', [TargetKecamatanController::class, 'updateBidang'])->name('target.update.bidang');
 
         // Target Delete
-        Route::delete('/targetKec/delete-bidang/{id}', [TargetKecamatanController::class, 'deleteBidang'])->name('target.delete.bidang');
-        Route::delete('/targetKec/delete-kegiatan/{id}', [TargetKecamatanController::class, 'deleteKegiatan'])->name('target.delete.kegiatan');
-        Route::delete('/targetKec/delete-subKegiatan/{id}', [TargetKecamatanController::class, 'deleteSubKegiatan'])->name('target.delete.subKegiatan');
+        Route::delete('/target/delete-bidang/{id}', [TargetKecamatanController::class, 'deleteBidang'])->name('target.delete.bidang');
+        Route::delete('/target/delete-kegiatan/{id}', [TargetKecamatanController::class, 'deleteKegiatan'])->name('target.delete.kegiatan');
+        Route::delete('/target/delete-subKegiatan/{id}', [TargetKecamatanController::class, 'deleteSubKegiatan'])->name('target.delete.subKegiatan');
 
         // Realisasi
         Route::get('/realisasi/create/sub/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [RealisasiKecamatanController::class, 'createSub'])->name('realisasi.create.sub');
@@ -103,7 +103,7 @@ Route::prefix('kecamatan')
         Route::delete('/realisasi/delete-subKegiatan/{id}', [RealisasiKecamatanController::class, 'deleteSubKegiatan'])->name('realisasi.delete.subKegiatan');
 
         // Capaian
-        Route::get('/capaianKec/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [CapaianController::class, 'detail'])->name('capaianKec.detail');
+        Route::get('/capaian/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [CapaianController::class, 'detail'])->name('capaianKec.detail');
 
         // Manajemen Desa
         Route::get('/data-desa', [DataDesaController::class, 'index'])->name('dataDesa.index');

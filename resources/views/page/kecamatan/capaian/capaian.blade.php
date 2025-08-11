@@ -43,7 +43,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <p class="fs-18 mb-0">Filter</p>
                 </div>
-                <form action="{{ route('capaian.index') }}" method="GET" class="mb-3">
+                <form action="{{ route('kecamatan.capaian.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <div class="col-12 col-md-6">
                             <label class="fs-12 mb-1">Pilih Tahun</label>
@@ -85,7 +85,7 @@
                     pembangunan
                 </p>
                 <hr />
-                <form action=" {{ route('capaian.index') }} " method="GET" class="mb-3">
+                <form action=" {{ route('kecamatan.capaian.index') }} " method="GET" class="mb-3">
                     <div class="d-flex align-items-center gap-2 mb-3">
 
                         <!-- Input text -->

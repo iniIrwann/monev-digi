@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title', 'Target - Monev Digi Dana Desa')
+
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">
@@ -13,7 +15,7 @@
         <!-- Tambah subkegiatan -->
         <div class="card border-0 w-100 rounded-3 mb-4">
             <div class="card-body p-3">
-                <p class="fs-14 sb mb-3">detail target sub kegiatan</p>
+                <p class="fs-14 sb mb-3">Detail target subkegiatan</p>
                 <hr class="my-1">
                 <input type="hidden" value="{{ $bidang->id }}" name="bidang_id" class="form-control">
                 <input type="hidden" value="{{ $kegiatan->id }}" name="kegiatan_id" class="form-control">
@@ -21,55 +23,52 @@
                 <!-- Baris Kode Rekening -->
                 <div class="row g-2 align-items-center mb-3 ms-1 me-1">
                     <div class="col-12 col-md-4 input-group-sm">
-                        <label for="kode_bidang" class="form-label black fs-12">kode bidang</label>
+                        <label for="kode_bidang" class="form-label black fs-12">Kode bidang</label>
                         <input type="text" class="form-control form-control-sm w-100"
-                            value="{{ $bidang->kode_rekening }}" id="kode_bidang" placeholder="A" disabled>
+                            value="{{ $bidang->kode_rekening }}" id="kode_bidang" disabled>
                     </div>
                     <div class="col-12 col-md-4 input-group-sm">
-                        <label for="kode_kegiatan" class="form-label black fs-12">kode kegiatan</label>
+                        <label for="kode_kegiatan" class="form-label black fs-12">Kode kegiatan</label>
                         <input type="text" class="form-control form-control-sm w-100" id="kode_kegiatan"
-                            value="{{ $kegiatan->kode_rekening }}" placeholder="1" disabled>
+                            value="{{ $kegiatan->kode_rekening }}" disabled>
                     </div>
                     <div class="col-12 col-md-4 input-group-sm">
-                        <label for="kode_subkegiatan" class="form-label black fs-12">kode subkegiatan</label>
+                        <label for="kode_subkegiatan" class="form-label black fs-12">Kode subkegiatan</label>
                         <input type="text" value="{{ $subKegiatan->kode_rekening }}"
-                            class="form-control form-control-sm w-100" id="kode_subkegiatan" placeholder="" disabled>
+                            class="form-control form-control-sm w-100" id="kode_subkegiatan" disabled>
                     </div>
                 </div>
                 <hr class="my-1">
 
-                <div class="row g-3 mb-3">
-                    <div class="mb-2">
-                        <label class="fs-12 txt-tb-grey">nama sub kegiatan</label>
+                <div class="row g-1 mb-3">
+                    <div class="mb-1">
+                        <label class="fs-12 txt-tb-grey">Nama subkegiatan</label>
                         <input type="text" class="form-control form-control-sm rounded-1"
-                            value="{{ $subKegiatan->nama_subkegiatan }}" name="nama_subkegiatan"
-                            placeholder="nama sub kegiatan" disabled />
+                            value="{{ $subKegiatan->nama_subkegiatan }}" name="nama_subkegiatan" disabled />
                     </div>
                     <!-- Kolom Kiri -->
                     <div class="col-md-6">
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">uraian keluaran</label>
+                            <label class="fs-12 txt-tb-grey">Uraian keluaran</label>
                             <input type="text" value="{{ $target->uraian_keluaran }}"
-                                class="form-control form-control-sm rounded-1" name="uraian_keluaran"
-                                placeholder="uraian keluaran" readonly />
+                                class="form-control form-control-sm rounded-1" name="uraian_keluaran" disabled />
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">volume</label>
+                            <label class="fs-12 txt-tb-grey">Volume</label>
                             <input required value="{{ $target->volume_keluaran }}" type="number" name="volume_keluaran"
-                                class="form-control form-control-sm rounded-1" placeholder="volume" />
+                                class="form-control form-control-sm rounded-1" disabled />
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">tenaga kerja</label>
+                            <label class="fs-12 txt-tb-grey">Tenaga kerja</label>
                             <input required value="{{ $target->tenaga_kerja }}" type="number"
-                                class="form-control form-control-sm rounded-1" name="tenaga_kerja"
-                                placeholder="jumlah tenaga kerja" />
+                                class="form-control form-control-sm rounded-1" name="tenaga_kerja" disabled />
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">upah</label>
+                            <label class="fs-12 txt-tb-grey">Upah</label>
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text rounded-1 text-secondary">Rp</span>
                                 <input value="{{ $target->upah }}" required type="number" name="upah"
-                                    class="form-control rounded-1" placeholder="upah" />
+                                    class="form-control rounded-1" disabled/>
                             </div>
                         </div>
                         <div class="mb-2">
@@ -77,51 +76,51 @@
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text rounded-1 text-secondary">Rp</span>
                                 <input value="{{ $target->BLT }}" required type="number" class="form-control rounded-1"
-                                    name="BLT" placeholder="masukkan jumlah BLT" />
+                                    name="BLT" disabled/>
                             </div>
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">keterangan</label>
+                            <label class="fs-12 txt-tb-grey">Keterangan</label>
                             <textarea required name="keterangan" class="form-control form-control-sm rounded-1" rows="3"
-                                placeholder="keterangan">{{ $target->keterangan }}</textarea>
+                                disabled>{{ $target->keterangan }}</textarea>
                         </div>
                     </div>
 
                     <!-- Kolom Kanan -->
                     <div class="col-md-6">
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">cara pengadaan</label>
+                            <label class="fs-12 txt-tb-grey">Cara pengadaan</label>
                             <input required value="{{ $target->cara_pengadaan }}" type="text"
                                 class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                placeholder="cara_pengadaan" />
+                                disabled/>
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">tahun</label>
-                            <select name="tahun" required class="form-select form-select-sm rounded-1 text-secondary">
-                                <option value="">pilih tahun</option>
+                            <label class="fs-12 txt-tb-grey">Tahun</label>
+                            <select name="tahun" required class="form-select form-select-sm rounded-1 text-secondary" disabled>
+                                <option value="">Pilih tahun</option>
                                 <option value="2024" {{ $target->tahun == 2024 ? 'selected' : '' }}>2024</option>
                                 <option value="2025" {{ $target->tahun == 2025 ? 'selected' : '' }}>2025</option>
                             </select>
 
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">target keuangan</label>
+                            <label class="fs-12 txt-tb-grey">Target keuangan</label>
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text rounded-1 text-secondary">Rp</span>
                                 <input value="{{ $target->anggaran_target }}" required type="number"
                                     name="target" class="form-control rounded-1"
-                                    placeholder="target keuangan" />
+                                    disabled/>
                             </div>
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">durasi</label>
+                            <label class="fs-12 txt-tb-grey">Durasi</label>
                             <input value="{{ $target->durasi }}" required type="number" name="durasi"
-                                class="form-control form-control-sm rounded-1" placeholder="durasi" />
+                                class="form-control form-control-sm rounded-1" disabled/>
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">jumlah KPM</label>
+                            <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
                             <input value="{{ $target->KPM }}" required type="number"
-                                class="form-control form-control-sm rounded-1" name="KPM" placeholder="jumlah KPM" />
+                                class="form-control form-control-sm rounded-1" name="KPM" disabled/>
                         </div>
                     </div>
                 </div>
