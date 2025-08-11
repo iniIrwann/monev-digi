@@ -41,7 +41,9 @@
                     <!-- profil hanya tampil di ukuran desktop -->
                     <div class="d-none d-md-flex align-items-center">
                         <div class="w-34">
-                            <img class="p-1 img-fluid" src="{{ asset('assets/images/profil.png') }}" alt="" />
+                            <img class="p-1 img-fluid"
+                                src="{{ auth()->user()->foto_profile ? asset('assets/images/foto_profile/' . auth()->user()->foto_profile) : asset('assets/images/profil.png') }}"
+                                alt="" />
                         </div>
                         <p class="mb-0 ms-2 fs-12 me-1">{{ Auth::user()->desa }}</p>
                     </div>

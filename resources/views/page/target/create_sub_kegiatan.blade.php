@@ -112,7 +112,7 @@
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Durasi</label>
+                                <label class="fs-12 txt-tb-grey">Periode Pencarian</label>
                                 <input type="number" name="durasi" class="form-control form-control-sm rounded-1"
                                     placeholder="durasi" required />
                             </div>

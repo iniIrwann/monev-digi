@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CapaianController;
+use App\Http\Controllers\CapaianKecamatanController;
 use App\Http\Controllers\DataDesaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
@@ -38,7 +39,7 @@ Route::middleware(['auth', 'role:desa'])
         Route::post('/target/store-bidang', [TargetDesaController::class, 'storeBidang'])->name('target.store.bidang');
         Route::post('/target/store-kegiatan', [TargetDesaController::class, 'storeKegiatan'])->name('target.store.kegiatan');
         Route::post('/target/store-subkegiatan', [TargetDesaController::class, 'storeSubKegiatan'])->name('target.store.subkegiatan');
-        Route::get('/subkegiatan/create/{bidang_id}/{kegiatan_id}', [TargetDesaController::class, 'createSubKegiatan'])->name('target.create.subkegiatan');
+        Route::get('/target/subkegiatan/create/{bidang_id}/{kegiatan_id}', [TargetDesaController::class, 'createSubKegiatan'])->name('target.create.subkegiatan');
 
         // Target Update
         Route::put('/target/update-kegiatan/{id}', [TargetDesaController::class, 'updateKegiatan'])->name('target.update.kegiatan');
@@ -71,7 +72,7 @@ Route::prefix('kecamatan')
         Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'indexKec'])->name('dashboard.index');
         Route::resource('target', TargetKecamatanController::class);
         Route::resource('realisasi', RealisasiKecamatanController::class);
-        Route::resource('capaian', CapaianController::class);
+        Route::resource('capaian', CapaianKecamatanController::class);
 
 
         Route::delete('/realisasi/delete-sub/{id}', [RealisasiKecamatanController::class, 'deleteSubKegiatan'])->name('realisasi.sub.delete');
@@ -84,7 +85,7 @@ Route::prefix('kecamatan')
         // Target Tambah Data
         Route::post('/target/store-bidang', [TargetKecamatanController::class, 'storeBidang'])->name('target.store.bidang');
         Route::post('/target/store-kegiatan', [TargetKecamatanController::class, 'storeKegiatan'])->name('target.store.kegiatan');
-        Route::get('/subkegiatan/create/{bidang_id}/{kegiatan_id}', [TargetKecamatanController::class, 'createSubKegiatan'])->name('target.create.subkegiatan');
+        Route::get('/target/subkegiatan/create/{bidang_id}/{kegiatan_id}', [TargetKecamatanController::class, 'createSubKegiatan'])->name('target.create.subkegiatan');
         Route::post('/target/store-subkegiatan', [TargetKecamatanController::class, 'storeSubKegiatan'])->name('target.store.subkegiatan');
 
         // Target Update
@@ -103,7 +104,7 @@ Route::prefix('kecamatan')
         Route::delete('/realisasi/delete-subKegiatan/{id}', [RealisasiKecamatanController::class, 'deleteSubKegiatan'])->name('realisasi.delete.subKegiatan');
 
         // Capaian
-        Route::get('/capaian/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [CapaianController::class, 'detail'])->name('capaianKec.detail');
+        Route::get('/capaian/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [CapaianKecamatanController::class, 'detail'])->name('capaian.detail');
 
         // Manajemen Desa
         Route::get('/data-desa', [DataDesaController::class, 'index'])->name('dataDesa.index');

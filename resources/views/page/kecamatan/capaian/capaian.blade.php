@@ -9,13 +9,70 @@
     <div class="main-content ps-3 pe-3 pt-4">
         <div class="d-flex align-items-center mb-2 mb-md-0 pb-4">
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
-                <i class="bi bi-bullseye fs-16 text-white"></i>
+                <i class="bi bi-award-fill fs-16 text-white"></i>
             </div>
             <p class="fs-14 ms-2 mb-0">Capaian</p>
         </div>
 
+        {{-- Filter --}}
+        <div class="card border-0 w-100 rd-5 mb-4">
+            <div class="card-body p-3">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <p class="fs-18 mb-0">Filter</p>
+                </div>
+                <form action="{{ route('kecamatan.capaian.index') }}" method="GET" class="mb-3">
+                    <div class="row g-2 align-items-end">
 
+                        <!-- Pilih Desa -->
+                        <div class="col-12 col-md-4">
+                            <label class="fs-12 mb-1">Pilih Desa</label>
+                            <select name="desa" class="fs-12 form-select">
+                                <option value="">{{ __('-- Semua Desa --') }}</option>
+                                @foreach ($selectDesa as $d)
+                                    <option value="{{ $d->id }}" {{ request('desa') == $d->id ? 'selected' : '' }}>
+                                        {{ $d->desa }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
+                        <!-- Pilih Tahun -->
+                        <div class="col-12 col-md-3">
+                            <label for="" class="fs-12 mb-1">Pilih Tahun</label>
+                            <select name="tahun" class="fs-12 form-select">
+                                <option value="">{{ __('-- Semua Tahun --') }}</option>
+                                <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>Tahun 2024
+                                </option>
+                                <option value="2025" {{ request('tahun') == '2025' ? 'selected' : '' }}>Tahun 2025
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Pilih Bidang (tergantung desa) -->
+                        <div class="col-12 col-md-4">
+                            <label for="" class="fs-12 mb-1">Pilih Bidang</label>
+                            <select name="bidang" class="fs-12 form-select">
+                                <option value="">{{ __('-- Semua Bidang --') }}</option>
+                                @foreach ($filterBidangs as $b)
+                                    <option value="{{ $b->id }}"
+                                        {{ request('bidang') == $b->id ? 'selected' : '' }}>
+                                        {{ $b->nama_bidang }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-1 d-grid">
+                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
+                                <i class="bi bi-filter"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {{-- Keterangan --}}
         <div class="card border-0 w-100 rd-5 fs-12 mb-4">
             <div class="card-body p-3">
                 <p>Keterangan : </p>
@@ -38,44 +95,7 @@
                 </ul>
             </div>
         </div>
-        <div class="card border-0 w-100 rd-5 mb-4">
-            <div class="card-body p-3">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                    <p class="fs-18 mb-0">Filter</p>
-                </div>
-                <form action="{{ route('kecamatan.capaian.index') }}" method="GET" class="mb-3">
-                    <div class="row g-2 align-items-end">
-                        <div class="col-12 col-md-6">
-                            <label class="fs-12 mb-1">Pilih Tahun</label>
-                            <select name="tahun" class="fs-12 form-select">
-                                <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>
-                                    Tahun 2024
-                                </option>
-                                <option value="2025" {{ request('tahun') == '2025' ? 'selected' : '' }}>
-                                    Tahun 2025
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-5">
-                            <label class="fs-12 mb-1">Pilih Bidang</label>
-                            <select name="bidang" class="fs-12 form-select">
-                                @foreach ($filterBidangs as $bidang)
-                                    <option value="{{ $bidang->id }}"
-                                        {{ request('bidang') == $bidang->id ? 'selected' : '' }}>
-                                        {{ $bidang->nama_bidang }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-1 d-grid">
-                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
-                                <i class="bi bi-filter"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+
 
         <!-- tabel -->
         <div class="card border-0 w-100 rd-5">
@@ -186,7 +206,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-end">
-                                                    <a href="{{ route('capaian.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('kecamatan.capaian.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-secondary"><i class="bi bi-eye-fill"></i></a>
                                                 </div>
                                             </td>

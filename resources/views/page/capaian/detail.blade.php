@@ -92,7 +92,7 @@
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Durasi</label>
+                                <label class="fs-12 txt-tb-grey">periode pencarian</label>
                                 <input value="{{ $target?->durasi }}" required type="number" name="durasi"
                                     class="form-control form-control-sm rounded-1" placeholder="durasi" disabled/>
                             </div>
@@ -174,7 +174,7 @@
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Durasi</label>
+                                <label class="fs-12 txt-tb-grey">periode pencarian</label>
                                 <input value="{{ $realisasi?->durasi }}" required type="number" name="durasi"
                                     class="form-control form-control-sm rounded-1" placeholder="Kosong / Belum diisi" disabled/>
                             </div>

@@ -30,7 +30,7 @@
                 <div class="row align-items-start flex-wrap">
                     <!-- FOTO -->
                     <div class="col-md-3 text-center mb-3 mb-md-0">
-                        <img src="{{ $profile->foto_profile === null ? asset('assets/images/new_profile.jpeg') : asset('assets/images/' . ($profile->foto_profile ?? 'default.png')) }}"
+                        <img src="{{ $profile->foto_profile === null ? asset('assets/images/new_profile.jpeg') : asset('assets/images/foto_profile/' . ($profile->foto_profile ?? 'default.png')) }}"
                             class="img-fluid rounded" alt="Foto Pengguna">
                         {{-- <a href="#"><button type="button" class="btn btn-success mt-3 w-100 fs-12 text-white">pilih foto</button></a> --}}
                     </div>

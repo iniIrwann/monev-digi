@@ -17,14 +17,15 @@
                 <p class="fs-14 sb mb-3">Edit profil</p>
                 <hr class="my-3">
 
-                <form action="{{ route('kecamatan.profile.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('kecamatan.profile.update', $profile->id) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row align-items-start flex-wrap">
                         <!-- FOTO -->
                         <div class="col-md-3 flex ustify-content-between text-center mb-3 mb-md-0">
                             <img id="currentProfile"
-                                src="{{ $profile->foto_profile === null ? asset('assets/images/new_profile.jpeg') : asset('assets/images/' . ($profile->foto_profile ?? 'default.png')) }}"
+                                src="{{ $profile->foto_profile === null ? asset('assets/images/new_profile.jpeg') : asset('assets/images/foto_profile/' . ($profile->foto_profile ?? 'default.png')) }}"
                                 class="img-fluid rounded" alt="Foto Pengguna" style="max-width: 200px;" />
                             <input type="file" id="fotoInput" name="foto_profile" accept="image/*"
                                 style="display:none" />

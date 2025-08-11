@@ -17,25 +17,33 @@ class DashboardController extends Controller
     }
     public function index()
     {
-        // Jumlah realisasi yang sudah terpenuhi
-        $totalRealisasiTepenuhi = Realisasi::whereNotNull('realisasi_keuangan')
+        $userId = auth()->id(); // Ambil ID user yang sedang login
+
+        // Jumlah realisasi yang sudah terpenuhi milik user
+        $totalRealisasiTepenuhi = Realisasi::where('user_id', $userId)
+            ->whereNotNull('realisasi_keuangan')
             ->where('realisasi_keuangan', '!=', '')
             ->count();
 
         $jumlahTerpenuhi = $totalRealisasiTepenuhi;
 
-        // Jumlah realisasi yang belum terpenuhi
-        $jumlahBelumTerpenuhi = Realisasi::whereNull('realisasi_keuangan')
-            ->orWhere('realisasi_keuangan', '')
+        // Jumlah realisasi yang belum terpenuhi milik user
+        $jumlahBelumTerpenuhi = Realisasi::where('user_id', $userId)
+            ->where(function ($q) {
+                $q->whereNull('realisasi_keuangan')
+                    ->orWhere('realisasi_keuangan', '');
+            })
             ->count();
 
-        // Total target
-        $totalTarget = Target::count();
+        // Total target milik user
+        $totalTarget = Target::where('user_id', $userId)->count();
 
-        // ✅ Hitung total dan capaian sempurna dari tabel `capaian`
-        $totalCapaian = Capaian::count();
+        // Total capaian milik user
+        $totalCapaian = Capaian::where('user_id', $userId)->count();
 
-        $jumlahCapaianSempurna = Capaian::where('persen_capaian_keluaran', '>=', 100)
+        // Capaian sempurna milik user
+        $jumlahCapaianSempurna = Capaian::where('user_id', $userId)
+            ->where('persen_capaian_keluaran', '>=', 100)
             ->where('persen_capaian_keuangan', '>=', 100)
             ->count();
 
@@ -44,32 +52,32 @@ class DashboardController extends Controller
             ? round(($jumlahCapaianSempurna / $totalCapaian) * 100)
             : 0;
 
-        // Ambil data jumlah target per tanggal (group by DATE(created_at))
-        $targetPerTanggal = Target::selectRaw('DATE(created_at) as tanggal, COUNT(*) as total')
+        // Ambil data jumlah target per tanggal milik user
+        $targetPerTanggal = Target::where('user_id', $userId)
+            ->selectRaw('DATE(created_at) as tanggal, COUNT(*) as total')
             ->groupByRaw('DATE(created_at)')
             ->orderBy('tanggal', 'ASC')
             ->get();
 
-        // Siapkan array untuk label dan data chart
         $labels = $targetPerTanggal->pluck('tanggal')->toArray();
         $data = $targetPerTanggal->pluck('total')->toArray();
 
-        // --- Hitung distribusi kategori capaian keluaran ---
+        // --- Kategori capaian keluaran milik user ---
         $kategoriKeluaran = [
-            'sangat_kurang' => Capaian::where('persen_capaian_keluaran', '<', 40)->count(),
-            'kurang' => Capaian::whereBetween('persen_capaian_keluaran', [40, 59.99])->count(),
-            'cukup' => Capaian::whereBetween('persen_capaian_keluaran', [60, 74.99])->count(),
-            'baik' => Capaian::whereBetween('persen_capaian_keluaran', [75, 89.99])->count(),
-            'sangat_baik' => Capaian::where('persen_capaian_keluaran', '>=', 90)->count(),
+            'sangat_kurang' => Capaian::where('user_id', $userId)->where('persen_capaian_keluaran', '<', 40)->count(),
+            'kurang' => Capaian::where('user_id', $userId)->whereBetween('persen_capaian_keluaran', [40, 59.99])->count(),
+            'cukup' => Capaian::where('user_id', $userId)->whereBetween('persen_capaian_keluaran', [60, 74.99])->count(),
+            'baik' => Capaian::where('user_id', $userId)->whereBetween('persen_capaian_keluaran', [75, 89.99])->count(),
+            'sangat_baik' => Capaian::where('user_id', $userId)->where('persen_capaian_keluaran', '>=', 90)->count(),
         ];
 
-        // --- Hitung distribusi kategori capaian keuangan ---
+        // --- Kategori capaian keuangan milik user ---
         $kategoriKeuangan = [
-            'sangat_rendah' => Capaian::where('persen_capaian_keuangan', '<', 40)->count(),
-            'kurang' => Capaian::whereBetween('persen_capaian_keuangan', [40, 59.99])->count(),
-            'cukup' => Capaian::whereBetween('persen_capaian_keuangan', [60, 74.99])->count(),
-            'baik' => Capaian::whereBetween('persen_capaian_keuangan', [75, 89.99])->count(),
-            'sangat_baik' => Capaian::where('persen_capaian_keuangan', '>=', 90)->count(),
+            'sangat_rendah' => Capaian::where('user_id', $userId)->where('persen_capaian_keuangan', '<', 40)->count(),
+            'kurang' => Capaian::where('user_id', $userId)->whereBetween('persen_capaian_keuangan', [40, 59.99])->count(),
+            'cukup' => Capaian::where('user_id', $userId)->whereBetween('persen_capaian_keuangan', [60, 74.99])->count(),
+            'baik' => Capaian::where('user_id', $userId)->whereBetween('persen_capaian_keuangan', [75, 89.99])->count(),
+            'sangat_baik' => Capaian::where('user_id', $userId)->where('persen_capaian_keuangan', '>=', 90)->count(),
         ];
 
         return view('page.dashboard.dashboard', compact(
@@ -86,5 +94,6 @@ class DashboardController extends Controller
             'kategoriKeuangan'
         ));
     }
+
 
 }

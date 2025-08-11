@@ -112,7 +112,7 @@
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">durasi</label>
+                                <label class="fs-12 txt-tb-grey">periode pencarian</label>
                                 <input type="number" name="durasi" class="form-control form-control-sm rounded-1"
                                     placeholder="durasi" />
                             </div>

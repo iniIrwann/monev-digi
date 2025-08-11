@@ -124,20 +124,20 @@ class RealisasiKecamatanController extends Controller
             'bidang_id' => 'required|exists:bidangs,id',
             'kegiatan_id' => 'required|exists:kegiatans,id',
             'subkegiatan_id' => 'required|exists:sub_kegiatans,id',
-            'uraian_keluaran' => 'required|string|max:255',
+            // 'uraian_keluaran' => 'required|string|max:255',
             'volume_keluaran' => 'required|numeric',
             'tenaga_kerja' => 'nullable|numeric',
             'upah' => 'nullable|numeric',
             'BLT' => 'nullable|numeric',
             'keterangan' => 'nullable|string',
-            'cara_pengadaan' => 'required|string|max:255',
-            'tahun' => 'required|numeric',
+            // 'cara_pengadaan' => 'required|string|max:255',
+            // 'tahun' => 'required|numeric',
             'realisasi_keuangan' => 'required|numeric',
             'durasi' => 'nullable|numeric',
             'KPM' => 'nullable|numeric',
         ]);
 
-        $bidang = Bidang::findOrFail('id',$request->bidang_id);
+        $bidang = Bidang::findOrFail($request->bidang_id);
 
         // updateOrCreate realisasi berdasarkan kombinasi bidang/kegiatan/subkegiatan/tahun
         $realisasi = Realisasi::updateOrCreate(
@@ -145,13 +145,13 @@ class RealisasiKecamatanController extends Controller
                 'bidang_id' => $request->bidang_id,
                 'kegiatan_id' => $request->kegiatan_id,
                 'sub_kegiatan_id' => $request->subkegiatan_id,
-                'tahun' => $request->tahun,
+                // 'tahun' => $request->tahun,
             ],
             [
                 'user_id' => $bidang->user_id,
-                'uraian_keluaran' => $request->uraian_keluaran,
+                // 'uraian_keluaran' => $request->uraian_keluaran,
                 'volume_keluaran' => $request->volume_keluaran,
-                'cara_pengadaan' => $request->cara_pengadaan,
+                // 'cara_pengadaan' => $request->cara_pengadaan,
                 'realisasi_keuangan' => $request->realisasi_keuangan,
                 'tenaga_kerja' => $request->tenaga_kerja,
                 'durasi' => $request->durasi,
@@ -166,7 +166,6 @@ class RealisasiKecamatanController extends Controller
         $target = Target::where('bidang_id', $request->bidang_id)
             ->where('kegiatan_id', $request->kegiatan_id)
             ->where('sub_kegiatan_id', $request->subkegiatan_id)
-            ->where('tahun', $request->tahun)
             ->first();
 
         // Hitung persen capaian dengan guard bagi nol
@@ -193,11 +192,11 @@ class RealisasiKecamatanController extends Controller
         // Simpan atau update capaian (jika target ada, pasangkan dengan target_id; jika tidak ada simpan tanpa target_id)
         Capaian::updateOrCreate(
             [
+                'target_id' => $target->id,
                 'realisasi_id' => $realisasi->id,
+                'user_id' => $bidang->user_id,
             ],
             [
-                'target_id' => $target ? $target->id : null,
-                'user_id' => $bidang->user_id,
                 'persen_capaian_keluaran' => $persen_volume,
                 'persen_capaian_keuangan' => $persen_keuangan,
                 'sisa' => $sisa,

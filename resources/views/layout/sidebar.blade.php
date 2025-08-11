@@ -2,7 +2,9 @@
         <!-- profil -->
         <div class="text-center ps-4 pe-4 pt-4">
             <div class="d-flex align-items-center me-3">
-                <img class="p-1 img-fluid w-34" src="{{ asset('assets/images/profil.png') }}" alt="" />
+                <img class="p-1 img-fluid w-34"
+                    src="{{ auth()->user()->foto_profile ? asset('assets/images/foto_profile/' . auth()->user()->foto_profile) : asset('assets/images/profil.png') }}"
+                    alt="Foto Profil" />
                 <div class="ms-2 text-start">
                     <p class="mb-0 fs-10 sb">
                         {{ Auth::check() ? (Auth::user()->desa != '-' ? Auth::user()->desa : Auth::user()->role) : 'role' }}
@@ -64,8 +66,7 @@
                     <a href="{{ route('desa.profile.index') }}"
                         class="{{ Request::is('profile*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
                         profil
-                        <i
-                            class="bi bi-person-fill {{ Request::is('profile*') ? 'tx-orange' : 'text-dark' }}"></i>
+                        <i class="bi bi-person-fill {{ Request::is('profile*') ? 'tx-orange' : 'text-dark' }}"></i>
                     </a>
                 </li>
             @endif
@@ -107,9 +108,9 @@
                             </li>
                             <li>
                                 <a href="{{ route('kecamatan.capaian.index') }}"
-                                    class="text-decoration-none {{ Request::is('capaian*') ? 'tx-green' : 'text-dark' }} d-block fs-12">
+                                    class="text-decoration-none {{ Request::is('kecamatan/capaian*') ? 'tx-green' : 'text-dark' }} d-block fs-12">
                                     <i
-                                        class="bi bi-arrow-right-short {{ Request::is('capaian*') ? 'tx-orange' : '' }}"></i>
+                                        class="bi bi-arrow-right-short {{ Request::is('kecamatan/capaian*') ? 'tx-orange' : '' }}"></i>
                                     capaian
                                 </a>
                             </li>
