@@ -23,6 +23,7 @@
                         <div class="col-12 col-md-6">
                             <label for="" class="fs-12 mb-1">Pilih tahun</label>
                             <select name="tahun" class="fs-12 form-select">
+                                <option value="">{{ __('-- Semua Tahun --') }}</option>
                                 <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>Tahun 2024
                                 </option>
                                 <option value="2025" {{ request('tahun') == '2025' ? 'selected' : '' }}>Tahun 2025
@@ -34,6 +35,7 @@
                         <div class="col-12 col-md-5">
                             <label for="" class="fs-12 mb-1">Pilih bidang</label>
                             <select name="bidang" class="fs-12 form-select">
+                                <option value="">{{ __('-- Semua Bidang --') }}</option>
                                 {{-- Opsi 1 --}}
                                 {{-- @foreach ($data as $bidang)
                                     <option value="{{ $bidang->id }}"

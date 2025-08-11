@@ -112,15 +112,49 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('profile.index')->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->route('desa.profile.index')->with('success', 'Profil berhasil diperbarui.');
     }
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function updateKec(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'password' => 'nullable|string|min:6',
+            'name' => 'required|string|max:255',
+            // 'role' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'nohp' => 'nullable|numeric|digits_between:10,15',
+            'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Update data
+        $user->username = $validated['username'];
+        $user->name = $validated['name']; // huruf kapital
+        // $user->role = $validated['role'];
+        $user->email = $validated['email'];
+        $user->nohp = $validated['nohp'];
+
+        // Update password jika diisi
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        // Upload foto profil jika ada
+        if ($request->hasFile('foto_profile')) {
+            // Hapus foto lama jika ada dan bukan default
+            if ($user->foto_profile && file_exists(public_path('assets/images/' . $user->foto_profile))) {
+                unlink(public_path('assets/images/' . $user->foto_profile));
+            }
+
+            $file = $request->file('foto_profile');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('assets/images'), $filename);
+            $user->foto_profile = $filename;
+        }
+
+        $user->save();
+
+        return view('page.kecamatan.profile.index')->with('success', 'Profil berhasil diperbarui.');
     }
 }

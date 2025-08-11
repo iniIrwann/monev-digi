@@ -156,17 +156,17 @@ class RealisasiController extends Controller
         // Cari entri realisasi berdasarkan ID
         $realisasi = Realisasi::userOnly()->findOrFail($id);
 
-        $realisasi->uraian_keluaran = null;
-        $realisasi->uraian_keluaran = null;
+        // $realisasi->uraian_keluaran = null;
+        // $realisasi->uraian_keluaran = null;
         $realisasi->volume_keluaran = null;
-        $realisasi->cara_pengadaan = null;
+        // $realisasi->cara_pengadaan = null;
         $realisasi->realisasi_keuangan = null;
         $realisasi->tenaga_kerja = null;
         $realisasi->durasi = null;
         $realisasi->upah = null;
         $realisasi->KPM = null;
         $realisasi->BLT = null;
-        $realisasi->tahun = null;
+        // $realisasi->tahun = null;
         $realisasi->keterangan = null;
 
         $realisasi->save();

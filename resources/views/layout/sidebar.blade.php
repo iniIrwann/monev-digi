@@ -60,6 +60,14 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('desa.profile.index') }}"
+                        class="{{ Request::is('profile*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                        profil
+                        <i
+                            class="bi bi-person-fill {{ Request::is('profile*') ? 'tx-orange' : 'text-dark' }}"></i>
+                    </a>
+                </li>
             @endif
 
             <!-- Menu untuk role kecamatan -->
@@ -108,25 +116,26 @@
                         </ul>
                     </div>
                 </li>
+                <!-- Menu User -->
+                <li class="nav-item">
+                    <a href="{{ route('kecamatan.dataDesa.index') }}"
+                        class="{{ Request::is('kecamatan/data-desa*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                        data desa
+                        <i
+                            class="bi bi-person-fill {{ Request::is('kecamatan/data-desa*') ? 'tx-orange' : 'text-dark' }}"></i>
+                    </a>
+                </li>
+                <!-- Menu profil -->
+                <li class="nav-item">
+                    <a href="{{ route('kecamatan.profile.index') }}"
+                        class="{{ Request::is('kecamatan/profile*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                        profil
+                        <i
+                            class="bi bi-person-fill {{ Request::is('kecamatan/profile*') ? 'tx-orange' : 'text-dark' }}"></i>
+                    </a>
+                </li>
             @endif
 
-            <!-- Menu User -->
-            <li class="nav-item">
-                <a href="{{ route('kecamatan.dataDesa.index') }}"
-                    class="{{ Request::is('kecamatan/data-desa*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
-                    data desa
-                    <i
-                        class="bi bi-person-fill {{ Request::is('kecamatan/data-desa*') ? 'tx-orange' : 'text-dark' }}"></i>
-                </a>
-            </li>
-            <!-- Menu profil -->
-            <li class="nav-item">
-                <a href="{{ route('kecamatan.profile.index') }}"
-                    class="{{ Request::is('kecamatan/profile*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
-                    profil
-                    <i
-                        class="bi bi-person-fill {{ Request::is('kecamatan/profile*') ? 'tx-orange' : 'text-dark' }}"></i>
-                </a>
-            </li>
+
         </ul>
     </div>

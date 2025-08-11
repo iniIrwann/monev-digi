@@ -230,7 +230,7 @@
 
 
                                             @if ($realisasi)
-                                                <td>{{ $capaian?->target?->volume_keluaran ?? '0' }}
+                                                <td>{{ number_format($capaian?->target?->volume_keluaran ?? 0, 0, ',', '.') }}
                                                     {{ $realisasi->uraian_keluaran }}
                                                 </td>
                                                 <td>{{ number_format($realisasi->volume_keluaran ?? 0, 0, ',', '.') }}

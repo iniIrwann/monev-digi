@@ -17,24 +17,27 @@
                 <p class="fs-14 sb mb-3">Edit profil</p>
                 <hr class="my-3">
 
-                <form action="{{ route('profile.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('desa.profile.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row align-items-start flex-wrap">
                         <!-- FOTO -->
-                        <div class="col-md-3 text-center mb-3 mb-md-0">
+                        <div class="col-md-3 flex ustify-content-between text-center mb-3 mb-md-0">
                             <img id="currentProfile"
                                 src="{{ $profile->foto_profile === null ? asset('assets/images/new_profile.jpeg') : asset('assets/images/' . ($profile->foto_profile ?? 'default.png')) }}"
-                                class="img-fluid rounded" alt="Foto Pengguna">
+                                class="img-fluid rounded" alt="Foto Pengguna" style="max-width: 200px;" />
+                            <input type="file" id="fotoInput" name="foto_profile" accept="image/*"
+                                style="display:none" />
                             <div class="mb-2 mt-3">
                                 <!-- Tombol untuk memicu input file -->
-                                <button type="button" class="btn btn-success w-100 fs-12 text-white" onclick="document.getElementById('fotoInput').click()">
+                                <button type="button" class="btn btn-success w-100 fs-12 text-white"
+                                    onclick="document.getElementById('fotoInput').click()">
                                     <i class="bi bi-image me-1"></i> Ganti foto
                                 </button>
 
                                 <!-- Input file disembunyikan -->
-                                <input type="file" id="fotoInput" name="foto_profile" accept="image/*"
-                                    class="d-none" onchange="previewImage(event)">
+                                {{-- <input type="file" id="fotoInput" name="foto_profile" accept="image/*" class="d-none"
+                                    onchange="previewImage(event)"> --}}
 
                                 @error('foto_profile')
                                     <div class="text-danger small">{{ $message }}</div>
@@ -63,7 +66,8 @@
                                     <div class="input-group input-group-sm">
                                         <input type="password" class="form-control" id="password1" name="password"
                                             placeholder="biarkan kosong jika tidak diubah">
-                                        <span class="input-group-text bg-white" id="togglePassword1" style="cursor: pointer;">
+                                        <span class="input-group-text bg-white" id="togglePassword1"
+                                            style="cursor: pointer;">
                                             <i class="bi bi-eye"></i>
                                         </span>
                                     </div>
@@ -102,15 +106,23 @@
                                 <div class="col-md-6">
                                     <label class="form-label fs-12">Nomor HP</label>
                                     <input type="tel" pattern="[0-9]{10,15}" maxlength="15"
-                                        title="Masukkan 10-15 digit angka" class="form-control form-control-sm" name="nohp"
-                                        value="{{ $profile->nohp ?? '' }}">
+                                        title="Masukkan 10-15 digit angka" class="form-control form-control-sm"
+                                        name="nohp" value="{{ $profile->nohp ?? '' }}">
                                     @error('nohp')
                                         <div class="text-danger small">{{ $message }}</div>
                                     @enderror
                                 </div>
-
-                                <div class="col-12 mt-2">
-                                    <button type="submit" class="btn btn-success mt-3 w-100 fs-12 text-white">Edit</button>
+                                <div class="row mt-4">
+                                    <div class="col-6">
+                                        <a href="{{ route('desa.profile.index') }}"
+                                            class="btn btn-secondary w-100 fs-12 text-white">
+                                            Kembali
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="submit"
+                                            class="btn btn-success w-100 fs-12 text-white">Edit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -126,27 +138,28 @@
     @endif
     <!-- SCRIPT -->
     <script>
-        // Toggle Password Visibility
-        document.getElementById('togglePassword1').addEventListener('click', function() {
-            const input = document.getElementById('password1');
-            const icon = this.querySelector('i');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('bi-eye');
-                icon.classList.add('bi-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('bi-eye-slash');
-                icon.classList.add('bi-eye');
+        // Ketika input file berubah (file dipilih)
+        document.getElementById('fotoInput').addEventListener('change', function(event) {
+            const [file] = this.files;
+            if (file) {
+                // Buat URL sementara untuk preview gambar
+                const preview = URL.createObjectURL(file);
+                // Ganti src gambar profile dengan URL preview
+                document.getElementById('currentProfile').src = preview;
             }
         });
+    </script>
+    <script>
+        const togglePassword = document.querySelector('#togglePassword1');
+        const passwordInput = document.querySelector('#password1');
+        const icon = togglePassword.querySelector('i');
 
-        // Preview Image Before Upload
-        function previewImage(event) {
-            const input = event.target;
-            const preview = document.getElementById('preview');
-            preview.src = URL.createObjectURL(input.files[0]);
-            preview.style.display = 'block';
-        }
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            icon.classList.toggle('bi-eye');
+            icon.classList.toggle('bi-eye-slash');
+        });
     </script>
 @endsection

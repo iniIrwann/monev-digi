@@ -122,6 +122,20 @@ class TargetDesaController extends Controller
             return redirect()->route('desa.target.index')->with('error', 'Data target tidak ditemukan.');
         }
 
+        $realisasi = Realisasi::updateOrCreate(
+            [
+                'bidang_id' => $request->bidang_id,
+                'kegiatan_id' => $request->kegiatan_id,
+                'sub_kegiatan_id' => $subkegiatan->id,
+                'user_id' => auth()->id(),
+            ],
+            [
+                'uraian_keluaran' => $request->uraian_keluaran,
+                'cara_pengadaan' => $request->cara_pengadaan,
+                'tahun' => $request->tahun,
+            ]
+        );
+
         // Update Sub
         $subkegiatan->nama_subkegiatan = $request->nama_subkegiatan;
         $subkegiatan->save();
@@ -234,17 +248,19 @@ class TargetDesaController extends Controller
             'uraian_keluaran' => $request->uraian_keluaran,
         ]);
 
-        $realisasi = Realisasi::create([
-            'bidang_id' => $request->bidang_id,
-            'kegiatan_id' => $request->kegiatan_id,
-            'sub_kegiatan_id' => $sub->id,
-            'user_id' => auth()->id(),
-            'uraian_keluaran' => $request->uraian_keluaran,
-            'cara_pengadaan' => $request->cara_pengadaan,
-            'tahun' => $request->tahun,
-
-        ]);
-
+        $realisasi = Realisasi::updateOrCreate(
+            [
+                'bidang_id' => $request->bidang_id,
+                'kegiatan_id' => $request->kegiatan_id,
+                'sub_kegiatan_id' => $sub->id,
+                'user_id' => auth()->id(),
+            ],
+            [
+                'uraian_keluaran' => $request->uraian_keluaran,
+                'cara_pengadaan' => $request->cara_pengadaan,
+                'tahun' => $request->tahun,
+            ]
+        );
         // Simpan ke tabel target
         $target = Target::create([
             'bidang_id' => $request->bidang_id,

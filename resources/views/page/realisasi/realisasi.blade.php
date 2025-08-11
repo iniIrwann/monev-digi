@@ -24,6 +24,7 @@
                         <div class="col-12 col-md-6">
                             <label for="" class="fs-12 mb-1">Pilih tahun</label>
                             <select name="tahun" class="fs-12 form-select">
+                                <option value="">{{ __('-- Semua Tahun --') }}</option>
                                 <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>Tahun 2024
                                 </option>
                                 <option value="2025" {{ request('tahun') == '2025' ? 'selected' : '' }}>Tahun 2025
@@ -35,6 +36,7 @@
                         <div class="col-12 col-md-5">
                             <label for="" class="fs-12 mb-1">Pilih bidang</label>
                             <select name="bidang" class="fs-12 form-select">
+                                <option value="">{{ __('-- Semua Bidang --') }}</option>
                                 @foreach ($filterBidangs as $bidang)
                                     <option value="{{ $bidang->id }}"
                                         {{ request('bidang') == $bidang->id ? 'selected' : '' }}>
@@ -57,7 +59,7 @@
 
         <!-- tabel -->
         <div class="card border-0 w-100 rd-5">
-            <div class="card-body p-3"> 
+            <div class="card-body p-3">
                 <form action=" {{ route('desa.realisasi.index') }} " method="GET" class="mb-3">
                     <div class="row g-3 mb-2">
                         <div class="col-auto">

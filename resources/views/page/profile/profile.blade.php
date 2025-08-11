@@ -13,8 +13,6 @@
 
                 <p class="fs-14 ms-2 mb-0">Profil</p>
             </div>
-            <a href="{{ route('profile.edit', [$profile->id]) }}" class="btn btn-sm btn-warning px-3 py-2"><i
-                    class="bi bi-pencil-fill text-white"></i></a>
         </div>
 
         <!-- Tambah Pengguna -->
@@ -22,7 +20,8 @@
             <div class="card-body ps-3 pt-3 pe-3 pb-4">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <p class="fs-14 sb mb-0">Profil</p>
-                    <a href="{{ route('profile.edit', [$profile->id]) }}" class="btn btn-warning btn-sm fs-12 text-white">
+                    <a href="{{ route('desa.profile.edit', [$profile->id]) }}"
+                        class="btn btn-warning btn-sm fs-12 text-white">
                         <i class="bi bi-pencil me-1"></i> Edit pengguna
                     </a>
                 </div>
