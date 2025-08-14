@@ -2,6 +2,7 @@
 
 @section('title', 'Dashboard - Monev Digi Dana Desa')
 
+
 @section('main')
     <div class="main-content ps-3 pe-3 pt-4">
         <div class="row g-3">
@@ -14,14 +15,14 @@
                             <i class="bi bi-list-check fs-3"></i>
                         </div>
                         <div>
-                            <div class="fs-14 text-capitalize">Total Realisasi Terpenuhi</div>
-                            <div class="fs-18 sb">{{ $totalRealisasiTerpenuhi }}</div>
+                            <div class="fs-14 text-capitalize">total realisasi tepenuhi</div>
+                            <div class="fs-18 sb">{{ $totalRealisasiTepenuhi }}</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Kartu total target -->
+            <!-- Kartu Jumlah target -->
             <div class="col-md-4">
                 <div class="p-3 rounded text-white shadow-sm"
                     style="background: linear-gradient(to right, #4facfe, #00f2fe);">
@@ -30,14 +31,14 @@
                             <i class="bi bi-bullseye fs-3"></i>
                         </div>
                         <div>
-                            <div class="fs-14 text-capitalize">Total Target</div>
+                            <div class="fs-14 text-capitalize">total target</div>
                             <div class="fs-18 sb">{{ $totalTarget }}</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Kartu persentase capaian sempurna -->
+            <!-- Kartu total capaian yang sudah -->
             <div class="col-md-4">
                 <div class="p-3 rounded text-white shadow-sm"
                     style="background: linear-gradient(to right, #43e97b, #38f9d7);">
@@ -46,8 +47,8 @@
                             <i class="bi bi-award-fill fs-3"></i>
                         </div>
                         <div>
-                            <div class="fs-14 text-capitalize">Persentase Capaian Sempurna</div>
-                            <div class="fs-18 sb">{{ $capaianTercapai }}% ({{ $jumlahCapaianSempurna }} dari {{ $totalCapaian }})</div>
+                            <div class="fs-14 text-capitalize">total capaian yang sudah</div>
+                            <div class="fs-18 sb">{{ $capaianTercapai }} %</div>
                         </div>
                     </div>
                 </div>
@@ -80,18 +81,17 @@
                     <!-- Line Chart -->
                     <div class="col-12 col-md-6">
                         <div class="p-4 bg-white rounded shadow-sm d-flex flex-column justify-content-between h-100">
-                            <p class="mb-3 fs-14 sb">Realisasi Per Tahap Berdasarkan Tanggal</p>
-                            <canvas id="realisasiLineChart" class="flex-grow-1" style="height: 220px; width: 100%;"></canvas>
+                            <p class="mb-3 fs-14 sb">Data Target Yang Ditambahkan</p>
+                            <canvas id="targetLineChart" class="flex-grow-1" style="height: 220px; width: 100%;"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tabel Capaian -->
             <div class="col-12">
                 <div class="p-4 bg-white rounded shadow-sm h-100">
                     <!-- Judul -->
-                    <p class="mb-2 fs-14 sb text-capitalize">Capaian Keluaran dan Capaian Keuangan</p>
+                    <p class="mb-2 fs-14 sb text-capitalize">capaian keluaran dan capaian keuangan</p>
 
                     <!-- Tabel capaian keluaran -->
                     <div class="row">
@@ -111,27 +111,27 @@
                                         <tr class="text-center">
                                             <td class="fs-12">&lt; 40</td>
                                             <td class="fs-12">{{ $kategoriKeluaran['sangat_kurang'] }}</td>
-                                            <td class="fs-12 text-muted">Sangat Kurang</td>
+                                            <td class="fs-12 text-muted">sangat kurang</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td class="fs-12">40 - 59</td>
                                             <td class="fs-12">{{ $kategoriKeluaran['kurang'] }}</td>
-                                            <td class="fs-12 text-muted">Kurang</td>
+                                            <td class="fs-12 text-muted">kurang</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td class="fs-12">60 - 74</td>
                                             <td class="fs-12">{{ $kategoriKeluaran['cukup'] }}</td>
-                                            <td class="fs-12 text-muted">Cukup</td>
+                                            <td class="fs-12 text-muted">cukup</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td class="fs-12">75 - 89</td>
                                             <td class="fs-12">{{ $kategoriKeluaran['baik'] }}</td>
-                                            <td class="fs-12 text-muted">Baik</td>
+                                            <td class="fs-12 text-muted">baik</td>
                                         </tr>
                                         <tr class="text-center">
-                                            <td class="fs-12">≥ 90</td>
+                                            <td class="fs-12">90 - 100</td>
                                             <td class="fs-12">{{ $kategoriKeluaran['sangat_baik'] }}</td>
-                                            <td class="fs-12 text-muted">Sangat Baik</td>
+                                            <td class="fs-12 text-muted">sangat baik</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -154,27 +154,27 @@
                                         <tr class="text-center">
                                             <td class="fs-12">&lt; 40</td>
                                             <td class="fs-12">{{ $kategoriKeuangan['sangat_rendah'] }}</td>
-                                            <td class="fs-12 text-muted">Sangat Rendah</td>
+                                            <td class="fs-12 text-muted">sangat rendah</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td class="fs-12">40 - 59</td>
                                             <td class="fs-12">{{ $kategoriKeuangan['kurang'] }}</td>
-                                            <td class="fs-12 text-muted">Kurang</td>
+                                            <td class="fs-12 text-muted">kurang</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td class="fs-12">60 - 74</td>
                                             <td class="fs-12">{{ $kategoriKeuangan['cukup'] }}</td>
-                                            <td class="fs-12 text-muted">Cukup</td>
+                                            <td class="fs-12 text-muted">cukup</td>
                                         </tr>
                                         <tr class="text-center">
                                             <td class="fs-12">75 - 89</td>
                                             <td class="fs-12">{{ $kategoriKeuangan['baik'] }}</td>
-                                            <td class="fs-12 text-muted">Baik</td>
+                                            <td class="fs-12 text-muted">baik</td>
                                         </tr>
                                         <tr class="text-center">
-                                            <td class="fs-12">≥ 90</td>
+                                            <td class="fs-12">90 - 100</td>
                                             <td class="fs-12">{{ $kategoriKeuangan['sangat_baik'] }}</td>
-                                            <td class="fs-12 text-muted">Sangat Baik</td>
+                                            <td class="fs-12 text-muted">sangat baik</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -183,15 +183,31 @@
                     </div>
 
                     <!-- Keterangan -->
-                    <p class="fs-12 sb mb-1">Keterangan:</p>
+                    <p class="fs-12 sb mb-1">keterangan:</p>
                     <ul class="mb-0 fs-12">
-                        <li><strong>&lt; 40%</strong>: <em class="fw-bold text-danger">Sangat Kurang/Rendah</em> – Capaian sangat rendah, perlu evaluasi menyeluruh dan perbaikan.</li>
-                        <li><strong>40% - &lt; 60%</strong>: <em class="fw-bold" style="color: #fd7e14">Kurang</em> – Banyak target tidak tercapai, perlu peningkatan signifikan.</li>
-                        <li><strong>60% - &lt; 75%</strong>: <em class="fw-bold text-warning">Cukup</em> – Capaian sedang, masih ada kekurangan yang perlu diperbaiki.</li>
-                        <li><strong>75% - &lt; 90%</strong>: <em class="fw-bold text-success">Baik</em> – Sebagian besar target tercapai, pelaksanaan berjalan baik.</li>
-                        <li><strong>≥ 90%</strong>: <em class="fw-bold text-primary">Sangat Baik</em> – Capaian optimal, seluruh target kegiatan/keuangan tercapai.</li>
+                        <li><strong>&lt; 40%</strong>: <em class="fw-bold text-danger">Sangat Kurang</em> – Capaian
+                            sangat
+                            rendah, perlu evaluasi
+                            menyeluruh dan perbaikan.</li>
+                        <li><strong>40% - &lt; 60%</strong>: <em class="fw-bold " style="color: #fd7e14">Kurang</em> –
+                            Banyak
+                            target tidak tercapai, perlu
+                            peningkatan signifikan.</li>
+                        <li><strong>60% - &lt; 75%</strong>: <em class="fw-bold text-warning">Cukup</em> – Capaian
+                            sedang, masih
+                            ada kekurangan yang
+                            perlu diperbaiki.</li>
+                        <li><strong>75% - &lt; 90%</strong>: <em class="fw-bold text-success">Baik</em> – Sebagian
+                            besar target
+                            tercapai, pelaksanaan
+                            berjalan baik.</li>
+                        <li><strong>90% - 100%</strong>: <em class="fw-bold text-primary">Sangat Baik</em> –
+                            Capaian optimal,
+                            seluruh target
+                            kegiatan/keuangan tercapai.</li>
                     </ul>
                 </div>
+
             </div>
         </div>
 
@@ -200,8 +216,8 @@
 
         <script>
             // Data untuk donut chart
-            const sudahTerpenuhi = {{ $totalRealisasiTerpenuhi }};
-            const belumTerpenuhi = {{ $totalRealisasiBelumTerpenuhi }};
+            const sudahTerpenuhi = {{ $jumlahTerpenuhi }};
+            const belumTerpenuhi = {{ $jumlahBelumTerpenuhi }};
 
             const donutCtx = document.getElementById('donutChart').getContext('2d');
             new Chart(donutCtx, {
@@ -226,10 +242,23 @@
             });
 
             // Data untuk line chart
-            const lineCtx = document.getElementById('realisasiLineChart').getContext('2d');
+            const lineCtx = document.getElementById('targetLineChart').getContext('2d');
             new Chart(lineCtx, {
                 type: 'line',
-                data: @json($chartData),
+                data: {
+                    labels: {!! json_encode($labels) !!},
+                    datasets: [{
+                        label: 'Jumlah Target',
+                        data: {!! json_encode($data) !!},
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: 'white',
+                        pointBorderColor: 'rgba(54, 162, 235, 1)',
+                        pointRadius: 4,
+                    }]
+                },
                 options: {
                     responsive: true,
                     plugins: {
@@ -259,12 +288,11 @@
                             beginAtZero: true,
                             title: {
                                 display: true,
-                                text: 'Jumlah Realisasi'
+                                text: 'Jumlah'
                             }
                         }
                     }
                 }
             });
         </script>
-    </section>
-@endsection
+    @endsection
