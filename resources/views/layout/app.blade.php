@@ -18,6 +18,65 @@
     <!-- css -->
     <link rel="icon" type="image/png" href="{{ asset('assets/images/logo.png') }}" />
     <!-- icon web -->
+    <style>
+        /* tab */
+        .tab-container {
+            display: flex;
+            width: 100%;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tab-link {
+            flex: 1;
+            text-align: center;
+            padding: 6px 0;
+            /* Lebih kecil */
+            text-decoration: none;
+            font-size: 12px;
+            /* Ukuran font kecil */
+            font-weight: 500;
+            color: #000;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-link.active {
+            border-color: #19bfa6;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .tab-link:hover {
+            background-color: #f9f9f9;
+            color: #000
+        }
+
+        .tooltip-custom {
+            position: relative;
+        }
+
+        .tooltip-custom::after {
+            content: "Catatan / Tindak Lanjut / Rekomendasi";
+            position: absolute;
+            top: -30px;
+            /* sedikit di atas tombol */
+            left: 105%;
+            /* geser ke kanan tombol */
+            background-color: #333;
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-size: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .tooltip-custom:hover::after {
+            opacity: 1;
+        }
+    </style>
     <title>@yield('title', 'Monev Digi Dana Desa')</title>
 
 </head>
@@ -113,7 +172,6 @@
             myInput.focus()
         })
     </script>
-    @yield('script')
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     @if (session('success'))
         <script>
@@ -140,6 +198,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- boostrap -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    @yield('script')
+
 </body>
 
 </html>

@@ -9,6 +9,7 @@ use App\Http\Controllers\RealisasiKecamatanController;
 use App\Http\Controllers\TargetDesaController;
 use App\Http\Controllers\RealisasiController;
 use App\Http\Controllers\TargetKecamatanController;
+use App\Http\Controllers\VerifikasiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login.view');
@@ -26,6 +27,8 @@ Route::middleware(['auth', 'role:desa'])
         // Resource
         Route::resource('target', TargetDesaController::class);
         Route::resource('realisasi', RealisasiController::class);
+        Route::get('/realisasi/tahapdua', [RealisasiController::class, 'tahapdua'])->name('realisasi.tahapdua');
+        Route::get('/realisasi/total', [RealisasiController::class, 'total'])->name('realisasi.total');
         Route::resource('capaian', CapaianController::class);
 
         // Target Detail, Edit
@@ -72,6 +75,12 @@ Route::prefix('kecamatan')
         Route::resource('realisasi', RealisasiKecamatanController::class);
         Route::resource('capaian', CapaianKecamatanController::class);
 
+        // Route::resource('capaian', CapaianController::class);
+
+        // verifikasi
+        Route::get('verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
+        Route::post('verifikasi/store', [VerifikasiController::class, 'store'])->name('verifikasi.store');
+
 
         Route::delete('/realisasi/delete-sub/{id}', [RealisasiKecamatanController::class, 'deleteSubKegiatan'])->name('realisasi.sub.delete');
 
@@ -96,10 +105,9 @@ Route::prefix('kecamatan')
         Route::delete('/target/delete-subKegiatan/{id}', [TargetKecamatanController::class, 'deleteSubKegiatan'])->name('target.delete.subKegiatan');
 
         // Realisasi
-        Route::get('/realisasi/create/sub/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [RealisasiController::class, 'createSub'])->name('realisasi.create.sub');
+        Route::get('/realisasi/create/sub/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [RealisasiKecamatanController::class, 'createSub'])->name('realisasi.create.sub');
         Route::post('/realisasi/store/sub', [RealisasiKecamatanController::class, 'storeSub'])->name('realisasi.store.sub');
         Route::get('/realisasi/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [RealisasiKecamatanController::class, 'detailSub'])->name('realisasi.detail');
-        Route::delete('/realisasi/delete-subKegiatan/{id}', [RealisasiKecamatanController::class, 'deleteSubKegiatan'])->name('realisasi.delete.subKegiatan');
         Route::get('/realisasi/catatan/create/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [RealisasiKecamatanController::class, 'createCatatan'])->name('realisasi.create.catatan');
 
 

@@ -16,7 +16,7 @@
                         </div>
                         <div>
                             <div class="fs-14 text-capitalize">total realisasi tepenuhi</div>
-                            <div class="fs-18 sb">{{ $totalRealisasiTepenuhi }}</div>
+                            <div class="fs-18 sb">{{ $jumlahRealisasiTerpenuhi }}</div>
                         </div>
                     </div>
                 </div>

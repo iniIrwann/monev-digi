@@ -302,7 +302,6 @@ class TargetDesaController extends Controller
         ]);
         Capaian::create([
             'target_id' => $target->id,
-            'realisasi_id' => $realisasi1->id,
             'user_id' => auth()->id(),
         ]);
 

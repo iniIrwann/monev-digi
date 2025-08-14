@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('bidang_id')->constrained()->onDelete('cascade');
             $table->foreignId('kegiatan_id')->constrained()->onDelete('cascade');
             $table->foreignId('sub_kegiatan_id')->constrained()->onDelete('cascade');
+            $table->foreignId('verifikasi_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('tahap')->nullable(); // 1 atau 2
             $table->integer('volume_keluaran')->nullable();

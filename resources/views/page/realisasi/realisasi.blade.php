@@ -9,8 +9,9 @@
         <div class="d-flex align-items-center mb-2 mb-md-0 pb-4">
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
                 <i class="bi-list-check fs-16 text-white"></i>
+                <i class="bibi-patch-check-fill fs-16 text-white"></i>
             </div>
-            <p class="fs-14 ms-2 mb-0">Realisasi</p>
+            <p class="fs-14 ms-2 mb-0">Verifikasi</p>
         </div>
 
         <!-- filter -->

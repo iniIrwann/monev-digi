@@ -20,6 +20,8 @@
                     <input type="hidden" value="{{ $bidang->id }}" name="bidang_id" class="form-control">
                     <input type="hidden" value="{{ $kegiatan->id }}" name="kegiatan_id" class="form-control">
                     <input type="hidden" value="{{ $subKegiatan->id }}" name="subkegiatan_id" class="form-control">
+                    <input type="hidden" value="{{ $tahap }}" name="tahap" class="form-control">
+                    <input type="hidden" value="{{ $realisasi?->tahun }}" name="tahun" class="form-control">
                     <!-- Baris Kode Rekening -->
                     <div class="row g-2 align-items-center mb-3 ms-1 me-1">
                         <div class="col-12 col-md-4 input-group-sm">
@@ -53,7 +55,7 @@
                                 <label class="fs-12 txt-tb-grey">uraian keluaran</label>
                                 <input type="text" value="{{ $realisasi->uraian_keluaran }}"
                                     class="form-control form-control-sm rounded-1" name="uraian_keluaran"
-                                    placeholder="uraian keluaran" disabled/>
+                                    placeholder="uraian keluaran" readonly />
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">volume</label>
@@ -80,7 +82,8 @@
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text rounded-1 text-secondary">Rp</span>
                                     <input value="{{ $realisasi->BLT }}" required type="number"
-                                        class="form-control rounded-1" name="BLT" placeholder="masukkan jumlah BLT" />
+                                        class="form-control rounded-1" name="BLT"
+                                        placeholder="masukkan jumlah BLT" />
                                 </div>
                             </div>
                             <div class="mb-2">
@@ -96,17 +99,29 @@
                                 <label class="fs-12 txt-tb-grey">cara pengadaan</label>
                                 <input required value="{{ $realisasi->cara_pengadaan }}" type="text"
                                     class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                    placeholder="cara_pengadaan" disabled/>
+                                    placeholder="cara_pengadaan" readonly />
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">tahun</label>
-                                <select name="tahun" required disabled
-                                    class="form-select form-select-sm rounded-1 text-secondary">
-                                    <option value="">pilih tahun</option>
-                                    <option value="2024" {{ $realisasi->tahun == 2024 ? 'selected' : '' }}>2024</option>
-                                    <option value="2025" {{ $realisasi->tahun == 2025 ? 'selected' : '' }}>2025</option>
+                                <select name="tahun" disabled
+                                    class="form-select form-select-sm rounded-1 text-secondary" required>
+                                    <option value="">Pilih tahun</option>
+                                    <option value="2024"
+                                        {{ old('tahun', $realisasi?->tahun) == 2024 ? 'selected' : '' }}>2024</option>
+                                    <option value="2025"
+                                        {{ old('tahun', $realisasi?->tahun) == 2025 ? 'selected' : '' }}>2025</option>
                                 </select>
-
+                                @error('tahun')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="mb-2">
+                                <label class="fs-12 txt-tb-grey">tahap pencairan</label>
+                                <input value="{{ old('tahap', $realisasi?->tahap) }}" type="number" name="tahap"
+                                    class="form-control form-control-sm rounded-1" placeholder="durasi" disabled />
+                                @error('tahap')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">realisasi keuangan</label>
@@ -134,7 +149,8 @@
                     <!-- Tombol -->
                     <div class="row align-items-center">
                         <div class="col-md-12 d-flex justify-content-end">
-                        <a href="{{ route('kecamatan.realisasi.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
+                            <a href="{{ route('kecamatan.realisasi.index') }}"
+                                class="btn btn-danger btn-sm fs-12 text-white me-2">
                                 <i class="bi bi-x-square"></i> batal
                             </a>
                             <button type="submit" class="btn btn-success btn-sm fs-12 text-white">

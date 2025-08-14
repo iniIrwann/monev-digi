@@ -54,7 +54,7 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-1 d-grid">
-                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
+                            <button type="submit" class="btn btn-success fs-12 text-white">
                                 <i class="bi bi-filter"></i>
                             </button>
                         </div>
@@ -72,9 +72,9 @@
                 </button>
                 <p class="fs-12 my-2">
                     @if ($desa)
-                        kinerja dan anggaran dana <span class="fw-bold">{{ $desa->desa }}</span> tahun
-                        {{ $tahun ?? '( semua tahun )' }}. <span
-                            class="fw-bold">{{ $bidang->nama_bidang ?? 'semua bidang' }}</span>
+                        kinerja dan anggaran dana <span class="fw-bold">{{ $desa->desa }}</span> 
+                        <span class="fw-bold"> {{ $tahun ?? '( semua tahun )' }}, </span>
+                        <span class="fw-bold">{{ $bidang->nama_bidang ?? '( semua bidang )' }}</span>
                     @else
                         Menampilkan Semua Target Desa.
                     @endif
@@ -82,15 +82,18 @@
 
                 <hr />
                 <form action=" {{ route('kecamatan.target.index') }} " method="GET" class="mb-3">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-
-                        <!-- Input text -->
-                        <input type="text" name="query" class="form-control form-control-sm" placeholder="Pencarian..."
-                            style="width: 300px" />
-                        <!-- Tombol cari -->
-                        <button type="submit" class="btn btn-success btn-sm text-white">
-                            <i class="bi bi-search me-1"></i> Cari
-                        </button>
+                    <div class="row g-3 mb-2">
+                        <div class="col-auto">
+                            <!-- Input text -->
+                            <input type="text" name="query" class="form-control form-control-sm w-100"
+                                placeholder="Pencarian..." />
+                        </div>
+                        <div class="col-auto">
+                            <!-- Tombol cari -->
+                            <button type="submit" class="btn btn-success fs-12 text-white">
+                                <i class="bi bi-search me-1"></i> Cari
+                            </button>
+                        </div>
                     </div>
                 </form>
 
@@ -449,8 +452,8 @@
                                                 data-bs-dismiss="modal">
                                                 <i class="bi bi-x-square"></i> batal
                                             </button>
-                                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
-                                                <i class="bi bi-save"></i> simpan perubahan
+                                            <button type="submit" class="btn btn-warning btn-sm fs-12 text-white">
+                                                <i class="bi bi-pencil-fill me-1"></i> Edit bidang
                                             </button>
                                         </div>
                                     </div>
@@ -514,10 +517,16 @@
                                         </div>
                                     </div>
 
-                                    <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-sm btn-danger me-2"
-                                            data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                                    <div class="row align-items-center">
+                                        <div class="col-md-12 d-flex justify-content-end">
+                                            <button type="button" class="btn btn-danger btn-sm fs-12 text-white me-2"
+                                                data-bs-dismiss="modal">
+                                                <i class="bi bi-x-square"></i> batal
+                                            </button>
+                                            <button type="submit" class="btn btn-warning btn-sm fs-12 text-white">
+                                                <i class="bi bi-pencil-fill me-1"></i> Edit kegiatan
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
 
@@ -536,7 +545,7 @@
                             <div class="modal-body p-4">
                                 <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteBidang">Konfirmasi Hapus
                                     Bidang</h5>
-                                <p class="text-muted mb-3">
+                                <p class="text-muted mb-3 fs-14">
                                     Tindakan ini akan <strong>menghapus bidang secara permanen</strong> beserta seluruh
                                     <strong>kegiatan</strong> dan <strong> sub kegiatan</strong> yang ada di dalamnya. Data
                                     yang terhapus tidak dapat
@@ -551,12 +560,12 @@
 
                                     <!-- Aksi -->
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                                        <button type="button" class="btn btn-outline-danger btn-sm me-2"
                                             data-bs-dismiss="modal">
                                             <i class="bi bi-x-square"></i> Batal
                                         </button>
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Hapus Sekarang
+                                            <i class="bi bi-trash"></i> Hapus
                                         </button>
                                     </div>
                                 </form>
@@ -573,7 +582,7 @@
                                 <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteKegiatan">Konfirmasi
                                     Hapus
                                     Kegiatan</h5>
-                                <p class="text-muted mb-3">
+                                <p class="text-muted mb-3 fs-14">
                                     Tindakan ini akan <strong>menghapus kegiatan secara permanen</strong> beserta seluruh
                                     <strong>sub kegiatan</strong> yang ada di dalamnya. Data
                                     yang terhapus tidak dapat
@@ -588,12 +597,12 @@
 
                                     <!-- Aksi -->
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                                        <button type="button" class="btn btn-outline-danger btn-sm me-2"
                                             data-bs-dismiss="modal">
                                             <i class="bi bi-x-square"></i> Batal
                                         </button>
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Hapus Sekarang
+                                            <i class="bi bi-trash"></i> Hapus
                                         </button>
                                     </div>
                                 </form>
@@ -611,7 +620,7 @@
                                 <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteSubKegiatan">Konfirmasi
                                     Hapus
                                     Sub Kegiatan</h5>
-                                <p class="text-muted mb-3">
+                                <p class="text-muted mb-3 fs-14">
                                     Tindakan ini akan menghapus <strong>sub kegiatan target</strong> dan <strong>data sub
                                         kegiatan di realisasi secara permanen</strong>. Data
                                     yang terhapus tidak dapat
@@ -626,12 +635,12 @@
 
                                     <!-- Aksi -->
                                     <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                                        <button type="button" class="btn btn-outline-danger btn-sm me-2"
                                             data-bs-dismiss="modal">
                                             <i class="bi bi-x-square"></i> Batal
                                         </button>
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Hapus Sekarang
+                                            <i class="bi bi-trash"></i> Hapus
                                         </button>
                                     </div>
                                 </form>

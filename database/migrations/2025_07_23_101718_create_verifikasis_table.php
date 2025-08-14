@@ -10,13 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('realisasi_tahaps', function (Blueprint $table) {
+        Schema::create('verifikasis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('realisasi_id')->constrained()->onDelete('cascade');
-
+            $table->text('catatan')->nullable();
+            $table->text('tindak_lanjut')->nullable();
+            $table->text('rekomendasi')->nullable();
             $table->timestamps();
         });
-
     }
 
     /**
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('realisasi_tahaps');
+        Schema::dropIfExists('verifikasis');
     }
 };

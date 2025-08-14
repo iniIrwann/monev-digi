@@ -119,6 +119,14 @@
                 </li>
                 <!-- Menu User -->
                 <li class="nav-item">
+                    <a href="{{ route('kecamatan.verifikasi.index') }}"
+                        class="{{ Request::is('kecamatan/verifikasi*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                        verifikasi
+                        <i
+                            class="bi bi-patch-check-fill {{ Request::is('kecamatan/verifikasi*') ? 'tx-orange' : 'text-dark' }}"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('kecamatan.dataDesa.index') }}"
                         class="{{ Request::is('kecamatan/data-desa*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
                         data desa

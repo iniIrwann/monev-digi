@@ -3,144 +3,132 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bidang;
+use App\Models\Kegiatan;
 use App\Models\Realisasi;
+use App\Models\SubKegiatan;
 use App\Models\Target;
+use DB;
 use Illuminate\Http\Request;
 
 class CapaianController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $tahun = $request->input('tahun');
         $bidangId = $request->input('bidang');
-        $search = $request->input('query');
+        $search = trim($request->input('query'));
 
-        // Ambil semua bidang (untuk dropdown filter)   
+        if ($bidangId) {
+            $bidang = Bidang::find($bidangId);
+        }
+
+        // Ambil bidang berdasarkan desa (jika dipilih)
         $filterBidangs = Bidang::userOnly()->select('id', 'nama_bidang')->get();
 
-        // Query utama
-        $query = Bidang::userOnly()->with(['kegiatan.subkegiatan.realisasis.capaian.target']);
 
-        // Filter Tahun
+        // Query utama dengan eager loading
+        $query = Bidang::userOnly()->with([
+            'kegiatan.subkegiatan.realisasis',
+            'kegiatan.subkegiatan.targets'
+        ]);
+
+        // Filter by bidang
+        if ($bidangId) {
+            $query->where('id', $bidangId);
+        }
+
+        // Filter by tahun
         if ($tahun) {
             $query->whereHas('kegiatan.subkegiatan.realisasis', function ($q) use ($tahun) {
                 $q->where('tahun', $tahun);
             });
         }
 
-        // $persen = $request->input('persen');
-
-        // if ($persen !== null) {
-        //     $query->whereHas('kegiatan.subkegiatan.realisasis.capaian', function ($q) use ($persen) {
-        //         $q->where('persen_capaian_keluaran', '>=', $persen);
-        //     });
-        // }
-
-
-        if ($bidangId) {
-            $query->where('id', $bidangId);
-        }
-
-        // Filter pencarian
+        // Filter by search query
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_bidang', 'like', "%$search%")
+                $q->where('nama_bidang', 'like', "%{$search}%")
                     ->orWhereHas('kegiatan', function ($q2) use ($search) {
-                        $q2->where('nama_kegiatan', 'like', "%$search%");
+                        $q2->where('nama_kegiatan', 'like', "%{$search}%");
                     })
                     ->orWhereHas('kegiatan.subkegiatan', function ($q2) use ($search) {
-                        $q2->where('nama_subkegiatan', 'like', "%$search%");
+                        $q2->where('nama_subkegiatan', 'like', "%{$search}%");
                     })
                     ->orWhereHas('kegiatan.subkegiatan.realisasis', function ($q2) use ($search) {
-                        $q2->where('uraian_keluaran', 'like', "%$search%");
+                        $q2->where('uraian_keluaran', 'like', "%{$search}%");
                     });
             });
         }
 
-        // Pagination
+        // Ambil data dengan pagination
         $data = $query->paginate(5)->appends($request->query());
 
-        return view('page.capaian.capaian', compact('data', 'filterBidangs'));
+        // Aggregate volume_keluaran for each subkegiatan
+        foreach ($data as $bidang) {
+            foreach ($bidang->kegiatan as $kegiatan) {
+                foreach ($kegiatan->subkegiatan as $sub) {
+                    $realisasiAggregated = Realisasi::where('bidang_id', $bidang->id)
+                        ->where('kegiatan_id', $kegiatan->id)
+                        ->where('sub_kegiatan_id', $sub->id)
+                        ->select(
+                            DB::raw('SUM(volume_keluaran) as total_volume_keluaran'),
+                            DB::raw('SUM(realisasi_keuangan) as total_realisasi_keuangan')
+                        )
+                        ->first();
+
+                    $sub->total_volume_keluaran = $realisasiAggregated->total_volume_keluaran ?? 0;
+                    $sub->total_realisasi_keuangan = $realisasiAggregated->total_realisasi_keuangan ?? 0;
+
+                    // Set target and capaian to the first Target object
+                    $target = $sub->targets->first();
+                    $sub->target = $target;
+                    $sub->capaian = $target;
+                }
+            }
+        }
+
+        return view('page.capaian.capaian', compact(
+            'data',
+            'filterBidangs',
+            'bidang',
+            'tahun',
+            'search'
+        ));
     }
 
     public function detail($bidang_id, $kegiatan_id, $subkegiatan_id)
     {
-        // Ambil data capaian lengkap berdasarkan relasi
-        $capaian = Bidang::userOnly()->with(['kegiatan.subkegiatan.realisasis.capaian.target'])
-            ->where('id', $bidang_id)
-            ->first();
+        $bidang = Bidang::findOrFail($bidang_id);
+        $kegiatan = Kegiatan::findOrFail($kegiatan_id);
+        $subkegiatan = SubKegiatan::with('targets')->findOrFail($subkegiatan_id);
 
-        if (!$capaian) {
-            abort(404, 'Capaian not found');
-        }
-        // Ambil realisasi berdasarkan bidang, kegiatan, dan subkegiatan
-        $realisasi = Realisasi::userOnly()->where('bidang_id', $bidang_id)
+        // Fetch target data
+        $target = $subkegiatan->targets->first();
+
+        // Fetch realisasi data for Tahap 1 and Tahap 2
+        $tahap1Data = Realisasi::userOnly()->where('bidang_id', $bidang_id)
             ->where('kegiatan_id', $kegiatan_id)
             ->where('sub_kegiatan_id', $subkegiatan_id)
-            ->whereHas('capaian')
+            ->where('tahap', 1)
             ->first();
-        $target = Target::userOnly()->where('bidang_id', $bidang_id)
+
+        $tahap2Data = Realisasi::where('bidang_id', $bidang_id)
             ->where('kegiatan_id', $kegiatan_id)
             ->where('sub_kegiatan_id', $subkegiatan_id)
-            ->whereHas('capaian')
+            ->where('tahap', 2)
             ->first();
 
-        $bidang = Bidang::userOnly()->findOrFail($bidang_id);
-        $kegiatan = $bidang->kegiatan()->findOrFail($kegiatan_id);
-        $subkegiatan = $kegiatan->subkegiatan()->findOrFail($subkegiatan_id);
+        // Fetch capaian from the first target
+        $capaian = $target;
 
-        return view('page.capaian.detail', compact('capaian', 'bidang', 'kegiatan', 'subkegiatan', 'realisasi', 'target'));
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('page.capaian.detail', compact(
+            'bidang',
+            'kegiatan',
+            'subkegiatan',
+            'target',
+            'tahap1Data',
+            'tahap2Data',
+            'capaian'
+        ));
     }
 }

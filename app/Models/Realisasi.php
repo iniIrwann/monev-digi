@@ -11,6 +11,7 @@ class Realisasi extends Model
         'bidang_id',
         'kegiatan_id',
         'sub_kegiatan_id',
+        'verifikasi_id',
         'user_id',
         'tahap',
         'uraian_keluaran',
@@ -25,6 +26,15 @@ class Realisasi extends Model
         'tahun',
         'keterangan',
     ];
+    public function verifikasi()
+    {
+        return $this->belongsTo(Verifikasi::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function subkegiatan()
     {
         return $this->belongsTo(SubKegiatan::class);
@@ -36,10 +46,6 @@ class Realisasi extends Model
     public function bidang()
     {
         return $this->belongsTo(Bidang::class);
-    }
-    public function capaian()
-    {
-        return $this->hasOne(Capaian::class, 'realisasi_id');
     }
     public function scopeUserOnly($query)
     {

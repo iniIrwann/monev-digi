@@ -8,16 +8,15 @@ class Capaian extends Model
 {
     protected $fillable = [
         'target_id',
-        'realisasi_id',
         'user_id',
         'persen_capaian_keluaran',
         'persen_capaian_keuangan',
         'sisa',
     ];
-    public function realisasi()
-    {
-        return $this->belongsTo(Realisasi::class, 'realisasi_id');
-    }
+    // public function realisasi()
+    // {
+    //     return $this->belongsTo(Realisasi::class, 'realisasi_id');
+    // }
 
     public function target()
     {

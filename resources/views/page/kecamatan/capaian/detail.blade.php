@@ -1,7 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Capaian - Monev Digi Dana Desa')
-
+@section('title', 'Detail Realisasi - Monev Digi Dana Desa')
 
 @section('main')
     <!-- Main content -->
@@ -10,222 +9,278 @@
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
                 <i class="bi bi-award-fill fs-16 text-white"></i>
             </div>
-            <p class="fs-14 ms-2 mb-0">Realisasi</p>
+            <p class="fs-14 ms-2 mb-0">Detail Realisasi {{ $subkegiatan->nama_subkegiatan }}</p>
         </div>
 
-        <!-- Tambah subkegiatan -->
-        <div class="card border-0 w-100 rounded-3 mb-4">
+        <!-- Detail View -->
+        <div class="card border-0 w-100 rd-5 mb-4">
             <div class="card-body p-3">
-                <p class="fs-14 sb mb-3">update realisasi subkegiatan</p>
+                <p class="fs-14 sb mb-3">Detail Realisasi Subkegiatan</p>
                 <hr class="my-1">
-                <form action="{{ route('kecamatan.realisasi.store.sub') }}" method="POST">
-                    @csrf
 
-                    <input type="hidden" value="{{ $bidang->id }}" name="bidang_id" class="form-control">
-                    <input type="hidden" value="{{ $kegiatan->id }}" name="kegiatan_id" class="form-control">
-                    <input type="hidden" value="{{ $subkegiatan->id }}" name="subkegiatan_id" class="form-control">
-                    <!-- Baris Kode Rekening -->
-                    <div class="row g-2 align-items-center mb-3 ms-1 me-1">
-                        <div class="col-12 col-md-4 input-group-sm">
-                            <label for="kode_bidang" class="form-label black fs-12">kode bidang</label>
-                            <input type="text" class="form-control form-control-sm w-100"
-                                value="{{ $bidang->kode_rekening }}" id="kode_bidang" placeholder="A" disabled>
-                        </div>
-                        <div class="col-12 col-md-4 input-group-sm">
-                            <label for="kode_kegiatan" class="form-label black fs-12">kode kegiatan</label>
-                            <input type="text" class="form-control form-control-sm w-100" id="kode_kegiatan"
-                                value="{{ $kegiatan->kode_rekening }}" placeholder="1" disabled>
-                        </div>
-                        <div class="col-12 col-md-4 input-group-sm">
-                            <label for="kode_subkegiatan" class="form-label black fs-12">kode subkegiatan</label>
-                            <input type="text" value="{{ $subkegiatan->kode_rekening }}"
-                                class="form-control form-control-sm w-100" id="kode_subkegiatan" placeholder="" disabled>
-                        </div>
+                <!-- Kode Rekening -->
+                <div class="row g-2 align-items-center mb-3">
+                    <div class="col-12 col-md-4">
+                        <label class="fs-12 mb-1">Kode Bidang</label>
+                        <input type="text" class="form-control fs-12" value="{{ $bidang->kode_rekening }}" readonly>
                     </div>
-                    <hr class="my-1">
+                    <div class="col-12 col-md-4">
+                        <label class="fs-12 mb-1">Kode Kegiatan</label>
+                        <input type="text" class="form-control fs-12" value="{{ $kegiatan->kode_rekening }}" readonly>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="fs-12 mb-1">Kode Subkegiatan</label>
+                        <input type="text" class="form-control fs-12" value="{{ $subkegiatan->kode_rekening }}" readonly>
+                    </div>
+                </div>
+                <hr class="my-1">
 
-                    <div class="row g-3 mb-3">
+                <div class="mb-3">
+                    <label class="fs-12 mb-1">Nama Subkegiatan</label>
+                    <input type="text" class="form-control fs-12" value="{{ $subkegiatan->nama_subkegiatan }}" readonly>
+                </div>
+
+                <div class="row mb-3">
+                    <span class="fw-bold fs-12">Capaian</span>
+                    <div class="col-md-4 mb-2">
+                        <label class="fs-12 mb-1">% Capaian Keluaran</label>
+                        <input type="text" class="form-control fs-12"
+                            value="{{ $capaian?->persen_capaian_keluaran ? number_format($capaian->persen_capaian_keluaran, 2) . ' %' : '-' }}"
+                            readonly>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="fs-12 mb-1">% Capaian Keuangan</label>
+                        <input type="text" class="form-control fs-12"
+                            value="{{ $capaian?->persen_capaian_keuangan ? number_format($capaian->persen_capaian_keuangan, 2) . ' %' : '-' }}"
+                            readonly>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="fs-12 mb-1">Sisa</label>
+                        <input type="text" class="form-control fs-12"
+                            value="{{ number_format($capaian?->sisa ?? 0, 0, ',', '.') }}" readonly>
+                    </div>
+                </div>
+
+                <!-- Target and Realisasi Columns -->
+                <div class="row g-3 mb-3">
+                    <!-- Kolom Kiri: Target -->
+                    <div class="col-md-6">
+                        <span class="fw-bold">Target</span>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">nama sub kegiatan</label>
-                            <input type="text" class="form-control form-control-sm rounded-1"
-                                value="{{ $subkegiatan->nama_subkegiatan }}" name="nama_subkegiatan"
-                                placeholder="nama sub kegiatan" disabled />
+                            <label class="fs-12 mb-1">Uraian Keluaran</label>
+                            <input type="text" class="form-control fs-12" value="{{ $target?->uraian_keluaran ?? '-' }}"
+                                readonly>
                         </div>
-                        <!-- Kolom Kiri -->
-                        <div class="col-md-6">
-                            <span>Target</span>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">uraian keluaran</label>
-                                <input type="text" value="{{ $target?->uraian_keluaran }}"
-                                    class="form-control form-control-sm rounded-1" name="uraian_keluaran"
-                                    placeholder="uraian keluaran" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">volume</label>
-                                <input required value="{{ $target?->volume_keluaran }}" type="number"
-                                    name="volume_keluaran" class="form-control form-control-sm rounded-1"
-                                    placeholder="volume" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">cara pengadaan</label>
-                                <input required value="{{ $target?->cara_pengadaan }}" type="text"
-                                    class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                    placeholder="cara_pengadaan" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">tahun</label>
-                                <select name="tahun" required class="form-select form-select-sm rounded-1 text-black">
-                                    <option value="">pilih tahun</option>
-                                    <option value="2024" {{ $target?->tahun == 2024 ? 'selected' : '' }}>2024
-                                    </option>
-                                    <option value="2025" {{ $target?->tahun == 2025 ? 'selected' : '' }}>2025
-                                    </option>
-                                </select>
-
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">anggaran target</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input value="{{ $target?->anggaran_target }}" required type="number"
-                                        name="anggaran_targetan" class="form-control rounded-1"
-                                        placeholder="anggaran target" />
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">periode pencarian</label>
-                                <input value="{{ $target?->durasi }}" required type="number" name="durasi"
-                                    class="form-control form-control-sm rounded-1" placeholder="durasi" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">jumlah KPM</label>
-                                <input value="{{ $target?->KPM }}" required type="number"
-                                    class="form-control form-control-sm rounded-1" name="KPM"
-                                    placeholder="jumlah KPM" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">tenaga kerja</label>
-                                <input required value="{{ $target?->tenaga_kerja }}" type="number"
-                                    class="form-control form-control-sm rounded-1" name="tenaga_kerja"
-                                    placeholder="jumlah tenaga kerja" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">upah</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input value="{{ $target?->upah }}" required type="number" name="upah"
-                                        class="form-control rounded-1" placeholder="upah" />
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">BLT</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input value="{{ $target?->BLT }}" required type="number"
-                                        class="form-control rounded-1" name="BLT"
-                                        placeholder="masukkan jumlah BLT" />
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">keterangan</label>
-                                <textarea required name="keterangan" class="form-control form-control-sm rounded-1" rows="3"
-                                    placeholder="keterangan">{{ $target?->keterangan }}</textarea>
+                        <div class="mb-2">
+                            <label class="fs-12 mb-1">Volume</label>
+                            <input type="text" class="form-control fs-12" value="{{ $target?->volume_keluaran ?? '-' }}"
+                                readonly>
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 mb-1">Cara Pengadaan</label>
+                            <input type="text" class="form-control fs-12" value="{{ $target?->cara_pengadaan ?? '-' }}"
+                                readonly>
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 mb-1">Tahun</label>
+                            <input type="text" class="form-control fs-12" value="{{ $target?->tahun ?? '-' }}" readonly>
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 mb-1">Anggaran Target</label>
+                            <div class="input-group">
+                                <span class="input-group-text fs-12">Rp</span>
+                                <input type="text" class="form-control fs-12"
+                                    value="{{ number_format($target?->anggaran_target ?? 0, 0, ',', '.') }}" readonly>
                             </div>
                         </div>
-
-                        <!-- Kolom Kanan -->
-                        <div class="col-md-6">
-                            <span>Realisasi</span>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">uraian keluaran</label>
-                                <input type="text" value="{{ $realisasi?->uraian_keluaran }}"
-                                    class="form-control form-control-sm rounded-1" name="uraian_keluaran"
-                                    placeholder="uraian keluaran" />
+                        <div class="mb-2">
+                            <label class="fs-12 mb-1">Periode Pencairan</label>
+                            <input type="text" class="form-control fs-12" value="{{ $target?->durasi ?? '-' }}"
+                                readonly>
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 mb-1">Jumlah KPM</label>
+                            <input type="text" class="form-control fs-12" value="{{ $target?->KPM ?? '-' }}" readonly>
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 mb-1">Tenaga Kerja</label>
+                            <input type="text" class="form-control fs-12" value="{{ $target?->tenaga_kerja ?? '-' }}"
+                                readonly>
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 mb-1">Upah</label>
+                            <div class="input-group">
+                                <span class="input-group-text fs-12">Rp</span>
+                                <input type="text" class="form-control fs-12"
+                                    value="{{ number_format($target?->upah ?? 0, 0, ',', '.') }}" readonly>
                             </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">volume</label>
-                                <input required value="{{ $realisasi?->volume_keluaran }}" type="number"
-                                    name="volume_keluaran" class="form-control form-control-sm rounded-1"
-                                    placeholder="volume" />
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 mb-1">BLT</label>
+                            <div class="input-group">
+                                <span class="input-group-text fs-12">Rp</span>
+                                <input type="text" class="form-control fs-12"
+                                    value="{{ number_format($target?->BLT ?? 0, 0, ',', '.') }}" readonly>
                             </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">cara pengadaan</label>
-                                <input required value="{{ $realisasi?->cara_pengadaan }}" type="text"
-                                    class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                    placeholder="cara_pengadaan" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">tahun</label>
-                                <select name="tahun" required class="form-select form-select-sm rounded-1 text-black">
-                                    <option value="">pilih tahun</option>
-                                    <option value="2024" {{ $realisasi?->tahun == 2024 ? 'selected' : '' }}>2024
-                                    </option>
-                                    <option value="2025" {{ $realisasi?->tahun == 2025 ? 'selected' : '' }}>2025
-                                    </option>
-                                </select>
-
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">realisasi keuangan</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input value="{{ $realisasi?->realisasi_keuangan }}" required type="number"
-                                        name="realisasi_keuangan" class="form-control rounded-1"
-                                        placeholder="realisasi keuangan" />
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">periode pencarian</label>
-                                <input value="{{ $realisasi?->durasi }}" required type="number" name="durasi"
-                                    class="form-control form-control-sm rounded-1" placeholder="durasi" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">jumlah KPM</label>
-                                <input value="{{ $realisasi?->KPM }}" required type="number"
-                                    class="form-control form-control-sm rounded-1" name="KPM"
-                                    placeholder="jumlah KPM" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">tenaga kerja</label>
-                                <input required value="{{ $realisasi?->tenaga_kerja }}" type="number"
-                                    class="form-control form-control-sm rounded-1" name="tenaga_kerja"
-                                    placeholder="jumlah tenaga kerja" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">upah</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input value="{{ $realisasi?->upah }}" required type="number" name="upah"
-                                        class="form-control rounded-1" placeholder="upah" />
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">BLT</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input value="{{ $realisasi?->BLT }}" required type="number"
-                                        class="form-control rounded-1" name="BLT"
-                                        placeholder="masukkan jumlah BLT" />
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">keterangan</label>
-                                <textarea required name="keterangan" class="form-control form-control-sm rounded-1" rows="3"
-                                    placeholder="keterangan">{{ $realisasi?->keterangan }}</textarea>
-                            </div>
-
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 mb-1">Keterangan</label>
+                            <textarea class="form-control fs-12" rows="3" readonly>{{ $target?->keterangan ?? '-' }}</textarea>
                         </div>
                     </div>
 
-                    <!-- Tombol -->
-                    <div class="row align-items-center">
-                        <div class="col-md-12 d-flex justify-content-end">
-                            <a href="{{ route('kecamatan.capaian.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
-                                <i class="bi bi-x-square"></i> Close
-                            </a>
+                    <!-- Kolom Kanan: Realisasi Tahap 1 dan Tahap 2 -->
+                    <div class="col-md-6">
+                        <span class="fw-bold">Realisasi</span>
+                        <div class="row">
+
+                            <!-- Tahap 1 -->
+                            <div class="col-md-6 mb-3">
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1"> <span class="fw-bold fs-12">Tahap 1</span>
+                                        Uraian Keluaran</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap1Data?->uraian_keluaran ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Volume</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap1Data?->volume_keluaran ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Cara Pengadaan</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap1Data?->cara_pengadaan ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Tahun</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap1Data?->tahun ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Realisasi Keuangan</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text fs-12">Rp</span>
+                                        <input type="text" class="form-control fs-12"
+                                            value="{{ number_format($tahap1Data?->realisasi_keuangan ?? 0, 0, ',', '.') }}"
+                                            readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Periode Pencairan</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap1Data?->durasi ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Jumlah KPM</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap1Data?->KPM ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Tenaga Kerja</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap1Data?->tenaga_kerja ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Upah</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text fs-12">Rp</span>
+                                        <input type="text" class="form-control fs-12"
+                                            value="{{ number_format($tahap1Data?->upah ?? 0, 0, ',', '.') }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">BLT</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text fs-12">Rp</span>
+                                        <input type="text" class="form-control fs-12"
+                                            value="{{ number_format($tahap1Data?->BLT ?? 0, 0, ',', '.') }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Keterangan</label>
+                                    <textarea class="form-control fs-12" rows="3" readonly>{{ $tahap1Data?->keterangan ?? '-' }}</textarea>
+                                </div>
+                            </div>
+
+                            <!-- Tahap 2 -->
+                            <div class="col-md-6 mb-3">
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1"> <span class="fw-bold fs-12">Tahap 2</span>
+                                        Uraian Keluaran</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap2Data?->uraian_keluaran ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Volume</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap2Data?->volume_keluaran ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Cara Pengadaan</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap2Data?->cara_pengadaan ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Tahun</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap2Data?->tahun ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Realisasi Keuangan</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text fs-12">Rp</span>
+                                        <input type="text" class="form-control fs-12"
+                                            value="{{ number_format($tahap2Data?->realisasi_keuangan ?? 0, 0, ',', '.') }}"
+                                            readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Periode Pencairan</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap2Data?->durasi ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Jumlah KPM</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap2Data?->KPM ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Tenaga Kerja</label>
+                                    <input type="text" class="form-control fs-12"
+                                        value="{{ $tahap2Data?->tenaga_kerja ?? '-' }}" readonly>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Upah</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text fs-12">Rp</span>
+                                        <input type="text" class="form-control fs-12"
+                                            value="{{ number_format($tahap2Data?->upah ?? 0, 0, ',', '.') }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">BLT</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text fs-12">Rp</span>
+                                        <input type="text" class="form-control fs-12"
+                                            value="{{ number_format($tahap2Data?->BLT ?? 0, 0, ',', '.') }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="fs-12 mb-1">Keterangan</label>
+                                    <textarea class="form-control fs-12" rows="3" readonly>{{ $tahap2Data?->keterangan ?? '-' }}</textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </form>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-end">
+                    <a href="{{ route('kecamatan.capaian.index') }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-left"></i> Kembali
+                    </a>
+                </div>
             </div>
         </div>
     </div>

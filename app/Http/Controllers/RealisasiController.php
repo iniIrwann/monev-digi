@@ -121,6 +121,59 @@ class RealisasiController extends Controller
         ));
     }
 
+    //  public function tahapdua(Request $request)
+    // {
+    //     $tahun = $request->input('tahun');
+    //     $bidangId = $request->input('bidang');
+    //     $search = $request->input('query');
+
+    //     // Ambil semua bidang (untuk dropdown filter)
+    //     $filterBidangs = Bidang::userOnly()->select('id', 'nama_bidang')->get();
+
+    //     // Query utama
+    //     $query = Bidang::userOnly()->with(['kegiatan.subkegiatan.realisasis']);
+
+    //     // Filter Tahun
+    //     if ($tahun) {
+    //         $query->whereHas('kegiatan.subkegiatan.realisasis', function ($q) use ($tahun) {
+    //             $q->where('tahun', $tahun);
+    //         });
+    //     }
+
+    //     if ($bidangId) {
+    //         $query->where('id', $bidangId);
+    //     }
+
+    //     // Filter pencarian
+    //     if (!empty($search)) {
+    //         $query->where(function ($q) use ($search) {
+    //             $q->where('nama_bidang', 'like', "%$search%")
+    //                 ->orWhereHas('kegiatan', function ($q2) use ($search) {
+    //                     $q2->where('nama_kegiatan', 'like', "%$search%");
+    //                 })
+    //                 ->orWhereHas('kegiatan.subkegiatan', function ($q2) use ($search) {
+    //                     $q2->where('nama_subkegiatan', 'like', "%$search%");
+    //                 })
+    //                 ->orWhereHas('kegiatan.subkegiatan.realisasis', function ($q2) use ($search) {
+    //                     $q2->where('uraian_keluaran', 'like', "%$search%");
+    //                 });
+    //         });
+    //     }
+
+    //     // Pagination
+    //     $data = $query->paginate(5)->appends($request->query());
+
+    //     return view('page.realisasi.realisasi_tahap2', compact('data', 'filterBidangs'));
+    // }
+
+    // public function total()
+    // {
+    //     // Contoh hitung total
+    //     // $total = Realisasi::sum('jumlah');
+
+    //     return view('page.realisasi.total_realisasi');
+    // }
+
     public function createSub($bidang_id, $kegiatan_id, $subkegiatan_id)
     {
         $tahap = request()->query('tahap', '');
@@ -186,7 +239,6 @@ class RealisasiController extends Controller
         }
 
         DB::transaction(function () use ($request, $target) {
-            // updateOrCreate Realisasi untuk tahap yang dikirim (1 atau 2)
             $realisasi = Realisasi::userOnly()->updateOrCreate(
                 [
                     'target_id' => $target->id,
@@ -211,26 +263,32 @@ class RealisasiController extends Controller
                 ]
             );
 
-            // Hitung capaian berdasarkan nilai di tahap yang diupdate (atau aggregate jika perlu, tapi disini per tahap)
+            // 🔹 Ambil semua realisasi (tahap 1 & 2) untuk target yang sama
+            $totalRealisasi = Realisasi::userOnly()
+                ->where('target_id', $target->id)
+                ->selectRaw('SUM(volume_keluaran) as total_volume, SUM(realisasi_keuangan) as total_keuangan')
+                ->first();
+
+            // 🔹 Hitung persentase capaian volume
             $persenan_capaian_volume = 0;
+            if ($target->volume_keluaran && $totalRealisasi->total_volume !== null) {
+                $persenan_capaian_volume = ($totalRealisasi->total_volume / $target->volume_keluaran) * 100;
+            }
+
+            // 🔹 Hitung persentase capaian keuangan
             $persenan_capaian_keuangan = 0;
-
-            if ($target->volume_keluaran && $realisasi->volume_keluaran !== null) {
-                $persenan_capaian_volume = ($realisasi->volume_keluaran / $target->volume_keluaran) * 100;
+            if ($target->anggaran_target && $totalRealisasi->total_keuangan !== null) {
+                $persenan_capaian_keuangan = ($totalRealisasi->total_keuangan / $target->anggaran_target) * 100;
             }
 
-            if ($target->anggaran_target && $realisasi->realisasi_keuangan !== null) {
-                $persenan_capaian_keuangan = ($realisasi->realisasi_keuangan / $target->anggaran_target) * 100;
-            }
+            // 🔹 Hitung sisa anggaran (pakai total dari tahap 1 & 2)
+            $sisa = ($totalRealisasi->total_keuangan ?? 0) - ($target->anggaran_target ?? 0);
 
-            $sisa = ($realisasi->realisasi_keuangan ?? 0) - ($target->anggaran_target ?? 0);
-
-            // simpan/ubah capaian (asumsi capaian per realisasi/tahap, jika capaian aggregate, perlu sum semua realisasi per target)
+            // 🔹 Simpan/ubah capaian (1 record per target)
             Capaian::userOnly()->updateOrCreate(
                 [
                     'target_id' => $target->id,
-                    'realisasi_id' => $realisasi->id,
-                    'user_id' => auth()->id(),
+                    'user_id' => $realisasi->user_id,
                 ],
                 [
                     'persen_capaian_keluaran' => $persenan_capaian_volume,
@@ -239,6 +297,7 @@ class RealisasiController extends Controller
                 ]
             );
         });
+
 
         return redirect()->route('desa.realisasi.index')->with('success', 'Data realisasi berhasil disimpan atau diperbarui.');
     }

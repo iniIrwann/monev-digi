@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create('capaians', function (Blueprint $table) {
             $table->id();
             $table->foreignId('target_id')->constrained()->onDelete('cascade');
-            $table->foreignId('realisasi_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('persen_capaian_keluaran')->nullable();
             $table->integer('persen_capaian_keuangan')->nullable();

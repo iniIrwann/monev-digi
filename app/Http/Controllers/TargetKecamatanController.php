@@ -150,6 +150,30 @@ class TargetKecamatanController extends Controller
         $subkegiatan->nama_subkegiatan = $request->nama_subkegiatan;
         $subkegiatan->save();
 
+        $realisasi1 = Realisasi::updateOrCreate([
+            'target_id' => $target->id,
+            'bidang_id' => $request->bidang_id,
+            'kegiatan_id' => $request->kegiatan_id,
+            'sub_kegiatan_id' => $subkegiatan->id,
+            'user_id' => $subkegiatan->user_id,
+            'tahap' => 1,
+        ], [
+            'uraian_keluaran' => $request->uraian_keluaran,
+            'cara_pengadaan' => $request->cara_pengadaan,
+            'tahun' => $request->tahun,
+        ]);
+        $realisasi2 = Realisasi::updateOrCreate([
+            'target_id' => $target->id,
+            'bidang_id' => $request->bidang_id,
+            'kegiatan_id' => $request->kegiatan_id,
+            'sub_kegiatan_id' => $subkegiatan->id,
+            'user_id' => $subkegiatan->user_id,
+            'tahap' => 2,
+        ], [
+            'uraian_keluaran' => $request->uraian_keluaran,
+            'cara_pengadaan' => $request->cara_pengadaan,
+            'tahun' => $request->tahun,
+        ]);
 
         // Update atau isi data
         $target->volume_keluaran = $request->volume_keluaran;
@@ -289,16 +313,31 @@ class TargetKecamatanController extends Controller
             'tahun' => $request->tahun,
             'keterangan' => $request->keterangan,
         ]);
-        $realisasi = Realisasi::updateOrCreate([
+        $realisasi1 = Realisasi::updateOrCreate([
             'target_id' => $target->id,
             'bidang_id' => $request->bidang_id,
             'kegiatan_id' => $request->kegiatan_id,
             'sub_kegiatan_id' => $sub->id,
             'user_id' => $bidang->user_id,
+            'tahap' => 1,
+            'uraian_keluaran' => $request->uraian_keluaran,
+            'cara_pengadaan' => $request->cara_pengadaan,
+            'tahun' => $request->tahun,
         ]);
+        $realisasi2 = Realisasi::updateOrCreate([
+            'target_id' => $target->id,
+            'bidang_id' => $request->bidang_id,
+            'kegiatan_id' => $request->kegiatan_id,
+            'sub_kegiatan_id' => $sub->id,
+            'user_id' => $bidang->user_id,
+            'tahap' => 2,
+            'uraian_keluaran' => $request->uraian_keluaran,
+            'cara_pengadaan' => $request->cara_pengadaan,
+            'tahun' => $request->tahun,
+        ]);
+
         Capaian::create([
             'target_id' => $target->id,
-            'realisasi_id' => $realisasi->id,
             'user_id' => $bidang->user_id,
         ]);
 

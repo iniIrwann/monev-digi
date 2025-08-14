@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Realisasi;
 use App\Models\Target;
 use App\Models\Capaian;
-use Illuminate\Container\Attributes\DB;
-// use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -15,24 +14,32 @@ class DashboardController extends Controller
     {
         return view('page.kecamatan.dashboard.index');
     }
+
     public function index()
     {
         $userId = auth()->id(); // Ambil ID user yang sedang login
 
-        // Jumlah realisasi yang sudah terpenuhi milik user
-        $totalRealisasiTepenuhi = Realisasi::where('user_id', $userId)
-            ->whereNotNull('realisasi_keuangan')
-            ->where('realisasi_keuangan', '!=', '')
+        // Aggregate Realisasi data by target_id, bidang_id, kegiatan_id, sub_kegiatan_id
+        $realisasiAggregated = Realisasi::where('user_id', $userId)
+            ->select(
+                'target_id',
+                DB::raw('SUM(realisasi_keuangan) as total_realisasi_keuangan'),
+                DB::raw('SUM(volume_keluaran) as total_volume_keluaran'),
+                DB::raw('COUNT(*) as tahap_count')
+            )
+            ->groupBy('target_id', 'bidang_id', 'kegiatan_id', 'sub_kegiatan_id')
+            ->get();
+
+        // Jumlah realisasi yang sudah terpenuhi (realisasi_keuangan > 0 after summing both tahap)
+        $totalRealisasiTerpenuhi = $realisasiAggregated
+            ->where('total_realisasi_keuangan', '>', 0)
             ->count();
 
-        $jumlahTerpenuhi = $totalRealisasiTepenuhi;
+        $jumlahTerpenuhi = $totalRealisasiTerpenuhi;
 
-        // Jumlah realisasi yang belum terpenuhi milik user
-        $jumlahBelumTerpenuhi = Realisasi::where('user_id', $userId)
-            ->where(function ($q) {
-                $q->whereNull('realisasi_keuangan')
-                    ->orWhere('realisasi_keuangan', '');
-            })
+        // Jumlah realisasi yang belum terpenuhi (realisasi_keuangan = 0 or null after summing both tahap)
+        $jumlahBelumTerpenuhi = $realisasiAggregated
+            ->where('total_realisasi_keuangan', 0)
             ->count();
 
         // Total target milik user
@@ -41,7 +48,7 @@ class DashboardController extends Controller
         // Total capaian milik user
         $totalCapaian = Capaian::where('user_id', $userId)->count();
 
-        // Capaian sempurna milik user
+        // Capaian sempurna milik user (aggregate realisasi per target)
         $jumlahCapaianSempurna = Capaian::where('user_id', $userId)
             ->where('persen_capaian_keluaran', '>=', 100)
             ->where('persen_capaian_keuangan', '>=', 100)
@@ -62,7 +69,7 @@ class DashboardController extends Controller
         $labels = $targetPerTanggal->pluck('tanggal')->toArray();
         $data = $targetPerTanggal->pluck('total')->toArray();
 
-        // --- Kategori capaian keluaran milik user ---
+        // Kategori capaian keluaran milik user
         $kategoriKeluaran = [
             'sangat_kurang' => Capaian::where('user_id', $userId)->where('persen_capaian_keluaran', '<', 40)->count(),
             'kurang' => Capaian::where('user_id', $userId)->whereBetween('persen_capaian_keluaran', [40, 59.99])->count(),
@@ -71,7 +78,7 @@ class DashboardController extends Controller
             'sangat_baik' => Capaian::where('user_id', $userId)->where('persen_capaian_keluaran', '>=', 90)->count(),
         ];
 
-        // --- Kategori capaian keuangan milik user ---
+        // Kategori capaian keuangan milik user
         $kategoriKeuangan = [
             'sangat_rendah' => Capaian::where('user_id', $userId)->where('persen_capaian_keuangan', '<', 40)->count(),
             'kurang' => Capaian::where('user_id', $userId)->whereBetween('persen_capaian_keuangan', [40, 59.99])->count(),
@@ -80,8 +87,22 @@ class DashboardController extends Controller
             'sangat_baik' => Capaian::where('user_id', $userId)->where('persen_capaian_keuangan', '>=', 90)->count(),
         ];
 
+        $jumlahRealisasiTerpenuhi = Realisasi::where('user_id', $userId)
+            ->select(
+                'target_id',
+                DB::raw('COUNT(*) as total_rows'),
+                DB::raw('SUM(CASE WHEN volume_keluaran IS NOT NULL AND volume_keluaran != 0
+                           AND realisasi_keuangan IS NOT NULL AND realisasi_keuangan != 0
+                           THEN 1 ELSE 0 END) as filled_count')
+            )
+            ->groupBy('target_id')
+            ->havingRaw('total_rows = filled_count')
+            ->count();
+
+
         return view('page.dashboard.dashboard', compact(
-            'totalRealisasiTepenuhi',
+            'totalRealisasiTerpenuhi',
+            'jumlahRealisasiTerpenuhi',
             'jumlahTerpenuhi',
             'jumlahBelumTerpenuhi',
             'totalTarget',
@@ -94,6 +115,4 @@ class DashboardController extends Controller
             'kategoriKeuangan'
         ));
     }
-
-
 }
