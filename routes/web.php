@@ -8,6 +8,7 @@ use App\Http\Controllers\RealisasiKecamatanController;
 use App\Http\Controllers\TargetDesaController;
 use App\Http\Controllers\RealisasiController;
 use App\Http\Controllers\TargetKecamatanController;
+use App\Http\Controllers\VerifikasiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,6 +28,8 @@ Route::middleware(['auth', 'role:desa'])
         // Resource
         Route::resource('target', TargetDesaController::class);
         Route::resource('realisasi', RealisasiController::class);
+        Route::get('/realisasi/tahapdua', [RealisasiController::class, 'tahapdua'])->name('realisasi.tahapdua');
+        Route::get('/realisasi/total', [RealisasiController::class, 'total'])->name('realisasi.total');
         Route::resource('capaian', CapaianController::class);
 
         // Target Detail, Edit
@@ -72,6 +75,8 @@ Route::prefix('kecamatan')
         Route::resource('target', TargetKecamatanController::class);
         Route::resource('realisasi', RealisasiKecamatanController::class);
         Route::resource('capaian', CapaianController::class);
+        // verifikasi
+        Route::get('verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
 
 
         Route::delete('/realisasi/delete-sub/{id}', [RealisasiKecamatanController::class, 'deleteSubKegiatan'])->name('realisasi.sub.delete');

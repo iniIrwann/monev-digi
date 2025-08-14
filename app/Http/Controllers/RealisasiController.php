@@ -59,6 +59,60 @@ class RealisasiController extends Controller
 
         return view('page.realisasi.realisasi', compact('data', 'filterBidangs'));
     }
+
+     public function tahapdua(Request $request)
+    {
+        $tahun = $request->input('tahun');
+        $bidangId = $request->input('bidang');
+        $search = $request->input('query');
+
+        // Ambil semua bidang (untuk dropdown filter)
+        $filterBidangs = Bidang::userOnly()->select('id', 'nama_bidang')->get();
+
+        // Query utama
+        $query = Bidang::userOnly()->with(['kegiatan.subkegiatan.realisasis']);
+
+        // Filter Tahun
+        if ($tahun) {
+            $query->whereHas('kegiatan.subkegiatan.realisasis', function ($q) use ($tahun) {
+                $q->where('tahun', $tahun);
+            });
+        }
+
+        if ($bidangId) {
+            $query->where('id', $bidangId);
+        }
+
+        // Filter pencarian
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_bidang', 'like', "%$search%")
+                    ->orWhereHas('kegiatan', function ($q2) use ($search) {
+                        $q2->where('nama_kegiatan', 'like', "%$search%");
+                    })
+                    ->orWhereHas('kegiatan.subkegiatan', function ($q2) use ($search) {
+                        $q2->where('nama_subkegiatan', 'like', "%$search%");
+                    })
+                    ->orWhereHas('kegiatan.subkegiatan.realisasis', function ($q2) use ($search) {
+                        $q2->where('uraian_keluaran', 'like', "%$search%");
+                    });
+            });
+        }
+
+        // Pagination
+        $data = $query->paginate(5)->appends($request->query());
+
+        return view('page.realisasi.realisasi_tahap2', compact('data', 'filterBidangs'));
+    }
+
+    public function total()
+    {
+        // Contoh hitung total
+        // $total = Realisasi::sum('jumlah');
+
+        return view('page.realisasi.total_realisasi');
+    }
+
     public function createSub($bidang_id, $kegiatan_id, $subkegiatan_id)
     {
         // Validasi dan ambil data

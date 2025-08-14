@@ -8,9 +8,9 @@
     <div class="main-content ps-3 pe-3 pt-4">
         <div class="d-flex align-items-center mb-2 mb-md-0 pb-4">
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
-                <i class="bibi-patch-check-fill fs-16 text-white"></i>
+                <i class="bi bi-list-check fs-16 text-white"></i>
             </div>
-            <p class="fs-14 ms-2 mb-0">Verifikasi</p>
+            <p class="fs-14 ms-2 mb-0">Realisasi</p>
         </div>
 
         <!-- filter -->
@@ -18,6 +18,11 @@
             <div class="card-body p-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <p class="fs-18 mb-0">Filter</p>
+                </div>
+                <div class="tab-container mb-3">
+                    <a href="{{ route('desa.realisasi.index') }}" class="tab-link">Tahap 1</a>
+                    <a href="{{ route('desa.realisasi.tahapdua') }}" class="tab-link active">Tahap 2</a>
+                    <a href="{{ route('desa.realisasi.total') }}" class="tab-link">Total Realisasi</a>
                 </div>
                 <form action="{{ route('desa.realisasi.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
@@ -60,11 +65,6 @@
         <!-- tabel -->
         <div class="card border-0 w-100 rd-5">
             <div class="card-body p-3">
-                <div class="tab-container mb-3">
-                    <a href="{{ route('desa.realisasi.index') }}" class="tab-link active">Tahap 1</a>
-                    <a href="{{ route('desa.realisasi.tahapdua') }}" class="tab-link">Tahap 2</a>
-                    <a href="{{ route('desa.realisasi.total') }}" class="tab-link">Total Realisasi</a>
-                </div>
                 <form action=" {{ route('desa.realisasi.index') }} " method="GET" class="mb-3">
                     <div class="row g-3 mb-2">
                         <div class="col-auto">

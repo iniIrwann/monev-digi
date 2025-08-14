@@ -5,11 +5,17 @@
     <div class="main-content ps-3 pe-3 pt-4">
         <div class="d-flex align-items-center mb-2 mb-md-0 pb-4">
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
-                <i class="bi bi-bullseye fs-16 text-white"></i>
+                <i class="bi bi-patch-check-fill fs-16 text-white"></i>
             </div>
-            <p class="fs-14 ms-2 mb-0">Realisasi</p>
+            <p class="fs-14 ms-2 mb-0">Verifikasi</p>
         </div>
 
+        {{-- peringatan --}}
+        <div class="card border-0 w-100 rd-5 mb-3">
+            <div class="card-body pt-3 px-3 pb-1">
+                <p class="fs-12">Halaman ini berisi Aktifitas Verifikator untuk memberikan memverifikasi dengan melakukan pencatatan, memberikan tindak lanjut dan merekomendasikan hasil pemeriksaan dan hasil evaluasi realisasi capaian kinerja dan keuangan untuk Dana Desa di setiap Desa di Kecamatan Soreang.</p>
+            </div>
+        </div>
         <!-- filter -->
         <div class="card border-0 w-100 rd-5 mb-4">
             <div class="card-body p-3">
@@ -20,8 +26,26 @@
                 <form action="{{ route('kecamatan.realisasi.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
 
+                        <!-- Pilih kecamatan -->
+                        <div class="col-12 col-md-3">
+                            <label for="" class="fs-12 mb-1">Pilih Kecamatan</label>
+                            <select name="tahun" class="fs-12 form-select" disabled>
+                                <option value="">Kecamatan Soreang</option>
+                            </select>
+                        </div>
+
+                        <!-- Pilih Periode Capaian -->
+                        <div class="col-12 col-md-2">
+                            <label for="" class="fs-12 mb-1">Pilih Periode capaian</label>
+                            <select name="tahun" class="fs-12 form-select">
+                                <option value="">{{ __('-- Semua Tahun --') }}</option>
+                                <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>Tahun 2024</option>
+                                <option value="2025" {{ request('tahun') == '2025' ? 'selected' : '' }}>Tahun 2025</option>
+                            </select>
+                        </div>
+                        
                         <!-- Pilih Desa -->
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                             <label class="fs-12 mb-1">Pilih Desa</label>
                             <select name="desa" class="fs-12 form-select">
                                 <option value="">{{ __('-- Semua Desa --') }}</option>
@@ -33,18 +57,8 @@
                             </select>
                         </div>
 
-                        <!-- Pilih Tahun -->
-                        <div class="col-12 col-md-3">
-                            <label for="" class="fs-12 mb-1">Pilih Tahun</label>
-                            <select name="tahun" class="fs-12 form-select">
-                                <option value="">{{ __('-- Semua Tahun --') }}</option>
-                                <option value="2024" {{ request('tahun') == '2024' ? 'selected' : '' }}>Tahun 2024</option>
-                                <option value="2025" {{ request('tahun') == '2025' ? 'selected' : '' }}>Tahun 2025</option>
-                            </select>
-                        </div>
-
                         <!-- Pilih Bidang (tergantung desa) -->
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                             <label for="" class="fs-12 mb-1">Pilih Bidang</label>
                             <select name="bidang" class="fs-12 form-select">
                                 <option value="">{{ __('-- Semua Bidang --') }}</option>
@@ -69,13 +83,19 @@
         <!-- tabel -->
         <div class="card border-0 w-100 rd-5">
             <div class="card-body p-3">
+                <div class="tab-container mb-3">
+                    <a href="{{ route('desa.realisasi.index') }}" class="tab-link active">Tahap 1</a>
+                    <a href="{{ route('desa.realisasi.tahapdua') }}" class="tab-link">Tahap 2</a>
+                    <a href="{{ route('desa.realisasi.total') }}" class="tab-link">Total Realisasi</a>
+                </div>
+                <p class="my-2 sb">Tabel Capaian Realisasi Kinerja dan Keuangan Dana Desa</p>
                 <p class="fs-12 my-2">
                     @if ($desa)
-                        kinerja dan anggaran dana <span class="fw-bold">{{ $desa->desa }}</span> 
-                        <span class="fw-bold"> {{ $tahun ?? '( semua tahun )' }}, </span>
-                        <span class="fw-bold">{{ $bidang->nama_bidang ?? '( semua bidang )' }}</span>
+                    Kecamatan : Kecamatan Soreang
+                    Periode Capaian : <span class="fw-bold"> {{ $tahun ?? '( semua tahun )' }}, </span> <br>
+                    Desa : <span class="fw-bold">{{ $desa->desa }}</span> <br>
                     @else
-                        Menampilkan Semua Realisasi Desa.
+                        {{-- kosong --}}
                     @endif
                 </p>
                 <hr />
@@ -109,11 +129,12 @@
                         <thead class="border-bottom" style="border-color: #999999">
                             <tr class="text-start">
                                 <th class="text-center">Aksi</th>
-                                <th>Kode<br />Rekening</th>
+                                <th>Kode Rekening</th>
                                 <th>Rencana Kegiatan</th>
-                                <th>Volume</th>
-                                <th>Uraian</th>
-                                <th>Realisasi Keuangan</th>
+                                <th>Catatan / Tindak Lanjut / Rekomendasi </th>
+                                <th>Sasaran / <br> Penerima Manfaat</th>
+                                <th>Target Volume</th>
+                                <th>Target Volume</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -143,16 +164,14 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-end">
-                                                    <a href="{{ route('kecamatan.realisasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
-                                                        class="btn btn-sm btn-secondary" title="Detail"><i class="bi bi-eye-fill"></i></a>
-
+                                                <a href="#"
+                                                    class="btn btn-sm btn-success tooltip-custom"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#ModalCatatanTidakLanjutRekomendasi">
+                                                        <i class="bi bi-clipboard-fill"></i>
+                                                    </a>
                                                     <a href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
-                                                        class="btn btn-sm btn-warning" title="Isi / Edit"><i class="bi bi-pencil-fill text-white"></i></a>
-
-                                                    <button type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#ModalDeleteSubKegiatanRealisasi"
-                                                        data-id-subKegiatan-realisasi-delete="{{ $sub->id }}"
-                                                        class="btn btn-sm btn-danger" title="Kosongkan"><i class="bi bi-trash-fill"></i></button>
+                                                        class="btn btn-sm btn-secondary" title="Isi / Edit"><i class="bi bi-eye-fill text-white"></i></a>
                                                 </div>
                                             </td>
                                             <td>
@@ -231,40 +250,62 @@
                         @endif
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Mengosongkan isi data (Modal) --}}
-    <div class="modal fade" id="ModalDeleteSubKegiatanRealisasi" tabindex="-1" aria-labelledby="DeleteSubKegiatan"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-0">
-                <div class="modal-body p-4">
-                    <h5 class="modal-title fs-16 fw-bold text-danger mb-3" id="DeleteSubKegiatan">Konfirmasi
-                        Hapus
-                        Sub Kegiatan</h5>
-                    <p class="text-muted mb-3">
-                        Tindakan ini akan menghapus <strong>semua isi data ( selain kode rekening, dan rencana kegiatan )
-                            secara permanen </strong>. Data yang terhapus tidak dapat dikembalikan.
-                    </p>
-
-                    <form id="formDeleteSubKegiatanRealisasi" method="POST" action="">
-                        @csrf
-                        @method('DELETE')
-
-                        <input type="hidden" id="dataIdSubKegiatanDeleteRealisasi" name="id">
-
-                        <!-- Aksi -->
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-outline-secondary btn-sm me-2" data-bs-dismiss="modal">
-                                <i class="bi bi-x-square"></i> Batal
-                            </button>
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="bi bi-trash"></i> Hapus Sekarang
-                            </button>
+                <!-- Modalcatatan/tidaklanjut/recomendasi -->
+                <div class="modal fade" id="ModalCatatanTidakLanjutRekomendasi" tabindex="-1" aria-labelledby="ModalCatatanTidakLanjutRekomendasiLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content rounded-0">
+                            <div class="modal-body p-3">
+                                <p class="modal-title fs-14 sb grey" id="ModalCatatanTidakLanjutRekomendasiLabel">
+                                    Catatan / Tidak Lanjut / Rekomendasi
+                                </p>
+                                <hr style="border: 1px solid #919191;" class="mb-3">
+                                
+                                <form action="" method="POST">
+                                    @csrf
+                                    <!-- Catatan -->
+                                    <div class="row g-2 align-items-center mb-2 ms-1 me-1">
+                                        <div class="col-3">
+                                            <label for="catatan" class="form-label black fs-12">Catatan</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <textarea class="form-control form-control-sm rounded-1" id="catatan" name="catatan" rows="3" placeholder="catatan"></textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Tindak Lanjut -->
+                                    <div class="row g-2 align-items-center mb-2 ms-1 me-1">
+                                        <div class="col-3">
+                                            <label for="tindaklanjut" class="form-label black fs-12">Tindak Lanjut</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <textarea class="form-control form-control-sm rounded-1" id="tindaklanjut" name="tindaklanjut" rows="3" placeholder="tindak lanjut"></textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <!-- Rekomendasi -->
+                                    <div class="row g-2 align-items-center mb-3 ms-1 me-1">
+                                        <div class="col-3">
+                                            <label for="rekomendasi" class="form-label black fs-12">Rekomendasi</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <textarea class="form-control form-control-sm rounded-1" id="rekomendasi" name="rekomendasi" rows="3" placeholder="rekomendasi"></textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Tombol -->
+                                    <div class="row align-items-center">
+                                        <div class="col-md-12 d-flex justify-content-end">
+                                            <button type="button" class="btn btn-danger btn-sm fs-12 text-white me-2"
+                                                data-bs-dismiss="modal"><i class="bi bi-x-square"></i> Batal</button>
+                                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white"><i
+                                                    class="bi bi-plus-square me-1"></i> Tambah</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
