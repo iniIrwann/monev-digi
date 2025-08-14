@@ -60,7 +60,15 @@
         <!-- tabel -->
         <div class="card border-0 w-100 rd-5">
             <div class="card-body p-3">
-                <form action=" {{ route('desa.realisasi.index') }} " method="GET" class="mb-3">
+                <div class="tab-container mb-3">
+                    <a href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => '1'])) }}"
+                        class="tab-link {{ $tahap === '1' ? 'active' : '' }}">Tahap 1</a>
+                    <a href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => '2'])) }}"
+                        class="tab-link {{ $tahap === '2' ? 'active' : '' }}">Tahap 2</a>
+                    <a href="{{ route('desa.realisasi.index') }}"
+                        class="tab-link {{ $tahap === '' ? 'active' : '' }}">Total Realisasi</a>
+                </div>
+                <form action="  " method="GET" class="mb-3">
                     <div class="row g-3 mb-2">
                         <div class="col-auto">
                             <!-- Input text -->
@@ -75,71 +83,91 @@
                         </div>
                     </div>
                 </form>
+                @php $tahap = isset($tahap) ? (string)$tahap : ''; @endphp
 
+                {{-- <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item">
+                        <a class="nav-link {{ $tahap === '1' ? 'active' : '' }}"
+                            href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => '1'])) }}">
+                            Tahap 1
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ $tahap === '2' ? 'active' : '' }}"
+                            href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => '2'])) }}">
+                            Tahap 2
+                        </a>
+                    </li>
+
+                    {{-- <li class="nav-item">
+                        <a class="nav-link {{ $tahap === '' ? 'active' : '' }}"
+                            href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => ''])) }}">
+                            Semua Tahap
+                        </a>
+                    </li>
+                </ul> --}}
                 <div class="table-responsive">
                     <table class="table align-middle fs-12 tx-gray">
                         <thead class="border-bottom" style="border-color: #999999">
-                            <tr class="text-start">
-                                <th class="text-center">Aksi</th>
-                                <th>Kode rekening</th>
-                                <th>Rencana kegiatan</th>
-                                <th>Volume</th>
-                                <th>Uraian</th>
-                                <th>Realisasi keuangan</th>
-                            </tr>
+                            @if ($tahap == 1 || $tahap == 2)
+                                {{-- Jika tahap = 1 atau 2 --}}
+                                <tr class="text-start">
+                                    <th class="text-center">Aksi</th>
+                                    <th>Kode rekening</th>
+                                    <th>Rencana kegiatan</th>
+                                    <th>Volume Fisik</th>
+                                    <th>Realisasi keuangan (Rp)</th>
+                                    <th>(%) Volume Fisik</th>
+                                    <th>(%) Realisasi keuangan</th>
+                                </tr>
+                            @else
+                                {{-- Jika tahap = all --}}
+                                <tr class="text-start">
+                                    <th class="text-center" rowspan="2">Aksi</th>
+                                    <th rowspan="2">Kode rekening</th>
+                                    <th rowspan="2">Rencana kegiatan</th>
+                                    <th colspan="2" class="text-center">Tahap 1</th>
+                                    <th colspan="2" class="text-center">Tahap 2</th>
+                                    <th colspan="4" class="text-center">Total</th>
+                                </tr>
+                                <tr class="text-start">
+                                    <th>Volume Fisik</th>
+                                    <th>Realisasi keuangan (Rp)</th>
+                                    <th>Volume Fisik</th>
+                                    <th>Realisasi keuangan (Rp)</th>
+                                    <th>Total Volume Fisik</th>
+                                    <th>(%) Volume Fisik</th>
+                                    <th>Total Keuangan</th>
+                                    <th>(%) Realisasi keuangan</th>
+                                </tr>
+                            @endif
                         </thead>
+
                         <tbody>
                             @foreach ($data as $bidang)
                                 <!-- BIDANG -->
                                 <tr>
                                     <td>
-                                        <div class="d-flex gap-1 justify-content-end">
-                                            {{-- Edit Bidang --}}
-                                            {{-- <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                data-bs-target="#ModalEditBidang" data-id-bidang-edit="{{ $bidang->id }}"
-                                                data-kode-bidang-edit="{{ $bidang->kode_rekening }}"
-                                                data-nama-bidang-edit="{{ $bidang->nama_bidang }}"
-                                                data-keterangan-bidang-edit="{{ $bidang->keterangan }}"><i
-                                                    class="bi bi-pencil-fill text-white"></i></button>
-                                            {{-- Delete Bidang
-                                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#ModalDeleteBidang"
-                                                data-id-bidang-delete="{{ $bidang->id }}"><i
-                                                    class="bi bi-trash-fill"></i></button> --}}
-                                        </div>
+                                        <div class="d-flex gap-1 justify-content-end"></div>
                                     </td>
                                     <td class="sb">{{ $bidang->kode_rekening }}</td>
                                     <td class="sb">{{ $bidang->nama_bidang }}</td>
-                                    <td colspan="4"></td>
+                                    <td colspan="9"></td> <!-- Sesuaikan colspan dengan jumlah kolom -->
                                 </tr>
 
                                 @foreach ($bidang->kegiatan as $kegiatan)
                                     <!-- KEGIATAN -->
                                     <tr>
                                         <td>
-                                            <div class="d-flex gap-1 justify-content-end">
-                                                {{-- <a href="#" class="btn btn-sm btn-secondary"><i
-                                                        class="bi bi-eye-fill"></i></a> --}}
-                                                {{-- <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#ModalEditKegiatan" data-id="{{ $kegiatan->id }}"
-                                                    data-kode-bidang="{{ $kegiatan->bidang->kode_rekening }}"
-                                                    data-kode-bidang-id="{{ $kegiatan->bidang->id }}"
-                                                    data-kode-kegiatan="{{ $kegiatan->kode_rekening }}"
-                                                    data-nama="{{ $kegiatan->nama_kegiatan }}"
-                                                    data-kategori="{{ $kegiatan->kategori }}"><i
-                                                        class="bi bi-pencil-fill text-white"></i></button> --}}
-                                                {{-- <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#ModalDeleteKegiatan"
-                                                    data-id-kegiatan-delete="{{ $kegiatan->id }}"><i
-                                                        class="bi bi-trash-fill"></i></button> --}}
-                                            </div>
+                                            <div class="d-flex gap-1 justify-content-end"></div>
                                         </td>
                                         <td>
                                             <span class="gap-td-table">{{ $bidang->kode_rekening }}</span>
                                             <span>{{ $kegiatan->kode_rekening }}</span>
                                         </td>
                                         <td class="ps-4">{{ $kegiatan->nama_kegiatan }}</td>
-                                        <td colspan="4"></td>
+                                        <td colspan="9"></td> <!-- Sesuaikan colspan dengan jumlah kolom -->
                                     </tr>
 
                                     @foreach ($kegiatan->subkegiatan as $sub)
@@ -147,17 +175,24 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-end">
-                                                    {{-- Tambah Kegiatan --}}
                                                     <a href="{{ route('desa.realisasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-secondary"><i class="bi bi-eye-fill"></i></a>
-                                                    <a href="{{ route('desa.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
-                                                        class="btn btn-sm btn-warning"><i
-                                                            class="bi bi-pencil-fill text-white"></i></a>
+                                                    @if ($tahap != '' && $sub->realisasis->isNotEmpty())
+                                                        <a href="{{ route('desa.realisasi.create.sub', [
+                                                            'bidang_id' => $bidang->id,
+                                                            'kegiatan_id' => $kegiatan->id,
+                                                            'subkegiatan_id' => $sub->id,
+                                                        ]) }}?tahap={{ $tahap }}"
+                                                            class="btn btn-sm btn-warning">
+                                                            <i class="bi bi-pencil-fill text-white"></i>
+                                                        </a>
+                                                    @endif
                                                     <button data-bs-toggle="modal"
                                                         data-bs-target="#ModalDeleteSubKegiatanRealisasi"
+                                                        data-tahap-subKegiatan-realisasi-delete="{{ $tahap }}"
                                                         data-id-subKegiatan-realisasi-delete="{{ $sub->id }}"
                                                         class="btn btn-sm btn-danger"><i
-                                                            class="bi bi-trash-fill"></i></button>
+                                                            class="bi bi-trash undermines"></i></button>
                                                 </div>
                                             </td>
                                             <td>
@@ -166,22 +201,96 @@
                                                 <span>{{ $sub->kode_rekening }}</span>
                                             </td>
                                             <td class="ps-5">{{ $sub->nama_subkegiatan }}</td>
-
-                                            @if ($sub->realisasis->isNotEmpty())
-                                                @php $realisasi = $sub->realisasis->first(); @endphp
-                                                <td>{{ $realisasi->volume_keluaran }}</td>
-                                                <td>{{ $realisasi->uraian_keluaran }}</td>
-                                                <td>
-                                                    @if ($realisasi->realisasi_keuangan !== null)
-                                                        Rp.{{ number_format($realisasi->realisasi_keuangan, 0, ',', '.') }}
+                                            {{-- Tahap All --}}
+                                            @if ($tahap == '')
+                                                @if ($sub->realisasis->isNotEmpty())
+                                                    <!-- Tahap 1 -->
+                                                    @if ($sub->tahap1Data->realisasi_keuangan)
+                                                        <td>{{ $sub->tahap1Data?->volume_keluaran ?? '( - )' }}
+                                                            {{ $sub->tahap1Data?->uraian_keluaran ?? '-' }}</td>
                                                     @else
-                                                        <a class="text-decoration-none"
-                                                            href="{{ route('desa.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"><span
-                                                                class="text-danger">Silahkan isi realisasi</span></a>
+                                                        <td colspan="2" class="text-center"><a
+                                                                class="text-decoration-none"
+                                                                href="{{ route('desa.realisasi.create.sub', [
+                                                                    'bidang_id' => $bidang->id,
+                                                                    'kegiatan_id' => $kegiatan->id,
+                                                                    'subkegiatan_id' => $sub->id,
+                                                                ]) }}?tahap=1"><span
+                                                                    class="text-danger">Silahkan isi realisasi</span></a>
+                                                        </td>
                                                     @endif
-                                                </td>
+                                                    @if ($sub->tahap1Data?->realisasi_keuangan !== null)
+                                                        <td>
+                                                            Rp.{{ number_format($sub->tahap1Data->realisasi_keuangan, 0, ',', '.') }}
+                                                        </td>
+                                                    @endif
+                                                    <!-- Tahap 2 -->
+                                                    @if ($sub->tahap2Data->realisasi_keuangan)
+                                                        <td>
+                                                            {{ $sub->tahap2Data->volume_keluaran ?? '-' }}
+                                                            {{ $sub->tahap2Data->uraian_keluaran ?? '-' }}
+                                                        </td>
+                                                    @else
+                                                        <td colspan="2" class="text-center"><a
+                                                                class="text-decoration-none"
+                                                                href="{{ route('desa.realisasi.create.sub', [
+                                                                    'bidang_id' => $bidang->id,
+                                                                    'kegiatan_id' => $kegiatan->id,
+                                                                    'subkegiatan_id' => $sub->id,
+                                                                ]) }}?tahap=2"><span
+                                                                    class="text-danger">Silahkan isi realisasi</span></a>
+                                                        </td>
+                                                    @endif
+                                                    @if ($sub->tahap1Data?->realisasi_keuangan !== null)
+                                                        <td>
+                                                            Rp.{{ number_format($sub->tahap2Data->realisasi_keuangan, 0, ',', '.') }}
+                                                        </td>
+                                                    @endif
+                                                    <!-- Total -->
+                                                    @if ($sub->tahap1Data?->realisasi_keuangan !== null && $sub->tahap2Data?->realisasi_keuangan !== null)
+                                                        <td>
+                                                            {{ ($sub->tahap1Data?->volume_keluaran ?? 0) + ($sub->tahap2Data?->volume_keluaran ?? 0) }}
+                                                        </td>
+                                                        <td>{{ $sub->persenVolumeFisikTotal }} %</td>
+                                                        <td>
+                                                            Rp.{{ number_format(($sub->tahap1Data?->realisasi_keuangan ?? 0) + ($sub->tahap2Data?->realisasi_keuangan ?? 0), 0, ',', '.') }}
+                                                        </td>
+                                                        <td>{{ $sub->persenVolumeKuanganTotal }} %</td>
+                                                    @else
+                                                        <td colspan="4" class="text-danger text-center">Tahap 1 atau 2
+                                                            belum terisi</td>
+                                                    @endif
+                                                @else
+                                                    <td colspan="7" class="text-muted text-center">Belum ada realisasi
+                                                    </td>
+                                                @endif
+
+                                                {{-- Tahap 1 dan 2 --}}
+                                            @elseif ($tahap == '1' || $tahap == '2')
+                                                @if ($sub->realisasis->isNotEmpty())
+                                                    <td>{{ $sub->tahapData?->volume_keluaran ?? '( - )' }}
+                                                        {{ $sub->tahapData?->uraian_keluaran ?? '-' }}</td>
+                                                    <td>
+                                                        @if ($sub->tahapData?->realisasi_keuangan !== null)
+                                                            Rp.{{ number_format($sub->tahapData->realisasi_keuangan, 0, ',', '.') }}
+                                                        @else
+                                                            <a class="text-decoration-none"
+                                                                href="{{ route('desa.realisasi.create.sub', [
+                                                                    'bidang_id' => $bidang->id,
+                                                                    'kegiatan_id' => $kegiatan->id,
+                                                                    'subkegiatan_id' => $sub->id,
+                                                                ]) }}?tahap={{ $tahap }}"><span
+                                                                    class="text-danger">Silahkan isi realisasi</span></a>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ number_format($sub->persenVolumeFisik, 2) }}%</td>
+                                                    <td> {{ number_format($sub->persenKeuangan, 2) }}%</td>
+                                                @else
+                                                    <td colspan="3" class="text-muted text-center">Belum ada realisasi
+                                                        untuk tahap {{ $tahap }}</td>
+                                                @endif
                                             @else
-                                                <td colspan="4" class="text-muted text-center">Belum ada realisasi</td>
+                                                <td colspan="3" class="text-muted text-center">Tahap tidak valid</td>
                                             @endif
                                         </tr>
                                     @endforeach
@@ -241,7 +350,7 @@
             </div>
         </div>
     </div>
-    {{-- Mengosongkan isi data --}}
+    {{-- Modal Mengosongkan isi data --}}
     <div class="modal fade" id="ModalDeleteSubKegiatanRealisasi" tabindex="-1" aria-labelledby="DeleteSubKegiatan"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -262,6 +371,7 @@
                         @method('DELETE')
 
                         <input type="hidden" id="dataIdSubKegiatanDeleteRealisasi" name="id">
+                        <input type="hidden" id="dataTahapSubKegiatanDeleteRealisasi" name="tahap">
 
                         <!-- Aksi -->
                         <div class="d-flex justify-content-end">
@@ -287,14 +397,19 @@
                 const button = event.relatedTarget;
                 const dataIdSubKegiatanDeleteRealisasi = button.getAttribute(
                     'data-id-subKegiatan-realisasi-delete');
+                const dataTahapSubKegiatanDeleteRealisasi = button.getAttribute(
+                    'data-tahap-subKegiatan-realisasi-delete');
 
                 // Hidden inputs
                 modal.querySelector('#dataIdSubKegiatanDeleteRealisasi').value =
                     dataIdSubKegiatanDeleteRealisasi;
+                modal.querySelector('#dataTahapSubKegiatanDeleteRealisasi').value =
+                    dataTahapSubKegiatanDeleteRealisasi;
 
                 // Set form action
                 const form = document.getElementById('formDeleteSubKegiatanRealisasi');
-                form.action = `/realisasi/delete-subKegiatan/${dataIdSubKegiatanDeleteRealisasi}`;
+                form.action =
+                    `/realisasi/delete-subKegiatan/${dataIdSubKegiatanDeleteRealisasi}/${dataTahapSubKegiatanDeleteRealisasi}`;
             });
         });
     </script>

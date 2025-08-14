@@ -43,6 +43,10 @@ class Target extends Model
     {
         return $this->hasOne(Capaian::class, 'target_id');
     }
+    public function realisasi()
+    {
+        return $this->hasOne(Realisasi::class);
+    }
     public function scopeUserOnly($query)
     {
         return $query->where('user_id', auth()->id());

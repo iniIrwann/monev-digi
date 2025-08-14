@@ -12,19 +12,21 @@ return new class extends Migration {
     {
         Schema::create('realisasis', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('target_id')->constrained()->onDelete('cascade');
             $table->foreignId('bidang_id')->constrained()->onDelete('cascade');
             $table->foreignId('kegiatan_id')->constrained()->onDelete('cascade');
             $table->foreignId('sub_kegiatan_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('uraian_keluaran')->nullable();
+            $table->integer('tahap')->nullable(); // 1 atau 2
             $table->integer('volume_keluaran')->nullable();
-            $table->string('cara_pengadaan')->nullable(); // Cara pengadaan barang/jasa
-            $table->bigInteger('realisasi_keuangan')->nullable();
+            $table->string('uraian_keluaran')->nullable();
             $table->integer('tenaga_kerja')->nullable();
+            $table->string('cara_pengadaan')->nullable();
+            $table->bigInteger('realisasi_keuangan')->nullable();
             $table->integer('durasi')->nullable();
             $table->bigInteger('upah')->nullable();
-            $table->integer('KPM')->nullable(); // Keluarga Penerima Manfaat
-            $table->bigInteger('BLT')->nullable(); // Bantuan Langsung Tunai
+            $table->integer('KPM')->nullable();
+            $table->bigInteger('BLT')->nullable();
             $table->integer('tahun')->nullable();
             $table->text('keterangan')->nullable();
             $table->timestamps();

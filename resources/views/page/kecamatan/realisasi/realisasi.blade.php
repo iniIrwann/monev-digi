@@ -137,16 +137,20 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-end">
+
                                                     <a href="{{ route('kecamatan.realisasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
-                                                        class="btn btn-sm btn-secondary" title="Detail"><i class="bi bi-eye-fill"></i></a>
+                                                        class="btn btn-sm btn-secondary" title="detail"><i class="bi bi-eye-fill"></i></a>
+
+                                                    <a href="{{ route('kecamatan.realisasi.create.catatan', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                        class="btn btn-sm btn-success" title="catatan, tindak lanjut, rekomendasi"><i class="bi bi-journal-text text-white"></i></a>
 
                                                     <a href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
-                                                        class="btn btn-sm btn-warning" title="Isi / Edit"><i class="bi bi-pencil-fill text-white"></i></a>
+                                                        class="btn btn-sm btn-warning" title="isi / edit"><i class="bi bi-pencil-fill text-white"></i></a>
 
                                                     <button type="button" data-bs-toggle="modal"
                                                         data-bs-target="#ModalDeleteSubKegiatanRealisasi"
                                                         data-id-subKegiatan-realisasi-delete="{{ $sub->id }}"
-                                                        class="btn btn-sm btn-danger" title="Kosongkan"><i class="bi bi-trash-fill"></i></button>
+                                                        class="btn btn-sm btn-danger" title="kosongkan"><i class="bi bi-trash-fill"></i></button>
                                                 </div>
                                             </td>
                                             <td>

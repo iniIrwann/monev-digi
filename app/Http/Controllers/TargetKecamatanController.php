@@ -271,17 +271,6 @@ class TargetKecamatanController extends Controller
             'nama_subkegiatan' => $request->nama_subkegiatan,
             'uraian_keluaran' => $request->uraian_keluaran,
         ]);
-
-        $realisasi = Realisasi::create([
-            'bidang_id' => $request->bidang_id,
-            'kegiatan_id' => $request->kegiatan_id,
-            'sub_kegiatan_id' => $sub->id,
-            'user_id' => $bidang->user_id,
-            'uraian_keluaran' => $request->uraian_keluaran,
-            'cara_pengadaan' => $request->cara_pengadaan,
-            'tahun' => $request->tahun,
-        ]);
-
         // Simpan ke tabel target
         $target = Target::create([
             'bidang_id' => $request->bidang_id,
@@ -299,6 +288,13 @@ class TargetKecamatanController extends Controller
             'BLT' => $request->BLT,
             'tahun' => $request->tahun,
             'keterangan' => $request->keterangan,
+        ]);
+        $realisasi = Realisasi::updateOrCreate([
+            'target_id' => $target->id,
+            'bidang_id' => $request->bidang_id,
+            'kegiatan_id' => $request->kegiatan_id,
+            'sub_kegiatan_id' => $sub->id,
+            'user_id' => $bidang->user_id,
         ]);
         Capaian::create([
             'target_id' => $target->id,

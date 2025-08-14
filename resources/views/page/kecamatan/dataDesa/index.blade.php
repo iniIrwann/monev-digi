@@ -64,7 +64,7 @@
                                                 alt="foto">
                                         @else
                                             <img style="width: 63px" class="w-63"
-                                                src="{{ asset('assets/images/profil.png') }}" alt="foto">
+                                                src="{{ asset('assets/images/new_profile.jpeg') }}" alt="foto">
                                         @endif
                                     </td>
                                     <td>{{ $user->name }}</td>

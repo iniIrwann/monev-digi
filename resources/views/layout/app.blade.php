@@ -23,6 +23,39 @@
 </head>
 
 <body>
+    <style>
+        /* tab */
+        .tab-container {
+            display: flex;
+            width: 100%;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tab-link {
+            flex: 1;
+            text-align: center;
+            padding: 6px 0;
+            /* Lebih kecil */
+            text-decoration: none;
+            font-size: 12px;
+            /* Ukuran font kecil */
+            font-weight: 500;
+            color: #000;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-link.active {
+            border-color: #19bfa6;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .tab-link:hover {
+            background-color: #f9f9f9;
+            color: #000
+        }
+    </style>
     <!-- main -->
 
     <!-- header -->

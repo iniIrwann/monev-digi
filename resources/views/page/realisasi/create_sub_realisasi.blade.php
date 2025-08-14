@@ -2,7 +2,6 @@
 
 @section('title', 'Realisasi - Monev Digi Dana Desa')
 
-
 @section('main')
     <!-- Main content -->
     <div class="main-content ps-3 pe-3 pt-4">
@@ -23,6 +22,9 @@
                     <input type="hidden" value="{{ $bidang->id }}" name="bidang_id" class="form-control">
                     <input type="hidden" value="{{ $kegiatan->id }}" name="kegiatan_id" class="form-control">
                     <input type="hidden" value="{{ $subKegiatan->id }}" name="subkegiatan_id" class="form-control">
+                    <input type="hidden" value="{{ $tahap }}" name="tahap" class="form-control">
+                    <input type="hidden" value="{{ $realisasi?->tahun }}" name="tahun" class="form-control">
+
                     <!-- Baris Kode Rekening -->
                     <div class="row g-2 align-items-center mb-3 ms-1 me-1">
                         <div class="col-12 col-md-4 input-group-sm">
@@ -54,42 +56,60 @@
                         <div class="col-md-6">
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Uraian keluaran</label>
-                                <input type="text" value="{{ $realisasi->uraian_keluaran }}"
+                                <input readonly type="text"
+                                    value="{{ old('uraian_keluaran', $realisasi?->uraian_keluaran) }}"
                                     class="form-control form-control-sm rounded-1" name="uraian_keluaran"
-                                    placeholder="uraian keluaran" disabled />
+                                    placeholder="uraian keluaran" />
+                                @error('uraian_keluaran')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Volume</label>
-                                <input required value="{{ $realisasi->volume_keluaran }}" type="number"
+                                <input value="{{ old('volume_keluaran', $realisasi?->volume_keluaran) }}" type="number"
                                     name="volume_keluaran" class="form-control form-control-sm rounded-1"
-                                    placeholder="volume" />
+                                    placeholder="volume" required />
+                                @error('volume_keluaran')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Tenaga kerja</label>
-                                <input required value="{{ $realisasi->tenaga_kerja }}" type="number"
+                                <input value="{{ old('tenaga_kerja', $realisasi?->tenaga_kerja) }}" type="number"
                                     class="form-control form-control-sm rounded-1" name="tenaga_kerja"
                                     placeholder="jumlah tenaga kerja" />
+                                @error('tenaga_kerja')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Upah</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input value="{{ $realisasi->upah }}" required type="number" name="upah"
+                                    <input value="{{ old('upah', $realisasi?->upah) }}" type="number" name="upah"
                                         class="form-control rounded-1" placeholder="upah" />
                                 </div>
+                                @error('upah')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">BLT</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input value="{{ $realisasi->BLT }}" required type="number"
-                                        class="form-control rounded-1" name="BLT" placeholder="masukkan jumlah BLT" />
+                                    <input value="{{ old('BLT', $realisasi?->BLT) }}" type="number" name="BLT"
+                                        class="form-control rounded-1" placeholder="masukkan jumlah BLT" />
                                 </div>
+                                @error('BLT')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Keterangan</label>
-                                <textarea required name="keterangan" class="form-control form-control-sm rounded-1" rows="3"
-                                    placeholder="keterangan">{{ $realisasi->keterangan }}</textarea>
+                                <textarea name="keterangan" class="form-control form-control-sm rounded-1" rows="3" placeholder="keterangan">{{ old('keterangan', $realisasi?->keterangan) }}</textarea>
+                                @error('keterangan')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
 
@@ -97,39 +117,63 @@
                         <div class="col-md-6">
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Cara pengadaan</label>
-                                <input required value="{{ $realisasi->cara_pengadaan }}" type="text"
-                                    class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                    placeholder="cara_pengadaan" disabled />
+                                <input readonly value="{{ old('cara_pengadaan', $realisasi?->cara_pengadaan) }}"
+                                    type="text" class="form-control form-control-sm rounded-1" name="cara_pengadaan"
+                                    placeholder="cara pengadaan" required />
+                                @error('cara_pengadaan')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Tahun</label>
-                                <select name="tahun" required disabled
-                                    class="form-select form-select-sm rounded-1 text-secondary">
+                                <select name="tahun" disabled
+                                    class="form-select form-select-sm rounded-1 text-secondary" required>
                                     <option value="">Pilih tahun</option>
-                                    <option value="2024" {{ $realisasi->tahun == 2024 ? 'selected' : '' }}>2024</option>
-                                    <option value="2025" {{ $realisasi->tahun == 2025 ? 'selected' : '' }}>2025</option>
+                                    <option value="2024"
+                                        {{ old('tahun', $realisasi?->tahun) == 2024 ? 'selected' : '' }}>2024</option>
+                                    <option value="2025"
+                                        {{ old('tahun', $realisasi?->tahun) == 2025 ? 'selected' : '' }}>2025</option>
                                 </select>
-
+                                @error('tahun')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Realisasi keuangan</label>
+                                <label class="fs-12 txt-tb-grey">Tahap Pencairan</label>
+                                <input value="{{ old('tahap', $realisasi?->tahap) }}" type="number" name="tahap"
+                                    class="form-control form-control-sm rounded-1" placeholder="durasi" disabled />
+                                @error('tahap')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="mb-2">
+                                <label class="fs-12 txt-tb-grey">Realisasi Keuangan</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input value="{{ $realisasi->realisasi_keuangan }}" required type="number"
-                                        name="realisasi_keuangan" class="form-control rounded-1"
-                                        placeholder="realisasi keuangan" />
+                                    <input value="{{ old('realisasi_keuangan', $realisasi?->realisasi_keuangan) }}"
+                                        type="number" name="realisasi_keuangan" class="form-control rounded-1"
+                                        placeholder="Realisasi Keuangan" required />
                                 </div>
+                                @error('realisasi_keuangan')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">periode pencarian</label>
-                                <input value="{{ $realisasi->durasi }}" required type="number" name="durasi"
+                                <label class="fs-12 txt-tb-grey">Periode Pencairan</label>
+                                <input value="{{ old('durasi', $realisasi?->durasi) }}" type="number" name="durasi"
                                     class="form-control form-control-sm rounded-1" placeholder="durasi" />
+                                @error('durasi')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
-                                <input value="{{ $realisasi->KPM }}" required type="number"
+                                <input value="{{ old('KPM', $realisasi?->KPM) }}" type="number"
                                     class="form-control form-control-sm rounded-1" name="KPM"
                                     placeholder="jumlah KPM" />
+                                @error('KPM')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
                     </div>

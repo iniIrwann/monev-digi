@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Realisasi extends Model
 {
     protected $fillable = [
+        'target_id',
         'bidang_id',
         'kegiatan_id',
         'sub_kegiatan_id',
         'user_id',
+        'tahap',
         'uraian_keluaran',
         'volume_keluaran',
         'cara_pengadaan',
@@ -45,7 +47,6 @@ class Realisasi extends Model
     }
     public function target()
     {
-        return $this->belongsTo(Target::class, 'target_id');
+        return $this->belongsTo(Target::class, );
     }
-
 }

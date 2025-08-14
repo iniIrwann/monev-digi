@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bidang;
 use App\Models\Kegiatan;
 use App\Models\Realisasi;
+use App\Models\RealisasiTahap;
 use App\Models\SubKegiatan;
 use App\Models\target;
 use App\Models\Capaian;
@@ -122,19 +123,30 @@ class TargetDesaController extends Controller
             return redirect()->route('desa.target.index')->with('error', 'Data target tidak ditemukan.');
         }
 
-        $realisasi = Realisasi::updateOrCreate(
-            [
-                'bidang_id' => $request->bidang_id,
-                'kegiatan_id' => $request->kegiatan_id,
-                'sub_kegiatan_id' => $subkegiatan->id,
-                'user_id' => auth()->id(),
-            ],
-            [
-                'uraian_keluaran' => $request->uraian_keluaran,
-                'cara_pengadaan' => $request->cara_pengadaan,
-                'tahun' => $request->tahun,
-            ]
-        );
+        $realisasi1 = Realisasi::updateOrCreate([
+            'target_id' => $target->id,
+            'bidang_id' => $request->bidang_id,
+            'kegiatan_id' => $request->kegiatan_id,
+            'sub_kegiatan_id' => $subkegiatan->id,
+            'user_id' => auth()->id(),
+            'tahap' => 1,
+        ], [
+            'uraian_keluaran' => $request->uraian_keluaran,
+            'cara_pengadaan' => $request->cara_pengadaan,
+            'tahun' => $request->tahun,
+        ]);
+        $realisasi2 = Realisasi::updateOrCreate([
+            'target_id' => $target->id,
+            'bidang_id' => $request->bidang_id,
+            'kegiatan_id' => $request->kegiatan_id,
+            'sub_kegiatan_id' => $subkegiatan->id,
+            'user_id' => auth()->id(),
+            'tahap' => 2,
+        ], [
+            'uraian_keluaran' => $request->uraian_keluaran,
+            'cara_pengadaan' => $request->cara_pengadaan,
+            'tahun' => $request->tahun,
+        ]);
 
         // Update Sub
         $subkegiatan->nama_subkegiatan = $request->nama_subkegiatan;
@@ -248,19 +260,6 @@ class TargetDesaController extends Controller
             'uraian_keluaran' => $request->uraian_keluaran,
         ]);
 
-        $realisasi = Realisasi::updateOrCreate(
-            [
-                'bidang_id' => $request->bidang_id,
-                'kegiatan_id' => $request->kegiatan_id,
-                'sub_kegiatan_id' => $sub->id,
-                'user_id' => auth()->id(),
-            ],
-            [
-                'uraian_keluaran' => $request->uraian_keluaran,
-                'cara_pengadaan' => $request->cara_pengadaan,
-                'tahun' => $request->tahun,
-            ]
-        );
         // Simpan ke tabel target
         $target = Target::create([
             'bidang_id' => $request->bidang_id,
@@ -279,9 +278,31 @@ class TargetDesaController extends Controller
             'tahun' => $request->tahun,
             'keterangan' => $request->keterangan,
         ]);
+        $realisasi1 = Realisasi::updateOrCreate([
+            'target_id' => $target->id,
+            'bidang_id' => $request->bidang_id,
+            'kegiatan_id' => $request->kegiatan_id,
+            'sub_kegiatan_id' => $sub->id,
+            'user_id' => auth()->id(),
+            'tahap' => 1,
+            'uraian_keluaran' => $request->uraian_keluaran,
+            'cara_pengadaan' => $request->cara_pengadaan,
+            'tahun' => $request->tahun,
+        ]);
+        $realisasi2 = Realisasi::updateOrCreate([
+            'target_id' => $target->id,
+            'bidang_id' => $request->bidang_id,
+            'kegiatan_id' => $request->kegiatan_id,
+            'sub_kegiatan_id' => $sub->id,
+            'user_id' => auth()->id(),
+            'tahap' => 2,
+            'uraian_keluaran' => $request->uraian_keluaran,
+            'cara_pengadaan' => $request->cara_pengadaan,
+            'tahun' => $request->tahun,
+        ]);
         Capaian::create([
             'target_id' => $target->id,
-            'realisasi_id' => $realisasi->id,
+            'realisasi_id' => $realisasi1->id,
             'user_id' => auth()->id(),
         ]);
 

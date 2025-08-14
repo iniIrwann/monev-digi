@@ -6,10 +6,12 @@ use App\Models\Bidang;
 use App\Models\Capaian;
 use App\Models\Kegiatan;
 use App\Models\Realisasi;
+use App\Models\RealisasiTahap;
 use App\Models\SubKegiatan;
 use App\Models\Target;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RealisasiKecamatanController extends Controller
 {
@@ -39,8 +41,8 @@ class RealisasiKecamatanController extends Controller
                 ->get();
         }
 
-        // Query: ambil bidang beserta kegiatan -> subkegiatan -> realisasis
-        $query = Bidang::with(['kegiatan.subkegiatan.realisasis']);
+        // Query: ambil bidang beserta kegiatan -> subkegiatan -> realisasis -> tahaps
+        $query = Bidang::with(['kegiatan.subkegiatan.realisasis.tahaps']);
 
         if ($desaId) {
             $query->where('user_id', $desaId);
@@ -52,12 +54,12 @@ class RealisasiKecamatanController extends Controller
         }
 
         if (!empty($tahun) && is_numeric($tahun)) {
-            $query->whereHas('kegiatan.subkegiatan.realisasis', function ($q) use ($tahun) {
+            $query->whereHas('kegiatan.subkegiatan.realisasis.tahaps', function ($q) use ($tahun) {
                 $q->where('tahun', $tahun);
             });
         }
 
-        // Pencarian teks pada bidang/kegiatan/subkegiatan/realisasi
+        // Pencarian teks pada bidang/kegiatan/subkegiatan/uraian di tahaps
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_bidang', 'like', "%{$search}%")
@@ -67,7 +69,7 @@ class RealisasiKecamatanController extends Controller
                     ->orWhereHas('kegiatan.subkegiatan', function ($q2) use ($search) {
                         $q2->where('nama_subkegiatan', 'like', "%{$search}%");
                     })
-                    ->orWhereHas('kegiatan.subkegiatan.realisasis', function ($q2) use ($search) {
+                    ->orWhereHas('kegiatan.subkegiatan.realisasis.tahaps', function ($q2) use ($search) {
                         $q2->where('uraian_keluaran', 'like', "%{$search}%");
                     });
             });
@@ -93,10 +95,11 @@ class RealisasiKecamatanController extends Controller
         $kegiatan = Kegiatan::findOrFail($kegiatan_id);
         $subKegiatan = SubKegiatan::findOrFail($subkegiatan_id);
 
-        // Ambil realisasi jika sudah ada (mis. untuk tahun tertentu akan dipilih di form)
+        // Ambil realisasi jika sudah ada (beserta tahaps)
         $realisasi = Realisasi::where('bidang_id', $bidang_id)
             ->where('kegiatan_id', $kegiatan_id)
             ->where('sub_kegiatan_id', $subkegiatan_id)
+            ->with('tahaps')
             ->first();
 
         return view('page.kecamatan.realisasi.create_sub_realisasi', compact('bidang', 'kegiatan', 'subKegiatan', 'realisasi'));
@@ -112,126 +115,142 @@ class RealisasiKecamatanController extends Controller
         $realisasi = Realisasi::where('bidang_id', $bidang_id)
             ->where('kegiatan_id', $kegiatan_id)
             ->where('sub_kegiatan_id', $subkegiatan_id)
+            ->with('tahaps')
             ->first();
 
         return view('page.kecamatan.realisasi.edit_sub_realisasi', compact('bidang', 'kegiatan', 'subKegiatan', 'realisasi'));
     }
 
-    // Simpan / update realisasi (create or update)
+    // Simpan / update realisasi (create or update per tahap)
     public function storeSub(Request $request)
     {
         $request->validate([
             'bidang_id' => 'required|exists:bidangs,id',
             'kegiatan_id' => 'required|exists:kegiatans,id',
             'subkegiatan_id' => 'required|exists:sub_kegiatans,id',
-            // 'uraian_keluaran' => 'required|string|max:255',
             'volume_keluaran' => 'required|numeric',
             'tenaga_kerja' => 'nullable|numeric',
             'upah' => 'nullable|numeric',
             'BLT' => 'nullable|numeric',
             'keterangan' => 'nullable|string',
-            // 'cara_pengadaan' => 'required|string|max:255',
-            // 'tahun' => 'required|numeric',
             'realisasi_keuangan' => 'required|numeric',
             'durasi' => 'nullable|numeric',
             'KPM' => 'nullable|numeric',
+            'tahap' => 'nullable|in:1,2', // optional, default 1
+            'tahun' => 'nullable|numeric',
         ]);
+
+        $tahap = $request->input('tahap', 1);
 
         $bidang = Bidang::findOrFail($request->bidang_id);
 
-        // updateOrCreate realisasi berdasarkan kombinasi bidang/kegiatan/subkegiatan/tahun
-        $realisasi = Realisasi::updateOrCreate(
-            [
-                'bidang_id' => $request->bidang_id,
-                'kegiatan_id' => $request->kegiatan_id,
-                'sub_kegiatan_id' => $request->subkegiatan_id,
-                // 'tahun' => $request->tahun,
-            ],
-            [
-                'user_id' => $bidang->user_id,
-                // 'uraian_keluaran' => $request->uraian_keluaran,
-                'volume_keluaran' => $request->volume_keluaran,
-                // 'cara_pengadaan' => $request->cara_pengadaan,
-                'realisasi_keuangan' => $request->realisasi_keuangan,
-                'tenaga_kerja' => $request->tenaga_kerja,
-                'durasi' => $request->durasi,
-                'upah' => $request->upah,
-                'KPM' => $request->KPM,
-                'BLT' => $request->BLT,
-                'keterangan' => $request->keterangan,
-            ]
-        );
+        DB::transaction(function () use ($request, $bidang, $tahap) {
+            // Pastikan ada row realisasi (identitas), create jika belum
+            $realisasi = Realisasi::updateOrCreate(
+                [
+                    'bidang_id' => $request->bidang_id,
+                    'kegiatan_id' => $request->kegiatan_id,
+                    'sub_kegiatan_id' => $request->subkegiatan_id,
+                ],
+                [
+                    'user_id' => $bidang->user_id,
+                    // simpan di realisasi hanya identitas; detail per-tahap disimpan di realisasi_tahaps
+                ]
+            );
 
-        // Cari target yang sesuai (jika ada) untuk menghitung capaian
-        $target = Target::where('bidang_id', $request->bidang_id)
-            ->where('kegiatan_id', $request->kegiatan_id)
-            ->where('sub_kegiatan_id', $request->subkegiatan_id)
-            ->first();
+            // Simpan/Update data di tabel realisasi_tahaps berdasarkan tahap
+            $realisasiTahap = RealisasiTahap::updateOrCreate(
+                [
+                    'realisasi_id' => $realisasi->id,
+                    'tahap' => $tahap,
+                ],
+                [
+                    'volume_keluaran' => $request->volume_keluaran,
+                    'tenaga_kerja' => $request->tenaga_kerja,
+                    'upah' => $request->upah,
+                    'BLT' => $request->BLT,
+                    'KPM' => $request->KPM,
+                    'durasi' => $request->durasi,
+                    'realisasi_keuangan' => $request->realisasi_keuangan,
+                    'keterangan' => $request->keterangan,
+                    'tahun' => $request->input('tahun'),
+                    'uraian_keluaran' => $request->input('uraian_keluaran'),
+                    'cara_pengadaan' => $request->input('cara_pengadaan'),
+                ]
+            );
 
-        // Hitung persen capaian dengan guard bagi nol
-        $persen_volume = null;
-        $persen_keuangan = null;
-        $sisa = null;
+            // Cari target yang sesuai (jika ada) untuk menghitung capaian
+            $target = Target::where('bidang_id', $request->bidang_id)
+                ->where('kegiatan_id', $request->kegiatan_id)
+                ->where('sub_kegiatan_id', $request->subkegiatan_id)
+                ->first();
 
-        if ($target) {
-            if ($target->volume_keluaran > 0) {
-                $persen_volume = ($realisasi->volume_keluaran / $target->volume_keluaran) * 100;
-            } else {
-                $persen_volume = null;
+            // Hitung persen capaian dengan guard bagi nol
+            $persen_volume = null;
+            $persen_keuangan = null;
+            $sisa = null;
+
+            if ($target) {
+                if ($target->volume_keluaran > 0 && $realisasiTahap->volume_keluaran !== null) {
+                    $persen_volume = ($realisasiTahap->volume_keluaran / $target->volume_keluaran) * 100;
+                }
+
+                if ($target->anggaran_target > 0 && $realisasiTahap->realisasi_keuangan !== null) {
+                    $persen_keuangan = ($realisasiTahap->realisasi_keuangan / $target->anggaran_target) * 100;
+                    $sisa = $realisasiTahap->realisasi_keuangan - $target->anggaran_target;
+                } else {
+                    $sisa = $realisasiTahap->realisasi_keuangan ?? null;
+                }
             }
 
-            if ($target->anggaran_target > 0) {
-                $persen_keuangan = ($realisasi->realisasi_keuangan / $target->anggaran_target) * 100;
-                $sisa = $realisasi->realisasi_keuangan - $target->anggaran_target;
-            } else {
-                $persen_keuangan = null;
-                $sisa = $realisasi->realisasi_keuangan;
-            }
-        }
-
-        // Simpan atau update capaian (jika target ada, pasangkan dengan target_id; jika tidak ada simpan tanpa target_id)
-        Capaian::updateOrCreate(
-            [
-                'target_id' => $target->id,
-                'realisasi_id' => $realisasi->id,
-                'user_id' => $bidang->user_id,
-            ],
-            [
-                'persen_capaian_keluaran' => $persen_volume,
-                'persen_capaian_keuangan' => $persen_keuangan,
-                'sisa' => $sisa,
-            ]
-        );
+            // Simpan atau update capaian (pasangkan dengan target_id jika ada)
+            Capaian::updateOrCreate(
+                [
+                    'target_id' => $target->id ?? null,
+                    'realisasi_id' => $realisasi->id,
+                    'user_id' => $bidang->user_id,
+                ],
+                [
+                    'persen_capaian_keluaran' => $persen_volume,
+                    'persen_capaian_keuangan' => $persen_keuangan,
+                    'sisa' => $sisa,
+                ]
+            );
+        });
 
         return redirect()->route('kecamatan.realisasi.index')->with('success', 'Data realisasi berhasil disimpan atau diperbarui.');
     }
 
-    // Mengosongkan data realisasi (bukan hapus baris)
+    // Mengosongkan data realisasi (bukan hapus baris) — sekarang untuk semua tahapan
     public function deleteSubKegiatan($id)
     {
         $realisasi = Realisasi::findOrFail($id);
 
-        $realisasi->uraian_keluaran = null;
-        $realisasi->volume_keluaran = null;
-        $realisasi->cara_pengadaan = null;
-        $realisasi->realisasi_keuangan = null;
-        $realisasi->tenaga_kerja = null;
-        $realisasi->durasi = null;
-        $realisasi->upah = null;
-        $realisasi->KPM = null;
-        $realisasi->BLT = null;
-        $realisasi->tahun = null;
-        $realisasi->keterangan = null;
-        $realisasi->save();
+        DB::transaction(function () use ($realisasi) {
+            // kosongkan semua field di semua tahapan realisasi
+            RealisasiTahap::where('realisasi_id', $realisasi->id)->update([
+                'uraian_keluaran' => null,
+                'volume_keluaran' => null,
+                'cara_pengadaan' => null,
+                'realisasi_keuangan' => null,
+                'tenaga_kerja' => null,
+                'durasi' => null,
+                'upah' => null,
+                'KPM' => null,
+                'BLT' => null,
+                'tahun' => null,
+                'keterangan' => null,
+            ]);
 
-        // Update capaian terkait (kosongkan atau hapus sesuai kebutuhan)
-        $capaian = Capaian::where('realisasi_id', $realisasi->id)->first();
-        if ($capaian) {
-            $capaian->persen_capaian_keluaran = null;
-            $capaian->persen_capaian_keuangan = null;
-            $capaian->sisa = null;
-            $capaian->save();
-        }
+            // Update capaian terkait (kosongkan)
+            $capaian = Capaian::where('realisasi_id', $realisasi->id)->first();
+            if ($capaian) {
+                $capaian->persen_capaian_keluaran = null;
+                $capaian->persen_capaian_keuangan = null;
+                $capaian->sisa = null;
+                $capaian->save();
+            }
+        });
 
         return redirect()->route('kecamatan.realisasi.index')->with('success', 'Data realisasi berhasil dihapus.');
     }
@@ -242,6 +261,7 @@ class RealisasiKecamatanController extends Controller
         $realisasi = Realisasi::where('bidang_id', $bidang_id)
             ->where('kegiatan_id', $kegiatan_id)
             ->where('sub_kegiatan_id', $subkegiatan_id)
+            ->with('tahaps') // penting agar view bisa akses tiap tahap
             ->first();
 
         if (!$realisasi) {
@@ -252,6 +272,25 @@ class RealisasiKecamatanController extends Controller
         $kegiatan = Kegiatan::findOrFail($kegiatan_id);
         $subKegiatan = SubKegiatan::findOrFail($subkegiatan_id);
 
-        return view('page.kecamatan.realisasi.detail_sub_realisasi', compact('realisasi', 'bidang', 'kegiatan', 'subKegiatan'));
+        return view('page.kecamatan.realisasi.detail', compact('realisasi', 'bidang', 'kegiatan', 'subKegiatan'));
+    }
+
+    public function createCatatan($bidang_id, $kegiatan_id, $subkegiatan_id)
+    {
+        $realisasi = Realisasi::where('bidang_id', $bidang_id)
+            ->where('kegiatan_id', $kegiatan_id)
+            ->where('sub_kegiatan_id', $subkegiatan_id)
+            ->with('tahaps') // penting agar view bisa akses tiap tahap
+            ->first();
+
+        if (!$realisasi) {
+            abort(404, 'Realisasi not found');
+        }
+
+        $bidang = Bidang::findOrFail($bidang_id);
+        $kegiatan = Kegiatan::findOrFail($kegiatan_id);
+        $subKegiatan = SubKegiatan::findOrFail($subkegiatan_id);
+
+        return view('page.kecamatan.realisasi.create_catatan', compact('realisasi', 'bidang', 'kegiatan', 'subKegiatan'));
     }
 }
