@@ -133,7 +133,7 @@
                     <!-- profil hanya tampil di ukuran desktop -->
                     <div class="d-none d-md-flex align-items-center">
                         <div class="w-34">
-                            <img class="p-1 img-fluid"
+                            <img class="p-1 img-fluid rounded-circle w-34"
                                 src="{{ auth()->user()->foto_profile ? asset('assets/images/foto_profile/' . auth()->user()->foto_profile) : asset('assets/images/profil.png') }}"
                                 alt="" />
                         </div>

@@ -21,11 +21,11 @@ class CapaianKecamatanController extends Controller
         $desaId = $request->input('desa');
 
         // Initialize variables for dynamic description
-        // $desa = null;
-        // $bidang = null;
-        // if ($desaId) {
-        //     $desa = User::where('role', 'desa')->where('id', $desaId)->first();
-        // }
+        $desa = null;
+        $bidang = null;
+        if ($desaId) {
+            $desa = User::where('role', 'desa')->where('id', $desaId)->first();
+        }
         if ($bidangId) {
             $bidang = Bidang::find($bidangId);
         }

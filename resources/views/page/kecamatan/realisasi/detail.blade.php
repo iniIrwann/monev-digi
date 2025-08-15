@@ -13,7 +13,7 @@
         <!-- Tambah subkegiatan -->
         <div class="card border-0 w-100 rounded-3 mb-4">
             <div class="card-body p-3">
-                <p class="fs-14 sb mb-3">update realisasi subkegiatan</p>
+                <p class="fs-14 sb mb-3">detail realisasi subkegiatan</p>
                 <hr class="my-1">
                 <input type="hidden" value="{{ $bidang->id }}" name="bidang_id" class="form-control">
                 <input type="hidden" value="{{ $kegiatan->id }}" name="kegiatan_id" class="form-control">
@@ -97,12 +97,20 @@
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">tahun</label>
-                            <select name="tahun" required class="form-select form-select-sm rounded-1 text-black">
+                            <select disabled name="tahun" required class="form-select form-select-sm rounded-1 text-black">
                                 <option value="">pilih tahun</option>
                                 <option value="2024" {{ $realisasi->tahun == 2024 ? 'selected' : '' }}>2024</option>
                                 <option value="2025" {{ $realisasi->tahun == 2025 ? 'selected' : '' }}>2025</option>
                             </select>
 
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 txt-tb-grey">tahap pencairan</label>
+                            <input value="{{ old('tahap', $realisasi?->tahap) }}" type="number" name="tahap"
+                                class="form-control form-control-sm rounded-1" placeholder="durasi" readonly />
+                            @error('tahap')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">realisasi keuangan</label>
@@ -119,9 +127,12 @@
                                 class="form-control form-control-sm rounded-1" placeholder="durasi" />
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">jumlah KPM</label>
-                            <input value="{{ $realisasi->KPM }}" required type="number"
-                                class="form-control form-control-sm rounded-1" name="KPM" placeholder="jumlah KPM" />
+                            <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                <input type="number" value="{{ $realisasi?->KPM }}" class="form-control rounded-1"
+                                    name="KPM" placeholder="jumlah KPM"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -129,7 +140,8 @@
                 <!-- Tombol -->
                 <div class="row align-items-center">
                     <div class="col-md-12 d-flex justify-content-end">
-                        <a href="{{ route('kecamatan.realisasi.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
+                        <a href="{{ route('kecamatan.realisasi.index') }}"
+                            class="btn btn-secondary btn-sm fs-12 text-white me-2">
                             <i class="bi bi-x-square"></i> Close
                         </a>
                     </div>

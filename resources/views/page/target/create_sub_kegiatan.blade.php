@@ -45,7 +45,7 @@
                         <div class="mb-1">
                             <label class="fs-12 txt-tb-grey">Nama subkegiatan</label>
                             <input type="text" class="form-control form-control-sm rounded-1" name="nama_subkegiatan"
-                                placeholder="nama sub kegiatan" required/>
+                                placeholder="nama sub kegiatan" required />
                         </div>
                         <!-- Kolom Kiri -->
                         <div class="col-md-6">
@@ -96,8 +96,7 @@
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Tahun</label>
-                                <select required name="tahun"
-                                    class="form-select form-select-sm rounded-1 text-black">
+                                <select required name="tahun" class="form-select form-select-sm rounded-1 text-black">
                                     <option value="">Pilih tahun</option>
                                     <option value="2024">2024</option>
                                     <option value="2025">2025</option>
@@ -118,8 +117,11 @@
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
-                                <input type="number" class="form-control form-control-sm rounded-1" name="KPM"
-                                    placeholder="jumlah KPM" required />
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                    <input type="number" class="form-control rounded-1" name="KPM"
+                                        placeholder="jumlah KPM" required />
+                                </div>
                             </div>
                         </div>
                     </div>

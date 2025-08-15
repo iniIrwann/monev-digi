@@ -124,9 +124,11 @@
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
-                                <input value="{{ $target->KPM }}" required type="number"
-                                    class="form-control form-control-sm rounded-1" name="KPM"
-                                    placeholder="jumlah KPM" />
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                    <input type="number" value="{{ $target->KPM }}" class="form-control rounded-1"
+                                        name="KPM" placeholder="jumlah KPM" required />
+                                </div>
                             </div>
                         </div>
                     </div>

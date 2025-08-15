@@ -93,6 +93,8 @@
                         class="tab-link {{ request('tahap', '1') == '1' ? 'active' : '' }}">Tahap 1</a>
                     <a href="{{ route('kecamatan.verifikasi.index', array_merge(request()->query(), ['tahap' => '2'])) }}"
                         class="tab-link {{ request('tahap') == '2' ? 'active' : '' }}">Tahap 2</a>
+                    <a href="{{ route('kecamatan.verifikasi.index', array_merge(request()->query(), ['tahap' => 'all'])) }}"
+                        class="tab-link {{ request('tahap') == 'all' ? 'active' : '' }}">Total Capaian Realisasi</a>
                 </div>
                 <p class="my-2 sb">Tabel Capaian Realisasi Kinerja dan Keuangan Dana Desa</p>
                 <p class="fs-12 my-2">
@@ -138,15 +140,41 @@
                 <div class="table-responsive">
                     <table class="table align-middle fs-12 tx-gray">
                         <thead class="border-bottom" style="border-color: #999999">
-                            <tr class="text-start">
-                                <th class="text-center">Aksi</th>
-                                <th>Kode Rekening</th>
-                                <th>Rencana Kegiatan</th>
-                                <th>Catatan / Tindak Lanjut / Rekomendasi</th>
-                                <th>Sasaran / Penerima Manfaat</th>
-                                <th>Target Volume</th>
-                                <th>Realisasi Volume</th>
-                            </tr>
+                            @if ($tahap == 1 || $tahap == 2)
+                                <tr class="text-start">
+                                    <th class="text-center">Aksi</th>
+                                    <th>Kode Rekening</th>
+                                    <th>Rencana Kegiatan</th>
+                                    <th>Catatan / Tindak Lanjut / Rekomendasi</th>
+                                    <th>Sasaran / Penerima Manfaat</th>
+                                    <th>Volume Fisik</th>
+                                    <th>Keuangan (Rp)</th>
+                                    <th>(%) Volume Fisik</th>
+                                    <th>(%) Keuangan</th>
+                                </tr>
+                            @else
+                                <tr class="text-start">
+                                    <th colspan="5"></th>
+                                    <th colspan="2" class="text-center ">Tahap 1</th>
+                                    <th colspan="2" class="text-center">Tahap 2</th>
+                                    <th colspan="4" class="text-center">Total</th>
+                                </tr>
+                                <tr class="text-start">
+                                    <th class="text-center">Aksi</th>
+                                    <th>Kode Rekening</th>
+                                    <th>Rencana Kegiatan</th>
+                                    <th>Catatan / Tindak Lanjut / Rekomendasi</th>
+                                    <th>Sasaran / Penerima Manfaat</th>
+                                    <th>Target Volume</th>
+                                    <th>Target Keuangan (Rp)</th>
+                                    <th>Target Volume</th>
+                                    <th>Target Keuangan (Rp)</th>
+                                    <th>Total Volume Fisik</th>
+                                    <th>(%) Volume Fisik</th>
+                                    <th>Total Keuangan</th>
+                                    <th>(%) Keuangan</th>
+                                </tr>
+                            @endif
                         </thead>
                         <tbody>
                             @forelse ($data as $bidang)
@@ -154,7 +182,7 @@
                                     <td></td>
                                     <td class="sb">{{ $bidang->kode_rekening }}</td>
                                     <td class="sb">{{ $bidang->nama_bidang }}</td>
-                                    <td colspan="4"></td>
+                                    <td colspan="10"></td>
                                 </tr>
                                 @foreach ($bidang->kegiatan as $kegiatan)
                                     <tr>
@@ -164,7 +192,7 @@
                                             <span>{{ $kegiatan->kode_rekening }}</span>
                                         </td>
                                         <td class="ps-4">{{ $kegiatan->nama_kegiatan }}</td>
-                                        <td colspan="4"></td>
+                                        <td colspan="10"></td>
                                     </tr>
                                     @foreach ($kegiatan->subkegiatan as $sub)
                                         <tr>
@@ -191,36 +219,141 @@
                                             </td>
                                             <td class="ps-5">{{ $sub->nama_subkegiatan }}</td>
                                             <td>
-                                                @if ($sub->realisasi && $sub->realisasi->verifikasi)
-                                                    <strong>Catatan:</strong>
+                                                @if ($tahap !== 'all' && $sub->realisasi && $sub->realisasi->verifikasi)
+                                                    <strong>Catatan:</strong> <br>
                                                     {{ Str::limit($sub->realisasi->verifikasi->catatan, 50) }}<br>
-                                                    <strong>Tindak Lanjut:</strong>
+                                                    <strong>Tindak Lanjut:</strong><br>
                                                     {{ Str::limit($sub->realisasi->verifikasi->tindak_lanjut, 50) }}<br>
-                                                    <strong>Rekomendasi:</strong>
+                                                    <strong>Rekomendasi:</strong><br>
                                                     {{ Str::limit($sub->realisasi->verifikasi->rekomendasi, 50) }}
+                                                @elseif ($tahap === 'all')
+                                                    @if ($sub->tahap2Data && $sub->tahap2Data->verifikasi)
+                                                        <strong>Catatan:</strong> <br>
+                                                        {{ Str::limit($sub->tahap2Data->verifikasi->catatan, 50) }}<br>
+                                                        <strong>Tindak Lanjut:</strong><br>
+                                                        {{ Str::limit($sub->tahap2Data->verifikasi->tindak_lanjut, 50) }}<br>
+                                                        <strong>Rekomendasi:</strong><br>
+                                                        {{ Str::limit($sub->tahap2Data->verifikasi->rekomendasi, 50) }}
+                                                    @elseif ($sub->tahap1Data && $sub->tahap1Data->verifikasi)
+                                                        <strong>Catatan:</strong> <br>
+                                                        {{ Str::limit($sub->tahap1Data->verifikasi->catatan, 50) }}<br>
+                                                        <strong>Tindak Lanjut:</strong><br>
+                                                        {{ Str::limit($sub->tahap1Data->verifikasi->tindak_lanjut, 50) }}<br>
+                                                        <strong>Rekomendasi:</strong><br>
+                                                        {{ Str::limit($sub->tahap1Data->verifikasi->rekomendasi, 50) }}
+                                                    @else
+                                                        @if ($sub->tahap2Data && $sub->tahap2Data->id && $sub->tahap2Data->user_id)
+                                                            <button class="btn fs-12" data-bs-toggle="modal"
+                                                                data-bs-target="#ModalTambahVerifikasi"
+                                                                data-realisasi-id="{{ $sub->tahap2Data->id }}">
+                                                                <span class="text-danger">Silahkan isi verifikasi</span>
+                                                            </button>
+                                                        @elseif ($sub->tahap1Data && $sub->tahap1Data->id && $sub->tahap1Data->user_id)
+                                                            <button class="btn fs-12" data-bs-toggle="modal"
+                                                                data-bs-target="#ModalTambahVerifikasi"
+                                                                data-realisasi-id="{{ $sub->tahap1Data->id }}">
+                                                                <span class="text-danger">Silahkan isi verifikasi</span>
+                                                            </button>
+                                                        @else
+                                                            <span>Tidak ada data verifikasi</span>
+                                                        @endif
+                                                    @endif
                                                 @else
-                                                    <span class="text-muted">Belum ada verifikasi</span>
+                                                    @if ($sub->realisasi && $sub->realisasi->id && $sub->realisasi->user_id)
+                                                        <button class="btn fs-12" data-bs-toggle="modal"
+                                                            data-bs-target="#ModalTambahVerifikasi"
+                                                            data-realisasi-id="{{ $sub->realisasi->id }}">
+                                                            <span class="text-danger">Silahkan isi verifikasi</span>
+                                                        </button>
+                                                    @else
+                                                        <span>Tidak ada data verifikasi</span>
+                                                    @endif
                                                 @endif
                                             </td>
-                                            <td>{{ $sub->realisasi?->KPM ? $sub->realisasi->KPM . ' orang' : '-' }}</td>
-                                            <td>{{ $sub->target?->volume_keluaran ?? '-' }}</td>
                                             <td>
-                                                @if ($sub->realisasi)
-                                                    {{ $sub->realisasi->volume_keluaran ?? '-' }}
+                                                @if ($tahap === 'all')
+                                                    @if ($sub->tahap2Data && $sub->tahap2Data->verifikasi)
+                                                        {{ $sub->tahap2Data->KPM ? $sub->tahap2Data->KPM . ' orang' : '-' }}
+                                                    @elseif ($sub->tahap1Data && $sub->tahap1Data->verifikasi)
+                                                        {{ $sub->tahap1Data->KPM ? $sub->tahap1Data->KPM . ' orang' : '-' }}
+                                                    @else
+                                                        {{ $sub->tahap2Data && $sub->tahap2Data->KPM ? $sub->tahap2Data->KPM . ' orang' : ($sub->tahap1Data && $sub->tahap1Data->KPM ? $sub->tahap1Data->KPM . ' orang' : '-') }}
+                                                    @endif
                                                 @else
-                                                    <a class="text-decoration-none"
-                                                        href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id, 'tahap' => $tahap]) }}">
-                                                        <span class="text-danger">Silahkan isi realisasi</span>
-                                                    </a>
+                                                    {{ $sub->realisasi?->KPM ? $sub->realisasi->KPM . ' orang' : '-' }}
                                                 @endif
                                             </td>
-                                        </tr>
-                                    @endforeach
+                                            @if ($tahap == 'all')
+                                                <!-- Total Realisasi -->
+                                                <!-- Tahap 1 -->
+                                                @if ($sub->tahap1Data && $sub->tahap1Data->realisasi_keuangan !== null)
+                                                    <td>{{ $sub->tahap1Data->volume_keluaran ?? '-' }}
+                                                        {{ $sub->tahap1Data->uraian_keluaran ?? '-' }}</td>
+                                                    <td>Rp.{{ number_format($sub->tahap1Data->realisasi_keuangan, 0, ',', '.') }}
+                                                    </td>
+                                                @else
+                                                    <td colspan="2" class="text-center">
+                                                        <a class="text-decoration-none"
+                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=1">
+                                                            <span class="text-danger">Silahkan isi realisasi</span>
+                                                        </a>
+                                                    </td>
+                                                @endif
+                                                <!-- Tahap 2 -->
+                                                @if ($sub->tahap2Data && $sub->tahap2Data->realisasi_keuangan !== null)
+                                                    <td>{{ $sub->tahap2Data->volume_keluaran ?? '-' }}
+                                                        {{ $sub->tahap2Data->uraian_keluaran ?? '-' }}</td>
+                                                    <td>Rp.{{ number_format($sub->tahap2Data->realisasi_keuangan, 0, ',', '.') }}
+                                                    </td>
+                                                @else
+                                                    <td colspan="2" class="text-center">
+                                                        <a class="text-decoration-none"
+                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=2">
+                                                            <span class="text-danger">Silahkan isi realisasi</span>
+                                                        </a>
+                                                    </td>
+                                                @endif
+                                                <!-- Total -->
+                                                @if (
+                                                    $sub->tahap1Data &&
+                                                        $sub->tahap2Data &&
+                                                        $sub->tahap1Data->realisasi_keuangan !== null &&
+                                                        $sub->tahap2Data->realisasi_keuangan !== null)
+                                                    <td>{{ ($sub->tahap1Data->volume_keluaran ?? 0) + ($sub->tahap2Data->volume_keluaran ?? 0) }}
+                                                    </td>
+                                                    <td>{{ number_format($sub->persenVolumeFisikTotal, 2) }}%</td>
+                                                    <td>Rp.{{ number_format(($sub->tahap1Data->realisasi_keuangan ?? 0) + ($sub->tahap2Data->realisasi_keuangan ?? 0), 0, ',', '.') }}
+                                                    </td>
+                                                    <td>{{ number_format($sub->persenVolumeKeuanganTotal, 2) }}%</td>
+                                                @else
+                                                    <td colspan="4" class="text-danger text-center">Tahap 1 atau 2
+                                                        belum terisi</td>
+                                                @endif
+                                            @elseif ($tahap == '1' || $tahap == '2')
+                                                <!-- Tahap 1 or 2 -->
+                                                @if ($sub->realisasis->isNotEmpty() && $sub->tahapData)
+                                                    <td>{{ $sub->tahapData->volume_keluaran ?? '...' }}
+                                                        {{ $sub->tahapData->uraian_keluaran ?? '' }}</td>
+                                                    <td>
+                                                        @if ($sub->tahapData->realisasi_keuangan !== null)
+                                                            Rp.{{ number_format($sub->tahapData->realisasi_keuangan, 0, ',', '.') }}
+                                                        @else
+                                                    </td>
+                                                @endif
+                                                <td>{{ number_format($sub->persenVolumeFisik, 2) }}%</td>
+                                                <td>{{ number_format($sub->persenKeuangan, 2) }}%</td>
+                                            @else
+                                                <td colspan="4" class="text-muted text-center">Belum ada realisasi
+                                                    untuk tahap {{ $tahap }}</td>
+                                            @endif
+                                    @endif
+                                    </tr>
                                 @endforeach
-                            @empty
-                                <tr>
-                                    <td colspan="7" class="text-center text-muted">Tidak ada data</td>
-                                </tr>
+                            @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="13" class="text-center text-muted">Tidak ada data</td>
+                            </tr>
                             @endforelse
                         </tbody>
                     </table>

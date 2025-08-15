@@ -68,7 +68,7 @@
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text rounded-1 text-secondary">Rp</span>
                                 <input value="{{ $target->upah }}" required type="number" name="upah"
-                                    class="form-control rounded-1" disabled/>
+                                    class="form-control rounded-1" disabled />
                             </div>
                         </div>
                         <div class="mb-2">
@@ -76,13 +76,12 @@
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text rounded-1 text-secondary">Rp</span>
                                 <input value="{{ $target->BLT }}" required type="number" class="form-control rounded-1"
-                                    name="BLT" disabled/>
+                                    name="BLT" disabled />
                             </div>
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">Keterangan</label>
-                            <textarea required name="keterangan" class="form-control form-control-sm rounded-1" rows="3"
-                                disabled>{{ $target->keterangan }}</textarea>
+                            <textarea required name="keterangan" class="form-control form-control-sm rounded-1" rows="3" disabled>{{ $target->keterangan }}</textarea>
                         </div>
                     </div>
 
@@ -91,12 +90,12 @@
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">Cara pengadaan</label>
                             <input required value="{{ $target->cara_pengadaan }}" type="text"
-                                class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                disabled/>
+                                class="form-control form-control-sm rounded-1" name="cara_pengadaan" disabled />
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">Tahun</label>
-                            <select name="tahun" required class="form-select form-select-sm rounded-1 text-secondary" disabled>
+                            <select name="tahun" required class="form-select form-select-sm rounded-1 text-secondary"
+                                disabled>
                                 <option value="">Pilih tahun</option>
                                 <option value="2024" {{ $target->tahun == 2024 ? 'selected' : '' }}>2024</option>
                                 <option value="2025" {{ $target->tahun == 2025 ? 'selected' : '' }}>2025</option>
@@ -107,20 +106,22 @@
                             <label class="fs-12 txt-tb-grey">Target keuangan</label>
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                <input value="{{ $target->anggaran_target }}" required type="number"
-                                    name="target" class="form-control rounded-1"
-                                    disabled/>
+                                <input value="{{ $target->anggaran_target }}" required type="number" name="target"
+                                    class="form-control rounded-1" disabled />
                             </div>
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">periode pencarian</label>
                             <input value="{{ $target->durasi }}" required type="number" name="durasi"
-                                class="form-control form-control-sm rounded-1" disabled/>
+                                class="form-control form-control-sm rounded-1" disabled />
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
-                            <input value="{{ $target->KPM }}" required type="number"
-                                class="form-control form-control-sm rounded-1" name="KPM" disabled/>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                <input type="number" value="{{ $target->KPM }}" class="form-control rounded-1"
+                                    name="KPM" placeholder="jumlah KPM" required />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -128,8 +129,9 @@
                 <!-- Tombol -->
                 <div class="row align-items-center">
                     <div class="col-md-12 d-flex justify-content-end">
-                        <a href="{{ route('desa.target.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
-                           <i class="bi bi-arrow-return-left me-1"></i> Kembali
+                        <a href="{{ route('desa.target.index') }}"
+                            class="btn btn-secondary btn-sm fs-12 text-white me-2">
+                            <i class="bi bi-arrow-return-left me-1"></i> Kembali
                         </a>
                     </div>
                 </div>

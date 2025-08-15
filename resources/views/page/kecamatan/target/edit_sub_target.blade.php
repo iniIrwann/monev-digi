@@ -124,10 +124,12 @@
                                     class="form-control form-control-sm rounded-1" placeholder="durasi" />
                             </div>
                             <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">jumlah KPM</label>
-                                <input value="{{ $target->KPM }}" required type="number"
-                                    class="form-control form-control-sm rounded-1" name="KPM"
-                                    placeholder="jumlah KPM" />
+                                <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                    <input type="number" class="form-control rounded-1" name="KPM"
+                                        placeholder="jumlah KPM" required />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,7 +137,8 @@
                     <!-- Tombol -->
                     <div class="row align-items-center">
                         <div class="col-md-12 d-flex justify-content-end">
-                            <a href="{{ route('kecamatan.target.index') }}" class="btn btn-danger btn-sm fs-12 text-white me-2">
+                            <a href="{{ route('kecamatan.target.index') }}"
+                                class="btn btn-danger btn-sm fs-12 text-white me-2">
                                 <i class="bi bi-x-square"></i> batal
                             </a>
                             <button type="submit" class="btn btn-warning btn-sm fs-12 text-white">

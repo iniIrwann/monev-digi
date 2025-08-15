@@ -263,36 +263,35 @@ class RealisasiController extends Controller
                 ]
             );
 
-            // 🔹 Ambil semua realisasi (tahap 1 & 2) untuk target yang sama
-            $totalRealisasi = Realisasi::userOnly()
-                ->where('target_id', $target->id)
+            // Aggregate realisasi data for both tahap
+            $totalRealisasi = Realisasi::userOnly()->where('target_id', $target->id)
                 ->selectRaw('SUM(volume_keluaran) as total_volume, SUM(realisasi_keuangan) as total_keuangan')
                 ->first();
 
-            // 🔹 Hitung persentase capaian volume
+            // Calculate persentase capaian volume
             $persenan_capaian_volume = 0;
-            if ($target->volume_keluaran && $totalRealisasi->total_volume !== null) {
+            if ($target->volume_keluaran && is_numeric($target->volume_keluaran) && $target->volume_keluaran > 0) {
                 $persenan_capaian_volume = ($totalRealisasi->total_volume / $target->volume_keluaran) * 100;
             }
 
-            // 🔹 Hitung persentase capaian keuangan
+            // Calculate persentase capaian keuangan
             $persenan_capaian_keuangan = 0;
-            if ($target->anggaran_target && $totalRealisasi->total_keuangan !== null) {
+            if ($target->anggaran_target && is_numeric($target->anggaran_target) && $target->anggaran_target > 0) {
                 $persenan_capaian_keuangan = ($totalRealisasi->total_keuangan / $target->anggaran_target) * 100;
             }
 
-            // 🔹 Hitung sisa anggaran (pakai total dari tahap 1 & 2)
-            $sisa = ($totalRealisasi->total_keuangan ?? 0) - ($target->anggaran_target ?? 0);
+            // Calculate sisa anggaran (target - realisasi)
+            $sisa = ($target->anggaran_target ?? 0) - ($totalRealisasi->total_keuangan ?? 0);
 
-            // 🔹 Simpan/ubah capaian (1 record per target)
-            Capaian::userOnly()->updateOrCreate(
+            // Update or create Capaian
+            Capaian::updateOrCreate(
                 [
                     'target_id' => $target->id,
                     'user_id' => $realisasi->user_id,
                 ],
                 [
-                    'persen_capaian_keluaran' => $persenan_capaian_volume,
-                    'persen_capaian_keuangan' => $persenan_capaian_keuangan,
+                    'persen_capaian_keluaran' => round($persenan_capaian_volume, 2),
+                    'persen_capaian_keuangan' => round($persenan_capaian_keuangan, 2),
                     'sisa' => $sisa,
                 ]
             );
@@ -328,16 +327,36 @@ class RealisasiController extends Controller
         $target = Target::userOnly()->where('id', $realisasi->target_id)->first();
 
         if ($target) {
-            Capaian::userOnly()->updateOrCreate(
+            // Ambil total realisasi untuk target ini (termasuk semua tahap)
+            $totalRealisasi = Realisasi::where('target_id', $target->id)
+                ->selectRaw('SUM(volume_keluaran) as total_volume, SUM(realisasi_keuangan) as total_keuangan')
+                ->first();
+
+            // Hitung persentase capaian volume
+            $persen_capaian_volume = 0;
+            if ($target->volume_keluaran && is_numeric($target->volume_keluaran) && $target->volume_keluaran > 0) {
+                $persen_capaian_volume = ($totalRealisasi->total_volume / $target->volume_keluaran) * 100;
+            }
+
+            // Hitung persentase capaian keuangan
+            $persen_capaian_keuangan = 0;
+            if ($target->anggaran_target && is_numeric($target->anggaran_target) && $target->anggaran_target > 0) {
+                $persen_capaian_keuangan = ($totalRealisasi->total_keuangan / $target->anggaran_target) * 100;
+            }
+
+            // Hitung sisa anggaran
+            $sisa = ($target->anggaran_target ?? 0) - ($totalRealisasi->total_keuangan ?? 0);
+
+            // Update atau buat capaian
+            Capaian::updateOrCreate(
                 [
                     'target_id' => $target->id,
-                    'realisasi_id' => $realisasi->id,
-                    'user_id' => auth()->id(),
+                    'user_id' => $realisasi->user_id,
                 ],
                 [
-                    'persen_capaian_keluaran' => 0,
-                    'persen_capaian_keuangan' => 0,
-                    'sisa' => 0,
+                    'persen_capaian_keluaran' => round($persen_capaian_volume, 2),
+                    'persen_capaian_keuangan' => round($persen_capaian_keuangan, 2),
+                    'sisa' => $sisa,
                 ]
             );
         }

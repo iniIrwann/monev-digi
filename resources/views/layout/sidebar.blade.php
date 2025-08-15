@@ -2,7 +2,7 @@
         <!-- profil -->
         <div class="text-center ps-4 pe-4 pt-4">
             <div class="d-flex align-items-center me-3">
-                <img class="p-1 img-fluid w-34"
+                <img class="p-1 img-fluid w-34 rounded-circle"
                     src="{{ auth()->user()->foto_profile ? asset('assets/images/foto_profile/' . auth()->user()->foto_profile) : asset('assets/images/profil.png') }}"
                     alt="Foto Profil" />
                 <div class="ms-2 text-start">

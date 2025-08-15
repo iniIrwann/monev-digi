@@ -313,52 +313,56 @@ class RealisasiKecamatanController extends Controller
     {
         $realisasi = Realisasi::when($tahap, function ($q) use ($tahap) {
             $q->where('tahap', $tahap);
-        })
-            ->findOrFail($id);
+        })->findOrFail($id);
 
         DB::transaction(function () use ($realisasi, $tahap) {
+            // Reset data realisasi
             $realisasi->update([
                 'volume_keluaran' => null,
                 'tenaga_kerja' => null,
-                // 'uraian_keluaran',
-                // 'cara_pengadaan',
+                // 'uraian_keluaran' => null,
+                // 'cara_pengadaan' => null,
                 'realisasi_keuangan' => null,
                 'durasi' => null,
                 'upah' => null,
                 'KPM' => null,
                 'BLT' => null,
-                // 'tahun' ,
+                // 'tahun' => null,
                 'keterangan' => null,
             ]);
 
             $target = Target::where('id', $realisasi->target_id)->first();
+
             if ($target) {
-                $realisasiAggregated = Realisasi::where('target_id', $target->id)
-                    ->select(
-                        DB::raw('SUM(realisasi_keuangan) as total_realisasi_keuangan'),
-                        DB::raw('SUM(volume_keluaran) as total_volume_keluaran')
-                    )
+                // Ambil total realisasi untuk target ini (termasuk semua tahap)
+                $totalRealisasi = Realisasi::where('target_id', $target->id)
+                    ->selectRaw('SUM(volume_keluaran) as total_volume, SUM(realisasi_keuangan) as total_keuangan')
                     ->first();
 
-                $persen_volume = $target->volume_keluaran && $realisasiAggregated->total_volume_keluaran
-                    ? ($realisasiAggregated->total_volume_keluaran / $target->volume_keluaran * 100)
-                    : 0;
+                // Hitung persentase capaian volume
+                $persen_capaian_volume = 0;
+                if ($target->volume_keluaran && is_numeric($target->volume_keluaran) && $target->volume_keluaran > 0) {
+                    $persen_capaian_volume = ($totalRealisasi->total_volume / $target->volume_keluaran) * 100;
+                }
 
-                $persen_keuangan = $target->anggaran_target && $realisasiAggregated->total_realisasi_keuangan
-                    ? ($realisasiAggregated->total_realisasi_keuangan / $target->anggaran_target * 100)
-                    : 0;
+                // Hitung persentase capaian keuangan
+                $persen_capaian_keuangan = 0;
+                if ($target->anggaran_target && is_numeric($target->anggaran_target) && $target->anggaran_target > 0) {
+                    $persen_capaian_keuangan = ($totalRealisasi->total_keuangan / $target->anggaran_target) * 100;
+                }
 
-                $sisa = $realisasiAggregated->total_realisasi_keuangan - ($target->anggaran_target ?? 0);
+                // Hitung sisa anggaran
+                $sisa = ($target->anggaran_target ?? 0) - ($totalRealisasi->total_keuangan ?? 0);
 
+                // Update atau buat capaian
                 Capaian::updateOrCreate(
                     [
                         'target_id' => $target->id,
-                        'realisasi_id' => $realisasi->id,
-                        'user_id' => $target->user_id,
+                        'user_id' => $realisasi->user_id,
                     ],
                     [
-                        'persen_capaian_keluaran' => $persen_volume,
-                        'persen_capaian_keuangan' => $persen_keuangan,
+                        'persen_capaian_keluaran' => round($persen_capaian_volume, 2),
+                        'persen_capaian_keuangan' => round($persen_capaian_keuangan, 2),
                         'sisa' => $sisa,
                     ]
                 );
@@ -368,22 +372,22 @@ class RealisasiKecamatanController extends Controller
         return redirect()->route('kecamatan.realisasi.index')->with('success', 'Data realisasi berhasil dihapus.');
     }
 
+
     public function detailSub($bidang_id, $kegiatan_id, $subkegiatan_id)
     {
-        $realisasis = Realisasi::where('bidang_id', $bidang_id)
+        $tahap = request()->input('tahap', 1);
+
+        $realisasi = Realisasi::where('bidang_id', $bidang_id)
             ->where('kegiatan_id', $kegiatan_id)
             ->where('sub_kegiatan_id', $subkegiatan_id)
-            ->get();
-
-        if ($realisasis->isEmpty()) {
-            abort(404, 'Realisasi not found');
-        }
+            ->where('tahap', $tahap)
+            ->firstOrFail();
 
         $bidang = Bidang::findOrFail($bidang_id);
         $kegiatan = Kegiatan::findOrFail($kegiatan_id);
         $subKegiatan = SubKegiatan::findOrFail($subkegiatan_id);
 
-        return view('page.kecamatan.realisasi.detail', compact('realisasis', 'bidang', 'kegiatan', 'subKegiatan'));
+        return view('page.kecamatan.realisasi.detail', compact('realisasi', 'bidang', 'kegiatan', 'subKegiatan'));
     }
 
     public function createCatatan($bidang_id, $kegiatan_id, $subkegiatan_id)

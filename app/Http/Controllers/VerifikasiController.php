@@ -9,38 +9,43 @@ use App\Models\SubKegiatan;
 use App\Models\Target;
 use App\Models\User;
 use App\Models\Verifikasi;
-use DB;
 use Illuminate\Http\Request;
 
 class VerifikasiController extends Controller
 {
     public function index(Request $request)
     {
+        // Validate and sanitize inputs
         $tahun = $request->input('tahun');
         $bidangId = $request->input('bidang');
-        $search = $request->input('query');
+        $search = trim($request->input('query'));
         $desaId = $request->input('desa');
-        $tahap = $request->input('tahap', '1'); // Default ke Tahap 1
+        $tahap = $request->input('tahap', '1'); // Default to Tahap 1
 
-        $desa = null;
-        $bidang = null;
-        if ($desaId) {
-            $desa = User::where('role', 'desa')->where('id', $desaId)->first();
-        }
-        if ($bidangId) {
-            $bidang = Bidang::find($bidangId);
+        // Validate tahap
+        if (!in_array($tahap, ['1', '2', 'all'])) {
+            $tahap = '1'; // Fallback to default if invalid
         }
 
+        // Fetch desa and bidang if provided
+        $desa = $desaId ? User::where('role', 'desa')->where('id', $desaId)->first() : null;
+        $bidang = $bidangId ? Bidang::find($bidangId) : null;
+
+        // Fetch desa options for filter
         $selectDesa = User::where('role', 'desa')->select('id', 'desa')->get();
-        $filterBidangs = collect();
-        if ($desaId) {
-            $filterBidangs = Bidang::where('user_id', $desaId)
-                ->select('id', 'nama_bidang')
-                ->get();
-        }
 
-        $query = Bidang::with(['kegiatan.subkegiatan.realisasis.verifikasi']);
+        // Fetch bidang options based on desa
+        $filterBidangs = $desaId
+            ? Bidang::where('user_id', $desaId)->select('id', 'nama_bidang')->get()
+            : collect();
 
+        // Build query with eager loading
+        $query = Bidang::with([
+            'kegiatan.subkegiatan.realisasis.verifikasi',
+            'kegiatan.subkegiatan.targets'
+        ]);
+
+        // Apply filters
         if ($desaId) {
             $query->where('user_id', $desaId);
         }
@@ -52,7 +57,7 @@ class VerifikasiController extends Controller
                 $q->where('tahun', $tahun);
             });
         }
-        if ($tahap) {
+        if ($tahap !== 'all') {
             $query->whereHas('kegiatan.subkegiatan.realisasis', function ($q) use ($tahap) {
                 $q->where('tahap', $tahap);
             });
@@ -72,62 +77,104 @@ class VerifikasiController extends Controller
             });
         }
 
+        // Fetch paginated data
         $data = $query->paginate(5)->appends($request->query());
 
+        // Process data for Blade template
         foreach ($data as $bidang) {
             foreach ($bidang->kegiatan as $kegiatan) {
                 foreach ($kegiatan->subkegiatan as $sub) {
+                    // Set realisasi for the selected tahap
                     $sub->realisasi = $sub->realisasis->where('tahap', $tahap)->first();
 
-                    $sub->target = Target::where('sub_kegiatan_id', $sub->id)->first();
+                    // Set target
+                    $sub->target = $sub->targets->first();
+
+                    // Set tahap1Data and tahap2Data for 'all' view
+                    if ($tahap === 'all') {
+                        $sub->tahap1Data = $sub->realisasis->where('tahap', 1)->first();
+                        $sub->tahap2Data = $sub->realisasis->where('tahap', 2)->first();
+
+                        // Calculate totals and percentages
+                        if ($sub->tahap1Data && $sub->tahap2Data && $sub->target) {
+                            $totalVolume = ($sub->tahap1Data->volume_keluaran ?? 0) + ($sub->tahap2Data->volume_keluaran ?? 0);
+                            $totalKeuangan = ($sub->tahap1Data->realisasi_keuangan ?? 0) + ($sub->tahap2Data->realisasi_keuangan ?? 0);
+                            $sub->persenVolumeFisikTotal = $sub->target->volume_keluaran
+                                ? ($totalVolume / $sub->target->volume_keluaran) * 100
+                                : 0;
+                            $sub->persenVolumeKeuanganTotal = $sub->target->anggaran_target
+                                ? ($totalKeuangan / $sub->target->anggaran_target) * 100
+                                : 0;
+                        } else {
+                            $sub->persenVolumeFisikTotal = null;
+                            $sub->persenVolumeKeuanganTotal = null;
+                        }
+                    } else {
+                        // Set tahapData for single tahap view
+                        $sub->tahapData = $sub->realisasis->where('tahap', $tahap)->first();
+
+                        // Calculate percentages for single tahap
+                        if ($sub->tahapData && $sub->target) {
+                            $sub->persenVolumeFisik = $sub->target->volume_keluaran
+                                ? ($sub->tahapData->volume_keluaran / $sub->target->volume_keluaran) * 100
+                                : 0;
+                            $sub->persenKeuangan = $sub->target->anggaran_target
+                                ? ($sub->tahapData->realisasi_keuangan / $sub->target->anggaran_target) * 100
+                                : 0;
+                        } else {
+                            $sub->persenVolumeFisik = null;
+                            $sub->persenKeuangan = null;
+                        }
+                    }
                 }
             }
         }
 
-        return view('page.kecamatan.verifikasi.index', [
-            'data' => $data,
-            'filterBidangs' => $filterBidangs,
-            'selectDesa' => $selectDesa,
-            'bidang' => $bidang,
-            'desa' => $desa,
-            'tahun' => $tahun,
-            'tahap' => $tahap
-        ]);
+        return view('page.kecamatan.verifikasi.index', compact(
+            'data',
+            'filterBidangs',
+            'selectDesa',
+            'bidang',
+            'desa',
+            'tahun',
+            'tahap',
+            'search'
+        ));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'realisasi_id' => 'required|exists:realisasis,id',
-            'catatan' => 'required|string',
-            'tindak_lanjut' => 'required|string',
-            'rekomendasi' => 'required|string',
+            'catatan' => 'required|string|max:255',
+            'tindak_lanjut' => 'required|string|max:255',
+            'rekomendasi' => 'required|string|max:255',
         ]);
 
         $realisasi = Realisasi::findOrFail($validated['realisasi_id']);
 
-        // Ambil user_id dari realisasi, jangan dari input client
-        $userId = $realisasi->user_id;
-        if (!$userId) {
-            return redirect()->back()->withErrors(['realisasi_id' => 'Realisasi tidak terkait dengan user yang valid.'])->withInput();
+        if (auth()->user()->role !== 'kecamatan') {
+            return redirect()->back()->withErrors(['error' => 'Anda tidak memiliki izin untuk menyimpan verifikasi.']);
         }
 
-        $verifikasi = Verifikasi::create([
-            'catatan' => $validated['catatan'],
-            'tindak_lanjut' => $validated['tindak_lanjut'],
-            'rekomendasi' => $validated['rekomendasi'],
-        ]);
+        $verifikasi = Verifikasi::updateOrCreate(
+            ['id' => $realisasi->verifikasi_id],
+            [
+                'catatan' => $validated['catatan'],
+                'tindak_lanjut' => $validated['tindak_lanjut'],
+                'rekomendasi' => $validated['rekomendasi'],
+                'user_id' => $realisasi->user_id,
+            ]
+        );
 
-        Realisasi::where('bidang_id', $realisasi->bidang_id)
+        $cariSemuaRealisasi = Realisasi::where('target_id', $realisasi->target_id)
+            ->where('bidang_id', $realisasi->bidang_id)
             ->where('kegiatan_id', $realisasi->kegiatan_id)
             ->where('sub_kegiatan_id', $realisasi->sub_kegiatan_id)
-            ->where('user_id', $realisasi->user_id)
-            ->update([
-                'verifikasi_id' => $verifikasi->id
-            ]);
+            ->update(['verifikasi_id' => $verifikasi->id]);
+
 
         return redirect()->route('kecamatan.verifikasi.index', $request->query())
             ->with('success', 'Data verifikasi berhasil disimpan.');
     }
-
 }

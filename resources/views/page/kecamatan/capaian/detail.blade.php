@@ -99,8 +99,12 @@
                                 readonly>
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 mb-1">Jumlah KPM</label>
-                            <input type="text" class="form-control fs-12" value="{{ $target?->KPM ?? '-' }}" readonly>
+                            <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                <input type="number" value="{{ $target?->KPM }}" class="form-control rounded-1"
+                                    name="KPM" placeholder="jumlah KPM" disabled />
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 mb-1">Tenaga Kerja</label>
@@ -172,9 +176,13 @@
                                         value="{{ $tahap1Data?->durasi ?? '-' }}" readonly>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="fs-12 mb-1">Jumlah KPM</label>
-                                    <input type="text" class="form-control fs-12"
-                                        value="{{ $tahap1Data?->KPM ?? '-' }}" readonly>
+                                    <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                        <input type="number" value="{{ $tahap1Data?->KPM }}"
+                                            class="form-control rounded-1" name="KPM" placeholder="jumlah KPM"
+                                            disabled />
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="fs-12 mb-1">Tenaga Kerja</label>
@@ -241,9 +249,13 @@
                                         value="{{ $tahap2Data?->durasi ?? '-' }}" readonly>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="fs-12 mb-1">Jumlah KPM</label>
-                                    <input type="text" class="form-control fs-12"
-                                        value="{{ $tahap2Data?->KPM ?? '-' }}" readonly>
+                                    <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                        <input type="number" value="{{ $tahap2Data?->KPM }}"
+                                            class="form-control rounded-1" name="KPM" placeholder="jumlah KPM"
+                                            disabled />
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="fs-12 mb-1">Tenaga Kerja</label>

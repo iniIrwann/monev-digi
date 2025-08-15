@@ -126,14 +126,17 @@
                                 </tr>
                             @else
                                 <tr class="text-start">
-                                    <th class="text-center" rowspan="2">Aksi</th>
-                                    <th rowspan="2">Kode Rekening</th>
-                                    <th rowspan="2">Rencana Kegiatan</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                     <th colspan="2" class="text-center">Tahap 1</th>
                                     <th colspan="2" class="text-center">Tahap 2</th>
                                     <th colspan="4" class="text-center">Total</th>
                                 </tr>
                                 <tr class="text-start">
+                                    <th class="text-center">Aksi</th>
+                                    <th>Kode Rekening</th>
+                                    <th class="">Rencana Kegiatan</th>
                                     <th>Volume Fisik</th>
                                     <th>Realisasi Keuangan (Rp)</th>
                                     <th>Volume Fisik</th>
@@ -172,9 +175,11 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-end">
-                                                    <a href="{{ route('kecamatan.realisasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
-                                                        class="btn btn-sm btn-secondary" title="Detail"><i
-                                                            class="bi bi-eye-fill"></i></a>
+                                                    @if ($tahap !== 'all')
+                                                        <a href="{{ route('kecamatan.realisasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap={{ $tahap }}"
+                                                            class="btn btn-sm btn-secondary" title="Detail"><i
+                                                                class="bi bi-eye-fill"></i></a>
+                                                    @endif
                                                     {{-- <a href="{{ route('kecamatan.realisasi.create.catatan', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-success"
                                                         title="Catatan, Tindak Lanjut, Rekomendasi"><i

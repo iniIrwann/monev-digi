@@ -168,12 +168,15 @@
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
-                                <input value="{{ old('KPM', $realisasi?->KPM) }}" type="number"
-                                    class="form-control form-control-sm rounded-1" name="KPM"
-                                    placeholder="jumlah KPM" />
-                                @error('KPM')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                    <input type="number" value="{{ old('KPM', $realisasi?->KPM) }}"
+                                        class="form-control rounded-1" name="KPM" placeholder="jumlah KPM"
+                                        required />
+                                    @error('KPM')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>

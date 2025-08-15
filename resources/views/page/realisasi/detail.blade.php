@@ -124,9 +124,11 @@
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
-                            <input value="{{ $realisasi->KPM }}" required type="number"
-                                class="form-control form-control-sm rounded-1" name="KPM"
-                                placeholder="Kosong / Belum diisi" disabled />
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                <input type="number" value="{{ $realisasi->KPM }}" class="form-control rounded-1"
+                                    name="KPM" placeholder="jumlah KPM" required />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -23,14 +23,12 @@ class TargetDesaController extends Controller
         $filterBidangs = Bidang::userOnly()->select('id', 'nama_bidang')->get();
         $query = Bidang::userOnly()->with(['kegiatan.subkegiatan.targets']);
 
-        // Filter Tahun
         if ($tahun) {
             $query->whereHas('kegiatan.subkegiatan.targets', function ($q) use ($tahun) {
                 $q->where('tahun', $tahun);
             });
         }
 
-        // ✅ Tetap filter berdasarkan bidang jika dipilih
         if ($bidangId) {
             $query->where('id', $bidangId);
         }
