@@ -220,7 +220,7 @@ class RealisasiController extends Controller
             'BLT' => 'nullable|numeric',
             'keterangan' => 'nullable|string',
             'realisasi_keuangan' => 'required|numeric',
-            'durasi' => 'nullable|numeric',
+            'durasi' => 'nullable|date',
             'KPM' => 'nullable|numeric',
             'cara_pengadaan' => 'required|string',
             'uraian_keluaran' => 'nullable|string',

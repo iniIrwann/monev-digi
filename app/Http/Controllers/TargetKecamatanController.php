@@ -130,7 +130,7 @@ class TargetKecamatanController extends Controller
             'cara_pengadaan' => 'required|string|max:255',
             'tahun' => 'required|numeric',
             'anggaran_target' => 'required|numeric',
-            'durasi' => 'nullable|numeric',
+            'durasi' => 'nullable|date',
             'KPM' => 'nullable|numeric',
         ]);
 
@@ -274,7 +274,7 @@ class TargetKecamatanController extends Controller
             'cara_pengadaan' => 'nullable|string|max:255',
             'tahun' => 'required|numeric',
             'anggaran_target' => 'nullable|numeric',
-            'durasi' => 'nullable|numeric',
+            'durasi' => 'nullable|date',
             'KPM' => 'nullable|numeric',
         ]);
 

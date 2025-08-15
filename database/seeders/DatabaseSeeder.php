@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'nohp' => '0812346789',
             'desa' => 'Kecamatan Soreang',
             'email' => 'kecamatan@example.com',
-            'password' => Hash::make('pass'),
+            'password' => Hash::make('12345678'),
         ]);
         User::create([
             'name' => 'Admin Desa Cingcin',

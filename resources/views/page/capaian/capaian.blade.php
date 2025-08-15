@@ -21,7 +21,7 @@
                 <form action="{{ route('kecamatan.capaian.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <!-- Pilih Tahun -->
-                        <div class="col-12 col-md-5">
+                        <div class="col-12 col-md-6">
                             <label class="fs-12 mb-1">Pilih Tahun</label>
                             <select name="tahun" class="fs-12 form-select">
                                 <option value="">{{ __('-- Semua Tahun --') }}</option>
@@ -33,7 +33,7 @@
                         </div>
 
                         <!-- Pilih Bidang -->
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-5">
                             <label class="fs-12 mb-1">Pilih Bidang</label>
                             <select name="bidang" class="fs-12 form-select">
                                 <option value="">{{ __('-- Semua Bidang --') }}</option>
@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="col-12 col-md-1 d-grid">
-                            <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
+                            <button type="submit" class="btn btn-success fs-12 text-white">
                                 <i class="bi bi-filter"></i>
                             </button>
                         </div>

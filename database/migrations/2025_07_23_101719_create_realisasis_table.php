@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->integer('tenaga_kerja')->nullable();
             $table->string('cara_pengadaan')->nullable();
             $table->bigInteger('realisasi_keuangan')->nullable();
-            $table->integer('durasi')->nullable();
+            $table->date('durasi')->nullable();
             $table->bigInteger('upah')->nullable();
             $table->integer('KPM')->nullable();
             $table->bigInteger('BLT')->nullable();

@@ -9,7 +9,7 @@
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
                 <i class="bi bi-person-fill fs-16 text-white"></i>
             </div>
-            <p class="fs-14 ms-2 mb-0">manajemen desa</p>
+            <p class="fs-14 ms-2 mb-0">Manajemen desa</p>
         </div>
 
         <!-- card -->

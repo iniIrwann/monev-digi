@@ -22,7 +22,7 @@
                 <li class="nav-item">
                     <a href="{{ route('desa.dashboard.index') }}"
                         class="{{ Request::is('dashboard*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
-                        dashboard
+                        Dashboard
                         <i class="bi bi-house-door-fill {{ Request::is('dashboard*') ? 'tx-orange' : '' }}"></i>
                     </a>
                 </li>
@@ -30,7 +30,7 @@
                     <a class="nav-link d-flex justify-content-between align-items-center text-dark fs-12"
                         data-bs-toggle="collapse" href="#capaianMenu" role="button" aria-expanded="false"
                         aria-controls="capaianMenu">
-                        capaian RKP
+                        Capaian RKP
                         <i class="bi bi-clipboard-fill fs-12 text-dark"></i>
                     </a>
                     <div class="collapse show mt-2" id="capaianMenu">
@@ -40,7 +40,7 @@
                                     class="text-decoration-none {{ Request::is('target*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
                                     <i
                                         class="bi bi-arrow-right-short {{ Request::is('target*') ? 'tx-orange' : '' }}"></i>
-                                    target
+                                    Target
                                 </a>
                             </li>
                             <li>
@@ -48,7 +48,7 @@
                                     class="text-decoration-none {{ Request::is('realisasi*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
                                     <i
                                         class="bi bi-arrow-right-short {{ Request::is('realisasi*') ? 'tx-orange' : '' }}"></i>
-                                    realisasi
+                                    Realisasi
                                 </a>
                             </li>
                             <li>
@@ -56,7 +56,7 @@
                                     class="text-decoration-none {{ Request::is('capaian*') ? 'tx-green' : 'text-dark' }} d-block fs-12">
                                     <i
                                         class="bi bi-arrow-right-short {{ Request::is('capaian*') ? 'tx-orange' : '' }}"></i>
-                                    capaian
+                                    Capaian
                                 </a>
                             </li>
                         </ul>
@@ -65,7 +65,7 @@
                 <li class="nav-item">
                     <a href="{{ route('desa.profile.index') }}"
                         class="{{ Request::is('profile*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
-                        profil
+                        Profil
                         <i class="bi bi-person-fill {{ Request::is('profile*') ? 'tx-orange' : 'text-dark' }}"></i>
                     </a>
                 </li>
@@ -76,7 +76,7 @@
                 <li class="nav-item">
                     <a href="{{ route('kecamatan.dashboard.index') }}"
                         class="{{ Request::is('kecamatan/dashboard*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
-                        dashboard
+                        Dashboard
                         <i
                             class="bi bi-house-door-fill {{ Request::is('kecamatan/dashboard*') ? 'tx-orange' : '' }}"></i>
                     </a>
@@ -85,7 +85,7 @@
                     <a class="nav-link d-flex justify-content-between align-items-center text-dark fs-12"
                         data-bs-toggle="collapse" href="#capaianMenu" role="button" aria-expanded="false"
                         aria-controls="capaianMenu">
-                        capaian RKP
+                        Capaian RKP
                         <i class="bi bi-clipboard-fill fs-12 text-dark"></i>
                     </a>
                     <div class="collapse show my-2" id="capaianMenu">
@@ -95,7 +95,7 @@
                                     class="text-decoration-none {{ Request::is('kecamatan/target*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
                                     <i
                                         class="bi bi-arrow-right-short {{ Request::is('kecamatan/target*') ? 'tx-orange' : '' }}"></i>
-                                    target
+                                    Target
                                 </a>
                             </li>
                             <li>
@@ -103,7 +103,7 @@
                                     class="text-decoration-none {{ Request::is('kecamatan/realisasi*') ? 'tx-green' : 'text-dark' }} d-block mb-2 fs-12">
                                     <i
                                         class="bi bi-arrow-right-short {{ Request::is('kecamatan/realisasi*') ? 'tx-orange' : '' }}"></i>
-                                    realisasi
+                                    Realisasi
                                 </a>
                             </li>
                             <li>
@@ -111,7 +111,7 @@
                                     class="text-decoration-none {{ Request::is('kecamatan/capaian*') ? 'tx-green' : 'text-dark' }} d-block fs-12">
                                     <i
                                         class="bi bi-arrow-right-short {{ Request::is('kecamatan/capaian*') ? 'tx-orange' : '' }}"></i>
-                                    capaian
+                                    Capaian
                                 </a>
                             </li>
                         </ul>
@@ -121,7 +121,7 @@
                 <li class="nav-item">
                     <a href="{{ route('kecamatan.verifikasi.index') }}"
                         class="{{ Request::is('kecamatan/verifikasi*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
-                        verifikasi
+                        Verifikasi
                         <i
                             class="bi bi-patch-check-fill {{ Request::is('kecamatan/verifikasi*') ? 'tx-orange' : 'text-dark' }}"></i>
                     </a>
@@ -129,7 +129,7 @@
                 <li class="nav-item">
                     <a href="{{ route('kecamatan.dataDesa.index') }}"
                         class="{{ Request::is('kecamatan/data-desa*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
-                        data desa
+                        Data desa
                         <i
                             class="bi bi-person-fill {{ Request::is('kecamatan/data-desa*') ? 'tx-orange' : 'text-dark' }}"></i>
                     </a>
@@ -138,7 +138,7 @@
                 <li class="nav-item">
                     <a href="{{ route('kecamatan.profile.index') }}"
                         class="{{ Request::is('kecamatan/profile*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
-                        profil
+                        Profil
                         <i
                             class="bi bi-person-fill {{ Request::is('kecamatan/profile*') ? 'tx-orange' : 'text-dark' }}"></i>
                     </a>

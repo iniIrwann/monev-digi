@@ -111,8 +111,8 @@
                             </div>
                         </div>
                         <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">periode pencarian</label>
-                            <input value="{{ $target->durasi }}" required type="number" name="durasi"
+                            <label class="fs-12 txt-tb-grey">Periode pencarian</label>
+                            <input value="{{ $target->durasi }}" required type="date" name="durasi"
                                 class="form-control form-control-sm rounded-1" disabled />
                         </div>
                         <div class="mb-2">
@@ -120,7 +120,7 @@
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text rounded-1 text-secondary">Orang</span>
                                 <input type="number" value="{{ $target->KPM }}" class="form-control rounded-1"
-                                    name="KPM" placeholder="jumlah KPM" required />
+                                    name="KPM" placeholder="jumlah KPM" required disabled/>
                             </div>
                         </div>
                     </div>

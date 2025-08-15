@@ -52,7 +52,7 @@
                                 <option value="2" {{ request('tahap') == '2' ? 'selected' : '' }}>Tahap 2</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <label class="fs-12 mb-1">Pilih Desa</label>
                             <select name="desa" class="fs-12 form-select">
                                 <option value="">{{ __('-- Semua Desa --') }}</option>
@@ -245,14 +245,14 @@
                                                         @if ($sub->tahap2Data && $sub->tahap2Data->id && $sub->tahap2Data->user_id)
                                                             <button class="btn fs-12" data-bs-toggle="modal"
                                                                 data-bs-target="#ModalTambahVerifikasi"
-                                                                data-realisasi-id="{{ $sub->tahap2Data->id }}">
-                                                                <span class="text-danger">Silahkan isi verifikasi</span>
+                                                                data-realisasi-id="{{ $sub->tahap2Data->id }}" class="text-decoration-none">
+                                                            <span class="badge bg-danger fs-10">Silahkan isi verifikasi</span>
                                                             </button>
                                                         @elseif ($sub->tahap1Data && $sub->tahap1Data->id && $sub->tahap1Data->user_id)
                                                             <button class="btn fs-12" data-bs-toggle="modal"
                                                                 data-bs-target="#ModalTambahVerifikasi"
-                                                                data-realisasi-id="{{ $sub->tahap1Data->id }}">
-                                                                <span class="text-danger">Silahkan isi verifikasi</span>
+                                                                data-realisasi-id="{{ $sub->tahap1Data->id }}"class="text-decoration-none">
+                                                            <span class="badge bg-danger fs-10"> Silahkan isi verifikasi</span>
                                                             </button>
                                                         @else
                                                             <span>Tidak ada data verifikasi</span>
@@ -262,8 +262,8 @@
                                                     @if ($sub->realisasi && $sub->realisasi->id && $sub->realisasi->user_id)
                                                         <button class="btn fs-12" data-bs-toggle="modal"
                                                             data-bs-target="#ModalTambahVerifikasi"
-                                                            data-realisasi-id="{{ $sub->realisasi->id }}">
-                                                            <span class="text-danger">Silahkan isi verifikasi</span>
+                                                            data-realisasi-id="{{ $sub->realisasi->id }}" class="text-decoration-none">
+                                                            <span class="badge bg-danger fs-10">Silahkan isi verifikasi</span>
                                                         </button>
                                                     @else
                                                         <span>Tidak ada data verifikasi</span>
@@ -294,8 +294,8 @@
                                                 @else
                                                     <td colspan="2" class="text-center">
                                                         <a class="text-decoration-none"
-                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=1">
-                                                            <span class="text-danger">Silahkan isi realisasi</span>
+                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=1"class="text-decoration-none">
+                                                            <span class="badge bg-danger fs-10">Silahkan isi realisasi</span>
                                                         </a>
                                                     </td>
                                                 @endif
@@ -308,8 +308,8 @@
                                                 @else
                                                     <td colspan="2" class="text-center">
                                                         <a class="text-decoration-none"
-                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=2">
-                                                            <span class="text-danger">Silahkan isi realisasi</span>
+                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=2" class="text-decoration-none">
+                                                            <span class="badge bg-danger fs-10">Silahkan isi realisasi</span>
                                                         </a>
                                                     </td>
                                                 @endif
@@ -326,8 +326,11 @@
                                                     </td>
                                                     <td>{{ number_format($sub->persenVolumeKeuanganTotal, 2) }}%</td>
                                                 @else
-                                                    <td colspan="4" class="text-danger text-center">Tahap 1 atau 2
-                                                        belum terisi</td>
+                                                    <td colspan="4" class="text-center">
+                                                            <span class="badge bg-danger fs-10">
+                                                                Tahap 1 atau 2 belum terisi
+                                                            </span>
+                                                        </td>
                                                 @endif
                                             @elseif ($tahap == '1' || $tahap == '2')
                                                 <!-- Tahap 1 or 2 -->
@@ -406,12 +409,12 @@
                                     </div>
 
                                     <div class="d-flex justify-content-end gap-2">
-                                        <button type="button" class="btn btn-outline-danger btn-sm fs-12"
+                                        <button type="button" class="btn btn-danger btn-sm fs-12"
                                             data-bs-dismiss="modal">
                                             <i class="bi bi-x-square"></i> Batal
                                         </button>
                                         <button type="submit" class="btn btn-success btn-sm fs-12 text-white">
-                                            <i class="bi bi-save"></i> Simpan
+                                            <i class="bi bi-plus-square me-1"></i> Tambah
                                         </button>
                                     </div>
                                 </form>

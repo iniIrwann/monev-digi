@@ -9,7 +9,7 @@
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
                 <i class="bi bi-award-fill fs-16 text-white"></i>
             </div>
-            <p class="fs-14 ms-2 mb-0">Detail Realisasi {{ $subkegiatan->nama_subkegiatan }}</p>
+            <p class="fs-14 ms-2 mb-0">Detail Capaian {{ $subkegiatan->nama_subkegiatan }}</p>
         </div>
 
         <!-- Detail View -->
@@ -289,8 +289,8 @@
 
                 <!-- Buttons -->
                 <div class="d-flex justify-content-end">
-                    <a href="{{ route('kecamatan.capaian.index') }}" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-arrow-left"></i> Kembali
+                    <a href="{{ route('kecamatan.capaian.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
+                            <i class="bi bi-arrow-return-left me-1"></i> Kembali
                     </a>
                 </div>
             </div>

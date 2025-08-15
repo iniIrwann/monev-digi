@@ -142,7 +142,7 @@
                     <a href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                         class="d-flex align-items-center ms-3 me-2 text-dark text-decoration-none fs-14"
                         style="pointer-events: auto">
-                        <i class="bi bi-box-arrow-right me-1 fs-14"></i> logout
+                        <i class="bi bi-box-arrow-right me-1 fs-14"></i> Logout
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

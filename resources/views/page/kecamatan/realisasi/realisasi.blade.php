@@ -7,9 +7,9 @@
     <div class="main-content ps-3 pe-3 pt-4">
         <div class="d-flex align-items-center mb-2 mb-md-0 pb-4">
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
-                <i class="bi bi-patch-check-fill fs-16 text-white"></i>
+                <i class="bi bi-list-check fs-16 text-white"></i>
             </div>
-            <p class="fs-14 ms-2 mb-0">Verifikasi</p>
+            <p class="fs-14 ms-2 mb-0">Realisasi</p>
         </div>
 
         <!-- Filter -->
@@ -216,8 +216,8 @@
                                                 @else
                                                     <td colspan="2" class="text-center">
                                                         <a class="text-decoration-none"
-                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=1">
-                                                            <span class="text-danger">Silahkan isi realisasi</span>
+                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=1" class="text-decoration-none">
+                                                            <span class="badge bg-danger fs-12">Silahkan isi realisasi</span>
                                                         </a>
                                                     </td>
                                                 @endif
@@ -230,8 +230,8 @@
                                                 @else
                                                     <td colspan="2" class="text-center">
                                                         <a class="text-decoration-none"
-                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=2">
-                                                            <span class="text-danger">Silahkan isi realisasi</span>
+                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=2" class="text-decoration-none">
+                                                            <span class="badge bg-danger fs-12">Silahkan isi realisasi</span>
                                                         </a>
                                                     </td>
                                                 @endif
@@ -248,8 +248,11 @@
                                                     </td>
                                                     <td>{{ number_format($sub->persenVolumeKeuanganTotal, 2) }}%</td>
                                                 @else
-                                                    <td colspan="4" class="text-danger text-center">Tahap 1 atau 2
-                                                        belum terisi</td>
+                                                    <td colspan="4" class="text-center">
+                                                            <span class="badge bg-danger fs-12">
+                                                                Tahap 1 atau 2 belum terisi
+                                                            </span>
+                                                        </td>
                                                 @endif
                                             @elseif ($tahap == '1' || $tahap == '2')
                                                 <!-- Tahap 1 or 2 -->
@@ -261,8 +264,8 @@
                                                             Rp.{{ number_format($sub->tahapData->realisasi_keuangan, 0, ',', '.') }}
                                                         @else
                                                             <a class="text-decoration-none"
-                                                                href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap={{ $tahap }}">
-                                                                <span class="text-danger">Silahkan isi realisasi</span>
+                                                                href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap={{ $tahap }}" class="text-decoration-none">
+                                                            <span class="badge bg-danger fs-12">Silahkan isi realisasi</span>
                                                             </a>
                                                         @endif
                                                     </td>

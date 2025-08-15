@@ -30,7 +30,7 @@
                                 style="display:none" />
                             <div class="mb-2 mt-3">
                                 <!-- Tombol untuk memicu input file -->
-                                <button type="button" class="btn btn-success w-100 fs-12 text-white"
+                                <button type="button" class="btn btn-warning w-100 fs-12 text-white"
                                     onclick="document.getElementById('fotoInput').click()">
                                     <i class="bi bi-image me-1"></i> Ganti foto
                                 </button>

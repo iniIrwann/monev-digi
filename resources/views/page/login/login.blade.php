@@ -67,17 +67,17 @@
                             </div>
                         </div>
                         <hr class="mb-2 l-grey w-140">
-                        <p class="fs-12">masukkan username dan password sesuai dengan level pengguna</p>
+                        <p class="fs-12">Masukkan username dan password sesuai dengan level pengguna</p>
                         <hr class="mb-2 l-grey w-402">
                         <form class="pb-0" action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="mb-1 input-group-sm">
-                                <label for="username" class="form-label black fs-12">username</label>
+                                <label for="username" class="form-label black fs-12">Username</label>
                                 <input type="text" name="username" autofocus class="form-control" id="username"
                                     placeholder="username">
                             </div>
                             <div class="mb-1 input-group flex-column pt-1">
-                                <label for="password" class="form-label black fs-12 d-block">password</label>
+                                <label for="password" class="form-label black fs-12 d-block">Password</label>
                                 <div class="input-group input-group-sm">
                                     <input type="password" name="password" class="form-control" id="password1"
                                         placeholder="password">

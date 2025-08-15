@@ -47,8 +47,8 @@
                             <i class="bi bi-award-fill fs-3"></i>
                         </div>
                         <div>
-                            <div class="fs-14 text-capitalize">total capaian yang sudah</div>
-                            <div class="fs-18 sb">{{ $capaianTercapai }} %</div>
+                            <div class="fs-14 text-capitalize">total capaian sempurna</div>
+                            <div class="fs-18 sb">{{ $capaianTercapai }}</div>
                         </div>
                     </div>
                 </div>

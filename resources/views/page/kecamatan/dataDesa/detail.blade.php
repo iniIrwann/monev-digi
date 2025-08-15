@@ -4,13 +4,18 @@
 
 
 @section('main')
+<div class="main-content ps-3 pe-3 pt-4">
+        <div class="d-flex align-items-center mb-2 mb-md-0 pb-4">
+            <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
+                <i class="bi bi-person-fill fs-16 text-white"></i>
+            </div>
+            <p class="fs-14 ms-2 mb-0">Manajemen desa</p>
+        </div>
     <!-- Tambah Pengguna -->
     <div class="card border-0 w-100 rounded-3 mb-4">
         <div class="card-body p-3">
             <div class="d-flex justify-content-between align-items-center">
                 <p class="fs-14 sb mb-3">Profile</p>
-                <a href="{{ route('kecamatan.profile.edit', [$login_credential->id]) }}"
-                    class="btn btn-sm btn-warning px-3 py-2"><i class="bi bi-pencil-fill text-white"></i></a>
             </div>
             <hr class="my-3">
 

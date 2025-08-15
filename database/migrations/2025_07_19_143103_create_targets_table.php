@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('cara_pengadaan'); // Cara pengadaan barang/jasa
             $table->bigInteger('anggaran_target')->nullable();
             $table->integer('tenaga_kerja')->nullable();
-            $table->integer('durasi')->nullable();
+            $table->date('durasi')->nullable();
             $table->bigInteger('upah')->nullable();
             $table->integer('KPM')->nullable(); // Keluarga Penerima Manfaat
             $table->bigInteger('BLT')->nullable(); // Bantuan Langsung Tunai

@@ -97,17 +97,17 @@
                                 <th class="text-center">Aksi</th>
                                 <th>Kode rekening</th>
                                 <th>Rencana kegiatan</th>
-                                <th>Volume</th>
+                                <th class="text-center">Volume</th>
                                 <th>Uraian</th>
-                                <th>Anggaran / Target</th>
+                                <th class="text-center">Anggaran / Target</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $bidang)
                                 <!-- BIDANG -->
                                 <tr>
-                                    <td>
-                                        <div class="d-flex gap-2 justify-content-end">
+                                    <td class="align-middle">
+                                        <div class="d-flex gap-2 justify-content-center">
                                             {{-- Tambah Kegiatan --}}
                                             <button class="btn btn-sm btn-success" data-bs-toggle="modal"
                                                 data-bs-target="#ModalTambahKegiatan"
@@ -136,10 +136,8 @@
                                 @foreach ($bidang->kegiatan as $kegiatan)
                                     <!-- KEGIATAN -->
                                     <tr>
-                                        <td>
-                                            <div class="d-flex gap-2 justify-content-end">
-                                                <a href="#" class="btn btn-sm btn-secondary"><i
-                                                        class="bi bi-eye-fill"></i></a>
+                                        <td class="align-middle">
+                                        <div class="d-flex gap-2 justify-content-center">
                                                 <a class="btn btn-sm btn-success"
                                                     href="{{ route('desa.target.create.subkegiatan', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id]) }} "><i
                                                         class="bi bi-plus-square"></i></a>
@@ -168,8 +166,8 @@
                                     @foreach ($kegiatan->subkegiatan as $sub)
                                         <!-- SUBKEGIATAN -->
                                         <tr>
-                                            <td>
-                                                <div class="d-flex gap-2 justify-content-end">
+                                            <td class="align-middle">
+                                            <div class="d-flex gap-2 justify-content-center">
                                                     <a href="{{ route('desa.target.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-secondary"><i
                                                             class="bi bi-eye-fill"></i></a>
@@ -192,9 +190,9 @@
 
                                             @if ($sub->targets->isNotEmpty())
                                                 @php $target = $sub->targets->first(); @endphp
-                                                <td>{{ $target->volume_keluaran }}</td>
+                                                <td class="text-center">{{ $target->volume_keluaran }}</td>
                                                 <td>{{ $target->uraian_keluaran }}</td>
-                                                <td>Rp.{{ number_format($target->anggaran_target, 0, ',', '.') }}</td>
+                                                <td class="text-center">Rp.{{ number_format($target->anggaran_target, 0, ',', '.') }}</td>
                                             @else
                                                 <td colspan="4" class="text-muted text-center">Belum ada target</td>
                                             @endif
@@ -458,12 +456,12 @@
                                             <p class="black fs-12 mt-4">Kode rekening</p>
                                         </div>
                                         <div class="col-4 input-group-sm">
-                                            <label class="form-label fs-12">Kode Bidang</label>
+                                            <label class="form-label fs-12">Kode bidang</label>
                                             <input type="text" class="form-control form-control-sm"
                                                 id="inputKoRekBidangEdit" readonly>
                                         </div>
                                         <div class="col-5 input-group-sm">
-                                            <label class="form-label fs-12">Kode Kegiatan</label>
+                                            <label class="form-label fs-12">Kode kegiatan</label>
                                             <input type="text" class="form-control form-control-sm"
                                                 id="inputKoRekKegiatanEdit" readonly>
                                         </div>

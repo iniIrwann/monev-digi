@@ -9,12 +9,12 @@
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
                 <i class="bi bi-person-fill fs-16 text-white"></i>
             </div>
-            <p class="fs-14 ms-2 mb-0">Profil</p>
+            <p class="fs-14 ms-2 mb-0">Manajemen desa</p>
         </div>
 
         <div class="card border-0 w-100 rounded-3 mb-4">
             <div class="card-body p-3">
-                <p class="fs-14 sb mb-3">Edit profil</p>
+                <p class="fs-14 sb mb-3">Edit pengguna</p>
                 <hr class="my-3">
 
                 <form action="{{ route('kecamatan.dataDesa.update', $profile->id) }}" method="POST"
@@ -113,16 +113,8 @@
                                         <div class="text-danger small">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="row mt-4">
-                                    <div class="col-6">
-                                        <a href="{{ route('kecamatan.dataDesa.index') }}"
-                                            class="btn btn-secondary w-100 fs-12 text-white">
-                                            Kembali
-                                        </a>
-                                    </div>
-                                    <div class="col-6">
-                                        <button type="submit" class="btn btn-success w-100 fs-12 text-white">Edit</button>
-                                    </div>
+                                <div class="mt-4">
+                                    <button type="submit" class="btn btn-warning w-100 fs-12 text-white">Edit</button>
                                 </div>
                             </div>
                         </div>
