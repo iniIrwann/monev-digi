@@ -115,7 +115,7 @@
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">periode pencarian</label>
-                            <input value="{{ $realisasi->durasi }}" required type="number" name="durasi"
+                            <input value="{{ $realisasi->durasi }}" required type="date" name="durasi"
                                 class="form-control form-control-sm rounded-1" placeholder="durasi" />
                         </div>
                         <div class="mb-2">

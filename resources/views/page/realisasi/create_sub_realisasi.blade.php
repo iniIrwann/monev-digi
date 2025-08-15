@@ -140,7 +140,7 @@
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Tahap Pencairan</label>
-                                <input value="{{ old('tahap', $realisasi?->tahap) }}" type="date" name="tahap"
+                                <input value="{{ old('tahap', $realisasi?->tahap) }}" type="numeric" name="tahap"
                                     class="form-control form-control-sm rounded-1" placeholder="durasi" disabled />
                                 @error('tahap')
                                     <small class="text-danger">{{ $message }}</small>

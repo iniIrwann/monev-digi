@@ -100,7 +100,7 @@
                 </div>
                 <div class="mb-2">
                     <label class="fs-12 txt-tb-grey">periode pencarian</label>
-                    <input type="number" class="form-control form-control-sm" value="{{ $realisasi->durasi }}"
+                    <input type="date" class="form-control form-control-sm" value="{{ $realisasi->durasi }}"
                         readonly>
                 </div>
                 <div class="mb-2">
@@ -111,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>

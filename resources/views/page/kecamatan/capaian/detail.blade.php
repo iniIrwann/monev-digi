@@ -95,7 +95,7 @@
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 mb-1">Periode Pencairan</label>
-                            <input type="text" class="form-control fs-12" value="{{ $target?->durasi ?? '-' }}"
+                            <input type="date" class="form-control fs-12" value="{{ $target?->durasi ?? '-' }}"
                                 readonly>
                         </div>
                         <div class="mb-2">
@@ -245,7 +245,7 @@
                                 </div>
                                 <div class="mb-2">
                                     <label class="fs-12 mb-1">Periode Pencairan</label>
-                                    <input type="text" class="form-control fs-12"
+                                    <input type="date" class="form-control fs-12"
                                         value="{{ $tahap2Data?->durasi ?? '-' }}" readonly>
                                 </div>
                                 <div class="mb-2">
