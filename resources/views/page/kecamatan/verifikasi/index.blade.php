@@ -206,7 +206,7 @@
                                                         </button>
                                                     @endif
 
-                                                    <a href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id, 'tahap' => $tahap]) }}"
+                                                    <a href="{{ route('kecamatan.verifikasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id, 'tahap' => $tahap]) }}"
                                                         class="btn btn-sm btn-secondary" title="Lihat Detail">
                                                         <i class="bi bi-eye-fill text-white"></i>
                                                     </a>

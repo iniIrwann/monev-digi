@@ -30,7 +30,6 @@ class Realisasi extends Model
     {
         return $this->belongsTo(Verifikasi::class);
     }
-
     public function user()
     {
         return $this->belongsTo(User::class);

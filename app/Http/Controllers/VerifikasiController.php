@@ -20,7 +20,7 @@ class VerifikasiController extends Controller
         $bidangId = $request->input('bidang');
         $search = trim($request->input('query'));
         $desaId = $request->input('desa');
-        $tahap = $request->input('tahap', '1'); // Default to Tahap 1
+        $tahap = $request->input('tahap', 'all'); // Default to Tahap 1
 
         // Validate tahap
         if (!in_array($tahap, ['1', '2', 'all'])) {
@@ -176,5 +176,28 @@ class VerifikasiController extends Controller
 
         return redirect()->route('kecamatan.verifikasi.index', $request->query())
             ->with('success', 'Data verifikasi berhasil disimpan.');
+    }
+
+    public function detailSub($bidang_id, $kegiatan_id, $subkegiatan_id)
+    {
+        $tahap = request()->input('tahap', 1);
+
+        $query = Realisasi::where('bidang_id', $bidang_id)
+            ->where('kegiatan_id', $kegiatan_id)
+            ->where('sub_kegiatan_id', $subkegiatan_id);
+
+        if ($tahap !== 'all') {
+            $query->where('tahap', $tahap);
+        }
+
+        $realisasi = ($tahap === 'all')
+            ? $query->get()
+            : $query->firstOrFail();
+
+        $bidang = Bidang::findOrFail($bidang_id);
+        $kegiatan = Kegiatan::findOrFail($kegiatan_id);
+        $subKegiatan = SubKegiatan::findOrFail($subkegiatan_id);
+
+        return view('page.kecamatan.verifikasi.detail', compact('realisasi', 'bidang', 'kegiatan', 'subKegiatan'));
     }
 }

@@ -21,7 +21,7 @@ class RealisasiController extends Controller
         $tahun = $request->input('tahun');
         $bidangId = $request->input('bidang');
         $search = trim($request->input('query'));
-        $tahap = $request->input('tahap', '');
+        $tahap = $request->input('tahap', 'all');
 
         // Data untuk dropdown filter bidang
         $filterBidangs = Bidang::userOnly()
@@ -80,7 +80,7 @@ class RealisasiController extends Controller
             foreach ($bidang->kegiatan as $kegiatan) {
                 foreach ($kegiatan->subkegiatan as $sub) {
                     $sub->targetData = $sub->targets->first();
-                    if ($tahap == '') {
+                    if ($tahap == 'all') {
                         $sub->tahap1Data = $sub->realisasis->where('tahap', '1')->first();
                         $sub->tahap2Data = $sub->realisasis->where('tahap', '2')->first();
                         $sub->persenKeuangan1 = $sub->tahap1Data && $sub->targetData && $sub->targetData->anggaran_target > 0
@@ -176,7 +176,7 @@ class RealisasiController extends Controller
 
     public function createSub($bidang_id, $kegiatan_id, $subkegiatan_id)
     {
-        $tahap = request()->query('tahap', '');
+        $tahap = request()->query('tahap', 1);
         // Validasi tahap
         if (!empty($tahap) && !in_array($tahap, ['1', '2'])) {
             abort(400, 'Tahap tidak valid');
@@ -365,22 +365,24 @@ class RealisasiController extends Controller
     }
     public function detail($bidang_id, $kegiatan_id, $subkegiatan_id)
     {
-        // Ambil data realisasi berdasarkan bidang, kegiatan, dan subkegiatan
-        $realisasis = Realisasi::userOnly()
-            ->where('bidang_id', $bidang_id)
-            ->where('kegiatan_id', $kegiatan_id)
-            ->where('sub_kegiatan_id', $subkegiatan_id)
-            ->get();
+        $tahap = request()->input('tahap', 1);
 
-        if ($realisasis->isEmpty()) {
-            abort(404, 'Realisasi not found');
+        $query = Realisasi::where('bidang_id', $bidang_id)
+            ->where('kegiatan_id', $kegiatan_id)
+            ->where('sub_kegiatan_id', $subkegiatan_id);
+
+        if ($tahap !== 'all') {
+            $query->where('tahap', $tahap);
         }
 
-        // Ambil data terkait lainnya
-        $bidang = Bidang::userOnly()->findOrFail($bidang_id);
-        $kegiatan = Kegiatan::userOnly()->findOrFail($kegiatan_id);
-        $subKegiatan = SubKegiatan::userOnly()->findOrFail($subkegiatan_id);
+        $realisasi = ($tahap === 'all')
+            ? $query->get()
+            : $query->firstOrFail();
 
-        return view('page.realisasi.detail', compact('realisasis', 'bidang', 'kegiatan', 'subKegiatan'));
+        $bidang = Bidang::findOrFail($bidang_id);
+        $kegiatan = Kegiatan::findOrFail($kegiatan_id);
+        $subKegiatan = SubKegiatan::findOrFail($subkegiatan_id);
+
+        return view('page.realisasi.detail', compact('realisasi', 'bidang', 'kegiatan', 'subKegiatan'));
     }
 }

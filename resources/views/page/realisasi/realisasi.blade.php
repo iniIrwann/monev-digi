@@ -65,8 +65,8 @@
                         class="tab-link {{ $tahap === '1' ? 'active' : '' }}">Tahap 1</a>
                     <a href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => '2'])) }}"
                         class="tab-link {{ $tahap === '2' ? 'active' : '' }}">Tahap 2</a>
-                    <a href="{{ route('desa.realisasi.index') }}"
-                        class="tab-link {{ $tahap === '' ? 'active' : '' }}">Total</a>
+                    <a href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => 'all'])) }}"
+                        class="tab-link {{ $tahap === 'all' ? 'active' : '' }}">Total</a>
                 </div>
                 <form action="  " method="GET" class="mb-3">
                     <div class="row g-3 mb-2">
@@ -83,30 +83,7 @@
                         </div>
                     </div>
                 </form>
-                @php $tahap = isset($tahap) ? (string)$tahap : ''; @endphp
 
-                {{-- <ul class="nav nav-tabs mb-3">
-                    <li class="nav-item">
-                        <a class="nav-link {{ $tahap === '1' ? 'active' : '' }}"
-                            href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => '1'])) }}">
-                            Tahap 1
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ $tahap === '2' ? 'active' : '' }}"
-                            href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => '2'])) }}">
-                            Tahap 2
-                        </a>
-                    </li>
-
-                    {{-- <li class="nav-item">
-                        <a class="nav-link {{ $tahap === '' ? 'active' : '' }}"
-                            href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => ''])) }}">
-                            Semua Tahap
-                        </a>
-                    </li>
-                </ul> --}}
                 <div class="table-responsive">
                     <table class="table align-middle fs-12 tx-gray">
                         <thead class="border-bottom" style="border-color: #999999">
@@ -123,7 +100,7 @@
                                 </tr>
                             @else
                                 {{-- Jika tahap = all --}}
-                                 <tr class="text-start">
+                                <tr class="text-start">
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -177,10 +154,10 @@
                                         <!-- SUBKEGIATAN -->
                                         <tr>
                                             <td class="align-middle">
-                                            <div class="d-flex gap-2 justify-content-center">
-                                                    <a href="{{ route('desa.realisasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                <div class="d-flex gap-2 justify-content-center">
+                                                    <a href="{{ route('desa.realisasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap={{ $tahap }}"
                                                         class="btn btn-sm btn-secondary"><i class="bi bi-eye-fill"></i></a>
-                                                    @if ($tahap != '' && $sub->realisasis->isNotEmpty())
+                                                    @if ($tahap != 'all' && $sub->realisasis->isNotEmpty())
                                                         <a href="{{ route('desa.realisasi.create.sub', [
                                                             'bidang_id' => $bidang->id,
                                                             'kegiatan_id' => $kegiatan->id,
@@ -189,13 +166,14 @@
                                                             class="btn btn-sm btn-warning">
                                                             <i class="bi bi-pencil-fill text-white"></i>
                                                         </a>
+                                                        <button data-bs-toggle="modal"
+                                                            data-bs-target="#ModalDeleteSubKegiatanRealisasi"
+                                                            data-tahap-subKegiatan-realisasi-delete="{{ $tahap }}"
+                                                            data-id-subKegiatan-realisasi-delete="{{ $sub->id }}"
+                                                            class="btn btn-sm btn-danger"><i
+                                                                class="bi bi-trash undermines"></i></button>
                                                     @endif
-                                                    <button data-bs-toggle="modal"
-                                                        data-bs-target="#ModalDeleteSubKegiatanRealisasi"
-                                                        data-tahap-subKegiatan-realisasi-delete="{{ $tahap }}"
-                                                        data-id-subKegiatan-realisasi-delete="{{ $sub->id }}"
-                                                        class="btn btn-sm btn-danger"><i
-                                                            class="bi bi-trash undermines"></i></button>
+
                                                 </div>
                                             </td>
                                             <td>
@@ -205,24 +183,25 @@
                                             </td>
                                             <td class="ps-5">{{ $sub->nama_subkegiatan }}</td>
                                             {{-- Tahap All --}}
-                                            @if ($tahap == '')
+                                            @if ($tahap == 'all')
                                                 @if ($sub->realisasis->isNotEmpty())
                                                     <!-- Tahap 1 -->
                                                     @if ($sub->tahap1Data->realisasi_keuangan)
                                                         <td>{{ $sub->tahap1Data?->volume_keluaran ?? '( - )' }}
                                                             {{ $sub->tahap1Data?->uraian_keluaran ?? '-' }}</td>
                                                     @else
-                                                    <td colspan="2" class="text-center">
-                                                        <a href="{{ route('desa.realisasi.create.sub', [
+                                                        <td colspan="2" class="text-center">
+                                                            <a href="{{ route('desa.realisasi.create.sub', [
                                                                 'bidang_id' => $bidang->id,
                                                                 'kegiatan_id' => $kegiatan->id,
                                                                 'subkegiatan_id' => $sub->id,
-                                                            ]) }}?tahap=1" class="text-decoration-none">
-                                                            <span class="badge bg-danger fs-12">
-                                                                Silahkan isi realisasi
-                                                            </span>
-                                                        </a>
-                                                    </td>
+                                                            ]) }}?tahap=1"
+                                                                class="text-decoration-none">
+                                                                <span class="badge bg-danger fs-12">
+                                                                    Silahkan isi realisasi
+                                                                </span>
+                                                            </a>
+                                                        </td>
                                                     @endif
                                                     @if ($sub->tahap1Data?->realisasi_keuangan !== null)
                                                         <td>
@@ -242,11 +221,12 @@
                                                                     'bidang_id' => $bidang->id,
                                                                     'kegiatan_id' => $kegiatan->id,
                                                                     'subkegiatan_id' => $sub->id,
-                                                                ]) }}?tahap=2" class="text-decoration-none">
+                                                                ]) }}?tahap=2"
+                                                                class="text-decoration-none">
                                                                 <span class="badge bg-danger fs-12">
                                                                     Silahkan isi realisasi
                                                                 </span>
-                                                                </a>
+                                                            </a>
                                                         </td>
                                                     @endif
                                                     @if ($sub->tahap1Data?->realisasi_keuangan !== null)
@@ -290,9 +270,11 @@
                                                                     'bidang_id' => $bidang->id,
                                                                     'kegiatan_id' => $kegiatan->id,
                                                                     'subkegiatan_id' => $sub->id,
-                                                                ]) }}?tahap={{ $tahap }}" class="text-decoration-none">
-                                                                <span class="badge bg-danger fs-12">Silahkan isi realisasi</span>
-                                                                </a>
+                                                                ]) }}?tahap={{ $tahap }}"
+                                                                class="text-decoration-none">
+                                                                <span class="badge bg-danger fs-12">Silahkan isi
+                                                                    realisasi</span>
+                                                            </a>
                                                         @endif
                                                     </td>
                                                     <td>{{ number_format($sub->persenVolumeFisik, 2) }}%</td>

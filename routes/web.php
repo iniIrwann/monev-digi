@@ -79,6 +79,7 @@ Route::prefix('kecamatan')
 
         // verifikasi
         Route::get('verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
+        Route::get('verifikasi/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [VerifikasiController::class, 'detailSub'])->name('verifikasi.detail');
         Route::post('verifikasi/store', [VerifikasiController::class, 'store'])->name('verifikasi.store');
 
 

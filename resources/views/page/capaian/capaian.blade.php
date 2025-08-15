@@ -171,7 +171,7 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-end">
-                                                    <a href="{{ route('kecamatan.capaian.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
+                                                    <a href="{{ route('desa.capaian.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-secondary" title="Detail"><i
                                                             class="bi bi-eye-fill"></i></a>
                                                 </div>

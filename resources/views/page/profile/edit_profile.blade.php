@@ -112,8 +112,16 @@
                                         <div class="text-danger small">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="mt-4">
+                                <div class="row mt-4">
+                                    <div class="col-6">
+                                        <a href="{{ route('desa.profile.index') }}"
+                                            class="btn btn-secondary w-100 fs-12 text-white">
+                                            Kembali
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
                                         <button type="submit" class="btn btn-success w-100 fs-12 text-white">Edit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

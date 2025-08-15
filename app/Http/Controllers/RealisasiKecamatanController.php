@@ -377,11 +377,18 @@ class RealisasiKecamatanController extends Controller
     {
         $tahap = request()->input('tahap', 1);
 
-        $realisasi = Realisasi::where('bidang_id', $bidang_id)
+        $query = Realisasi::where('bidang_id', $bidang_id)
             ->where('kegiatan_id', $kegiatan_id)
-            ->where('sub_kegiatan_id', $subkegiatan_id)
-            ->where('tahap', $tahap)
-            ->firstOrFail();
+            ->where('sub_kegiatan_id', $subkegiatan_id);
+
+        if ($tahap !== 'all') {
+            $query->where('tahap', $tahap);
+        }
+
+        // kalau tahap = 'all', ambil semua data, kalau tidak ambil satu data saja
+        $realisasi = ($tahap === 'all')
+            ? $query->get()
+            : $query->firstOrFail();
 
         $bidang = Bidang::findOrFail($bidang_id);
         $kegiatan = Kegiatan::findOrFail($kegiatan_id);
@@ -389,6 +396,7 @@ class RealisasiKecamatanController extends Controller
 
         return view('page.kecamatan.realisasi.detail', compact('realisasi', 'bidang', 'kegiatan', 'subKegiatan'));
     }
+
 
     public function createCatatan($bidang_id, $kegiatan_id, $subkegiatan_id)
     {

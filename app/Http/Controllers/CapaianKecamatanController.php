@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bidang;
+use App\Models\Capaian;
 use App\Models\Kegiatan;
 use App\Models\Realisasi;
 use App\Models\SubKegiatan;
@@ -141,7 +142,11 @@ class CapaianKecamatanController extends Controller
             ->first();
 
         // Fetch capaian from the first target
-        $capaian = $target;
+        $capaian = null;
+        if ($target) {
+            $capaian = Capaian::where('target_id', $target->id)
+                ->first();
+        }
 
         return view('page.kecamatan.capaian.detail', compact(
             'bidang',

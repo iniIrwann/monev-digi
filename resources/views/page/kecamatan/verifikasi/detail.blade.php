@@ -6,7 +6,7 @@
             <div class="bg-30x d-flex justify-content-center align-items-center flex-shrink-0">
                 <i class="bi-list-check fs-16 text-white"></i>
             </div>
-            <p class="fs-14 ms-2 mb-0">Realisasi</p>
+            <p class="fs-14 ms-2 mb-0">Verifikasi</p>
         </div>
 
         <div class="card border-0 w-100 rounded-3">
@@ -14,7 +14,7 @@
                 <div class="row">
                     @foreach ($realisasi as $data)
                         <div class="col-md-6">
-                            @include('page.realisasi.detail_partial', [
+                            @include('page.kecamatan.verifikasi.detail_partial', [
                                 'realisasi' => $data,
                                 'bidang' => $bidang,
                                 'kegiatan' => $kegiatan,
@@ -52,7 +52,7 @@
                     </div>
                 @endif
             @else
-                @include('page.realisasi.detail_partial', [
+                @include('page.kecamatan.verifikasi.detail_partial', [
                     'realisasi' => $realisasi,
                     'bidang' => $bidang,
                     'kegiatan' => $kegiatan,
@@ -84,7 +84,8 @@
             <!-- Tombol -->
             <div class="row align-items-center p-3">
                 <div class="col-md-12 d-flex justify-content-end">
-                    <a href="{{ route('desa.realisasi.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
+                    <a href="{{ route('kecamatan.verifikasi.index') }}"
+                        class="btn btn-secondary btn-sm fs-12 text-white me-2">
                         <i class="bi bi-arrow-return-left"></i> Kembali
                     </a>
                 </div>

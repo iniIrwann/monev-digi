@@ -137,7 +137,7 @@
                                     <!-- KEGIATAN -->
                                     <tr>
                                         <td class="align-middle">
-                                        <div class="d-flex gap-2 justify-content-center">
+                                            <div class="d-flex gap-2 justify-content-center">
                                                 <a class="btn btn-sm btn-success"
                                                     href="{{ route('desa.target.create.subkegiatan', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id]) }} "><i
                                                         class="bi bi-plus-square"></i></a>
@@ -167,7 +167,7 @@
                                         <!-- SUBKEGIATAN -->
                                         <tr>
                                             <td class="align-middle">
-                                            <div class="d-flex gap-2 justify-content-center">
+                                                <div class="d-flex gap-2 justify-content-center">
                                                     <a href="{{ route('desa.target.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}"
                                                         class="btn btn-sm btn-secondary"><i
                                                             class="bi bi-eye-fill"></i></a>
@@ -192,7 +192,8 @@
                                                 @php $target = $sub->targets->first(); @endphp
                                                 <td class="text-center">{{ $target->volume_keluaran }}</td>
                                                 <td>{{ $target->uraian_keluaran }}</td>
-                                                <td class="text-center">Rp.{{ number_format($target->anggaran_target, 0, ',', '.') }}</td>
+                                                <td class="text-center">
+                                                    Rp.{{ number_format($target->anggaran_target, 0, ',', '.') }}</td>
                                             @else
                                                 <td colspan="4" class="text-muted text-center">Belum ada target</td>
                                             @endif
