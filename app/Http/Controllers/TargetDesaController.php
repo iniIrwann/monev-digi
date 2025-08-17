@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Bidang;
 use App\Models\Kegiatan;
-use App\Models\Realisasi;
-use App\Models\RealisasiTahap;
 use App\Models\SubKegiatan;
-use App\Models\target;
+use App\Models\Target;
+use App\Models\Realisasi;
 use App\Models\Capaian;
 use Illuminate\Http\Request;
 
@@ -255,7 +254,6 @@ class TargetDesaController extends Controller
             'user_id' => auth()->id(),
             'kode_rekening' => $nextKodeSub,
             'nama_subkegiatan' => $request->nama_subkegiatan,
-            'uraian_keluaran' => $request->uraian_keluaran,
         ]);
 
         // Simpan ke tabel target

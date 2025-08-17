@@ -6,12 +6,10 @@ use App\Models\Bidang;
 use App\Models\Kegiatan;
 use App\Models\Realisasi;
 use App\Models\SubKegiatan;
-use App\Models\Target;
-use App\Models\User;
 use App\Models\Verifikasi;
 use Illuminate\Http\Request;
 
-class VerifikasiController extends Controller
+class VerifikasiDesaController extends Controller
 {
     public function index(Request $request)
     {
@@ -19,36 +17,25 @@ class VerifikasiController extends Controller
         $tahun = $request->input('tahun');
         $bidangId = $request->input('bidang');
         $search = trim($request->input('query'));
-        $desaId = $request->input('desa');
         $tahap = $request->input('tahap', 'all'); // Default to Tahap 1
 
         // Validate tahap
         if (!in_array($tahap, ['1', '2', 'all'])) {
-            $tahap = '1'; // Fallback to default if invalid
+            $tahap = '1';
         }
 
         // Fetch desa and bidang if provided
-        $desa = $desaId ? User::where('role', 'desa')->where('id', $desaId)->first() : null;
-        $bidang = $bidangId ? Bidang::find($bidangId) : null;
-
-        // Fetch desa options for filter
-        $selectDesa = User::where('role', 'desa')->select('id', 'desa')->get();
+        $bidang = $bidangId ? Bidang::userOnly()->find($bidangId) : null;
 
         // Fetch bidang options based on desa
-        $filterBidangs = $desaId
-            ? Bidang::where('user_id', $desaId)->select('id', 'nama_bidang')->get()
-            : collect();
+        $filterBidangs = Bidang::userOnly()->select('id', 'nama_bidang')->get();
 
         // Build query with eager loading
-        $query = Bidang::with([
+        $query = Bidang::userOnly()->with([
             'kegiatan.subkegiatan.realisasis.verifikasi',
             'kegiatan.subkegiatan.targets'
         ]);
 
-        // Apply filters
-        if ($desaId) {
-            $query->where('user_id', $desaId);
-        }
         if ($bidangId) {
             $query->where('id', $bidangId);
         }
@@ -130,12 +117,10 @@ class VerifikasiController extends Controller
             }
         }
 
-        return view('page.kecamatan.verifikasi.index', compact(
+        return view('page.verifikasi.index', compact(
             'data',
             'filterBidangs',
-            'selectDesa',
             'bidang',
-            'desa',
             'tahun',
             'tahap',
             'search'
@@ -174,7 +159,7 @@ class VerifikasiController extends Controller
             ->update(['verifikasi_id' => $verifikasi->id]);
 
 
-        return redirect()->route('kecamatan.verifikasi.index', $request->query())
+        return redirect()->route('page.verifikasi.index', $request->query())
             ->with('success', 'Data verifikasi berhasil disimpan.');
     }
 
@@ -198,6 +183,6 @@ class VerifikasiController extends Controller
         $kegiatan = Kegiatan::findOrFail($kegiatan_id);
         $subKegiatan = SubKegiatan::findOrFail($subkegiatan_id);
 
-        return view('page.kecamatan.verifikasi.detail', compact('realisasi', 'bidang', 'kegiatan', 'subKegiatan'));
+        return view('page.verifikasi.detail', compact('realisasi', 'bidang', 'kegiatan', 'subKegiatan'));
     }
 }

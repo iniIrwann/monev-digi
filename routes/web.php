@@ -9,7 +9,8 @@ use App\Http\Controllers\RealisasiKecamatanController;
 use App\Http\Controllers\TargetDesaController;
 use App\Http\Controllers\RealisasiController;
 use App\Http\Controllers\TargetKecamatanController;
-use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\VerifikasiDesaController;
+use App\Http\Controllers\VerifikasiKecamatanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login.view');
@@ -57,6 +58,12 @@ Route::middleware(['auth', 'role:desa'])
         Route::get('/realisasi/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [RealisasiController::class, 'detail'])->name('realisasi.detail');
         Route::delete('/realisasi/delete-subKegiatan/{id}/{tahap}', [RealisasiController::class, 'deleteSubKegiatan'])->name('realisasi.delete.subKegiatan');
 
+        //Verifikasi
+        Route::get('verifikasi', [VerifikasiDesaController::class, 'index'])->name('verifikasi.index');
+        Route::get('verifikasi/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [VerifikasiDesaController::class, 'detailSub'])->name('verifikasi.detail');
+        Route::post('verifikasi/store', [VerifikasiDesaController::class, 'store'])->name('verifikasi.store');
+
+
         // Capaian
         Route::get('/capaian/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [CapaianController::class, 'detail'])->name('capaian.detail');
 
@@ -78,9 +85,9 @@ Route::prefix('kecamatan')
         // Route::resource('capaian', CapaianController::class);
 
         // verifikasi
-        Route::get('verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
-        Route::get('verifikasi/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [VerifikasiController::class, 'detailSub'])->name('verifikasi.detail');
-        Route::post('verifikasi/store', [VerifikasiController::class, 'store'])->name('verifikasi.store');
+        Route::get('verifikasi', [VerifikasiKecamatanController::class, 'index'])->name('verifikasi.index');
+        Route::get('verifikasi/detail/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [VerifikasiKecamatanController::class, 'detailSub'])->name('verifikasi.detail');
+        Route::post('verifikasi/store', [VerifikasiKecamatanController::class, 'store'])->name('verifikasi.store');
 
 
         Route::delete('/realisasi/delete-sub/{id}', [RealisasiKecamatanController::class, 'deleteSubKegiatan'])->name('realisasi.sub.delete');

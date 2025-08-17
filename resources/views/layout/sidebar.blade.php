@@ -63,6 +63,14 @@
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('desa.verifikasi.index') }}"
+                        class="{{ Request::is('verifikasi*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
+                        Verifikasi
+                        <i
+                            class="bi bi-patch-check-fill {{ Request::is('verifikasi*') ? 'tx-orange' : 'text-dark' }}"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('desa.profile.index') }}"
                         class="{{ Request::is('profile*') ? 'tx-green' : 'text-dark' }} nav-link fs-12 d-flex justify-content-between align-items-center">
                         Profil

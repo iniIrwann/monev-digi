@@ -293,7 +293,6 @@ class TargetKecamatanController extends Controller
             'user_id' => $bidang->user_id,
             'kode_rekening' => $nextKodeSub,
             'nama_subkegiatan' => $request->nama_subkegiatan,
-            'uraian_keluaran' => $request->uraian_keluaran,
         ]);
         // Simpan ke tabel target
         $target = Target::create([

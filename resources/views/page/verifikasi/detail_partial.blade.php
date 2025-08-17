@@ -1,5 +1,5 @@
 <div class="card border-0 w-100 rounded-3">
-    <div class="card-body px-3 p-3">
+    <div class="card-body px-3 pt-3">
         <p class="fs-14 sb mb-3">detail realisasi subkegiatan</p>
         <hr class="my-1">
 
@@ -111,6 +111,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

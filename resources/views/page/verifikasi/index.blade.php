@@ -27,15 +27,15 @@
                     <p class="fs-18 mb-0">Filter</p>
                 </div>
 
-                <form action="{{ route('kecamatan.verifikasi.index') }}" method="GET" class="mb-3">
+                <form action="{{ route('desa.verifikasi.index') }}" method="GET" class="mb-3">
                     <div class="row g-2 align-items-end">
                         <div class="col-12 col-md-3">
-                            <label class="fs-12 mb-1">Pilih Kecamatan</label>
+                            <label class="fs-12 mb-1">Desa : </label>
                             <select name="kecamatan" class="fs-12 form-select" disabled>
-                                <option value="">Kecamatan Soreang</option>
+                                <option value="">{{ Auth::user()->desa }}</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-2">
+                        <div class="col-12 col-md-3">
                             <label class="fs-12 mb-1">Pilih Periode Capaian</label>
                             <select name="tahun" class="fs-12 form-select">
                                 <option value="">{{ __('-- Semua Tahun --') }}</option>
@@ -52,24 +52,12 @@
                                 <option value="2" {{ request('tahap') == '2' ? 'selected' : '' }}>Tahap 2</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-2">
-                            <label class="fs-12 mb-1">Pilih Desa</label>
-                            <select name="desa" class="fs-12 form-select">
-                                <option value="">{{ __('-- Semua Desa --') }}</option>
-                                @foreach ($selectDesa as $d)
-                                    <option value="{{ $d->id }}" {{ request('desa') == $d->id ? 'selected' : '' }}>
-                                        {{ $d->desa }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-2">
+                        <div class="col-12 col-md-3">
                             <label class="fs-12 mb-1">Pilih Bidang</label>
                             <select name="bidang" class="fs-12 form-select">
                                 <option value="">{{ __('-- Semua Bidang --') }}</option>
                                 @foreach ($filterBidangs as $b)
-                                    <option value="{{ $b->id }}"
-                                        {{ request('bidang') == $b->id ? 'selected' : '' }}>
+                                    <option value="{{ $b->id }}" {{ request('bidang') == $b->id ? 'selected' : '' }}>
                                         {{ $b->nama_bidang }}
                                     </option>
                                 @endforeach
@@ -89,29 +77,29 @@
         <div class="card border-0 w-100 rd-5">
             <div class="card-body p-3">
                 <div class="tab-container mb-3">
-                    <a href="{{ route('kecamatan.verifikasi.index', array_merge(request()->query(), ['tahap' => '1'])) }}"
+                    <a href="{{ route('desa.verifikasi.index', array_merge(request()->query(), ['tahap' => '1'])) }}"
                         class="tab-link {{ request('tahap', '1') == '1' ? 'active' : '' }}">Tahap 1</a>
-                    <a href="{{ route('kecamatan.verifikasi.index', array_merge(request()->query(), ['tahap' => '2'])) }}"
+                    <a href="{{ route('desa.verifikasi.index', array_merge(request()->query(), ['tahap' => '2'])) }}"
                         class="tab-link {{ request('tahap') == '2' ? 'active' : '' }}">Tahap 2</a>
-                    <a href="{{ route('kecamatan.verifikasi.index', array_merge(request()->query(), ['tahap' => 'all'])) }}"
+                    <a href="{{ route('desa.verifikasi.index', array_merge(request()->query(), ['tahap' => 'all'])) }}"
                         class="tab-link {{ request('tahap') == 'all' ? 'active' : '' }}">Total Capaian Realisasi</a>
                 </div>
                 <p class="my-2 sb">Tabel Capaian Realisasi Kinerja dan Keuangan Dana Desa</p>
-                <p class="fs-12 my-2">
+                {{-- <p class="fs-12 my-2">
                     @if ($desa)
                         Kecamatan: Kecamatan Soreang <br>
                         Periode Capaian: <span class="fw-bold">{{ $tahun ?? '(semua tahun)' }}</span> <br>
                         Tahap: <span class="fw-bold">{{ $tahap == 1 ? 'Tahap 1' : 'Tahap 2' }}</span> <br>
-                        Desa: <span class="fw-bold">{{ $desa->desa }}</span>
+                        {{-- Desa: <span class="fw-bold">{{ $desa->desa }}</span>
                     @else
                         Kecamatan: Kecamatan Soreang <br>
                         Periode Capaian: <span class="fw-bold">{{ $tahun ?? '(semua tahun)' }}</span> <br>
                         Tahap: <span class="fw-bold">{{ $tahap == 1 ? 'Tahap 1' : 'Tahap 2' }}</span>
                     @endif
-                </p>
+                </p> --}}
                 <hr />
 
-                <form action="{{ route('kecamatan.verifikasi.index') }}" method="GET" class="mb-3">
+                <form action="{{ route('desa.verifikasi.index') }}" method="GET" class="mb-3">
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <input type="hidden" name="desa" value="{{ request('desa') }}">
                         <input type="hidden" name="tahun" value="{{ request('tahun') }}">
@@ -206,7 +194,7 @@
                                                         </button>
                                                     @endif
 
-                                                    <a href="{{ route('kecamatan.verifikasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id, 'tahap' => $tahap]) }}"
+                                                    <a href="{{ route('desa.verifikasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id, 'tahap' => $tahap]) }}"
                                                         class="btn btn-sm btn-secondary" title="Lihat Detail">
                                                         <i class="bi bi-eye-fill text-white"></i>
                                                     </a>
@@ -243,33 +231,39 @@
                                                         {{ Str::limit($sub->tahap1Data->verifikasi->rekomendasi, 50) }}
                                                     @else
                                                         @if ($sub->tahap2Data && $sub->tahap2Data->id && $sub->tahap2Data->user_id)
-                                                            <button class="btn fs-12" data-bs-toggle="modal"
+                                                            {{-- <button class="btn fs-12" data-bs-toggle="modal"
                                                                 data-bs-target="#ModalTambahVerifikasi"
                                                                 data-realisasi-id="{{ $sub->tahap2Data->id }}"
                                                                 class="text-decoration-none">
                                                                 <span class="badge bg-danger fs-10">Silahkan isi
                                                                     verifikasi</span>
-                                                            </button>
+                                                            </button> --}}
+                                                            <span class="badge bg-danger fs-10">belum ada
+                                                                verifikasi</span>
                                                         @elseif ($sub->tahap1Data && $sub->tahap1Data->id && $sub->tahap1Data->user_id)
-                                                            <button class="btn fs-12" data-bs-toggle="modal"
+                                                            {{-- <button class="btn fs-12" data-bs-toggle="modal"
                                                                 data-bs-target="#ModalTambahVerifikasi"
                                                                 data-realisasi-id="{{ $sub->tahap1Data->id }}"class="text-decoration-none">
                                                                 <span class="badge bg-danger fs-10"> Silahkan isi
                                                                     verifikasi</span>
-                                                            </button>
+                                                            </button> --}}
+                                                            <span class="badge bg-danger fs-10">belum ada
+                                                                verifikasi</span>
                                                         @else
                                                             <span>Tidak ada data verifikasi</span>
                                                         @endif
                                                     @endif
                                                 @else
                                                     @if ($sub->realisasi && $sub->realisasi->id && $sub->realisasi->user_id)
-                                                        <button class="btn fs-12" data-bs-toggle="modal"
+                                                        {{-- <button class="btn fs-12" data-bs-toggle="modal"
                                                             data-bs-target="#ModalTambahVerifikasi"
                                                             data-realisasi-id="{{ $sub->realisasi->id }}"
                                                             class="text-decoration-none">
                                                             <span class="badge bg-danger fs-10">Silahkan isi
                                                                 verifikasi</span>
-                                                        </button>
+                                                        </button> --}}
+                                                        <span class="badge bg-danger fs-10">belum ada
+                                                            verifikasi</span>
                                                     @else
                                                         <span>Tidak ada data verifikasi</span>
                                                     @endif
@@ -299,7 +293,7 @@
                                                 @else
                                                     <td colspan="2" class="text-center">
                                                         <a class="text-decoration-none"
-                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=1"class="text-decoration-none">
+                                                            href="{{ route('desa.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=1"class="text-decoration-none">
                                                             <span class="badge bg-danger fs-10">Silahkan isi
                                                                 realisasi</span>
                                                         </a>
@@ -314,7 +308,7 @@
                                                 @else
                                                     <td colspan="2" class="text-center">
                                                         <a class="text-decoration-none"
-                                                            href="{{ route('kecamatan.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=2"
+                                                            href="{{ route('desa.realisasi.create.sub', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id]) }}?tahap=2"
                                                             class="text-decoration-none">
                                                             <span class="badge bg-danger fs-10">Silahkan isi
                                                                 realisasi</span>
@@ -384,7 +378,7 @@
                                 </p>
                                 <hr class="mb-3">
 
-                                <form action="{{ route('kecamatan.verifikasi.store') }}" method="POST">
+                                <form action="{{ route('desa.verifikasi.store') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="realisasi_id" id="inputRealisasiID">
 
