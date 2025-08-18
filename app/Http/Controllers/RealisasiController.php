@@ -313,7 +313,7 @@ class RealisasiController extends Controller
         // set semua field realisasi jadi null (pertahankan record jika diperlukan, atau delete)
         $realisasi->update([
             'volume_keluaran' => null,
-            'uraian_keluaran' => null,
+            // 'uraian_keluaran' => null,
             'tenaga_kerja' => null,
             'realisasi_keuangan' => null,
             'durasi' => null,

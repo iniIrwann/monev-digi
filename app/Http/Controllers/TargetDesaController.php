@@ -18,16 +18,35 @@ class TargetDesaController extends Controller
         $bidangId = $request->input('bidang');
         $search = $request->input('query');
 
-        // Desa
+        // Ambil daftar bidang untuk filter (dropdown)
         $filterBidangs = Bidang::userOnly()->select('id', 'nama_bidang')->get();
+
+        // Query utama
+        // $query = Bidang::userOnly()
+        //     ->with([
+        //         'kegiatan' => function ($q) {
+        //             $q->orderByRaw('CAST(kode_rekening AS UNSIGNED) ASC');
+        //         },
+        //         'kegiatan.subkegiatan' => function ($q) {
+        //             $q->orderByRaw('CAST(kode_rekening AS UNSIGNED) ASC');
+        //         },
+        //         'kegiatan.subkegiatan.targets' => function ($q) {
+        //             $q->orderBy('tahun', 'asc');
+        //         }
+        //     ])
+        //     ->orderByRaw('CAST(kode_rekening AS UNSIGNED) ASC');
         $query = Bidang::userOnly()->with(['kegiatan.subkegiatan.targets']);
 
+
+
+        // Filter tahun
         if ($tahun) {
             $query->whereHas('kegiatan.subkegiatan.targets', function ($q) use ($tahun) {
                 $q->where('tahun', $tahun);
             });
         }
 
+        // Filter bidang
         if ($bidangId) {
             $query->where('id', $bidangId);
         }
@@ -35,24 +54,25 @@ class TargetDesaController extends Controller
         // Filter pencarian
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama_bidang', 'like', "%$search%")
+                $q->where('nama_bidang', 'like', "%{$search}%")
                     ->orWhereHas('kegiatan', function ($q2) use ($search) {
-                        $q2->where('nama_kegiatan', 'like', "%$search%");
+                        $q2->where('nama_kegiatan', 'like', "%{$search}%");
                     })
                     ->orWhereHas('kegiatan.subkegiatan', function ($q2) use ($search) {
-                        $q2->where('nama_subkegiatan', 'like', "%$search%");
+                        $q2->where('nama_subkegiatan', 'like', "%{$search}%");
                     })
                     ->orWhereHas('kegiatan.subkegiatan.targets', function ($q2) use ($search) {
-                        $q2->where('uraian_keluaran', 'like', "%$search%");
+                        $q2->where('uraian_keluaran', 'like', "%{$search}%");
                     });
             });
         }
 
-        // Pagination
+        // Pagination (supaya filter tetap ada ketika pindah halaman)
         $data = $query->paginate(5)->appends($request->query());
 
-        return view('page.target.target', compact('data', 'filterBidangs'));
+        return view('page.target.target', compact('data', 'filterBidangs', 'tahun', 'bidangId', 'search'));
     }
+
 
     public function detailSub($bidang_id, $kegiatan_id, $subkegiatan_id)
     {
@@ -172,16 +192,22 @@ class TargetDesaController extends Controller
             'keterangan' => 'nullable|string',
         ]);
 
-        // Hitung jumlah bidang saat ini
-        $jumlahBidang = Bidang::where('user_id', auth()->id())->count();
+        // Ambil semua kode existing untuk user
+        $existing = Bidang::where('user_id', auth()->id())->pluck('kode_rekening')->toArray();
 
-        // Maksimum hanya sampai Z (26 data)
-        if ($jumlahBidang >= 26) {
-            return back()->with('error', 'Jumlah kode bidang maksimal hanya sampai Z.');
+        // Cari huruf A-Z yang belum dipakai
+        $kode = null;
+        for ($i = 0; $i < 26; $i++) {
+            $candidate = chr(65 + $i); // A..Z
+            if (!in_array($candidate, $existing)) {
+                $kode = $candidate;
+                break;
+            }
         }
 
-        // Generate huruf berdasarkan urutan A-Z
-        $kode = chr(65 + $jumlahBidang); // 65 = ASCII 'A'
+        if (!$kode) {
+            return back()->with('error', 'Jumlah kode bidang maksimal hanya sampai Z.');
+        }
 
         $bidang = new Bidang();
         $bidang->kode_rekening = $kode;
@@ -193,6 +219,7 @@ class TargetDesaController extends Controller
         return redirect()->route('desa.target.index')
             ->with('success', 'Bidang berhasil ditambahkan.');
     }
+
     public function storeKegiatan(Request $request)
     {
         $request->validate([
@@ -201,20 +228,24 @@ class TargetDesaController extends Controller
             'kategori' => 'nullable|string|max:255',
         ]);
 
-        // Cari kode_rekening terakhir untuk bidang terkait dan user yang sedang login
-        $lastKegiatan = Kegiatan::where('bidang_id', $request->bidang_id)
-            ->orderByDesc('kode_rekening')
-            ->first();
+        $userId = auth()->id();
 
-        // Tentukan kode_rekening baru
-        $kodeRekening = $lastKegiatan
-            ? $lastKegiatan->kode_rekening + 1
-            : 1;
+        // Ambil semua kode_rekening yang sudah ada untuk bidang ini & user login
+        $existingCodes = Kegiatan::where('bidang_id', $request->bidang_id)
+            ->where('user_id', $userId)
+            ->pluck('kode_rekening')
+            ->toArray();
+
+        // Cari angka terkecil yang belum dipakai (mulai dari 1)
+        $kodeRekening = 1;
+        while (in_array($kodeRekening, $existingCodes)) {
+            $kodeRekening++;
+        }
 
         // Simpan kegiatan baru
         $kegiatan = new Kegiatan();
         $kegiatan->bidang_id = $request->bidang_id;
-        $kegiatan->user_id = auth()->id();
+        $kegiatan->user_id = $userId;
         $kegiatan->kode_rekening = $kodeRekening;
         $kegiatan->nama_kegiatan = $request->kegiatan;
         $kegiatan->kategori = $request->kategori;
@@ -223,6 +254,7 @@ class TargetDesaController extends Controller
         return redirect()->route('desa.target.index')
             ->with('success', 'Kegiatan berhasil ditambahkan.');
     }
+
 
     public function storeSubKegiatan(Request $request)
     {
@@ -243,9 +275,15 @@ class TargetDesaController extends Controller
             'KPM' => 'nullable|numeric',
         ]);
 
-        // Ambil jumlah subkegiatan saat ini untuk kegiatan terkait
-        $lastSub = SubKegiatan::where('kegiatan_id', $request->kegiatan_id)->userOnly()->count();
-        $nextKodeSub = $lastSub + 1;
+        $existingCodes = SubKegiatan::where('kegiatan_id', $request->kegiatan_id)
+            ->userOnly()
+            ->pluck('kode_rekening')
+            ->toArray();
+
+        $nextKodeSub = 1;
+        while (in_array($nextKodeSub, $existingCodes)) {
+            $nextKodeSub++;
+        }
 
         // Simpan ke tabel subkegiatan
         $sub = SubKegiatan::create([

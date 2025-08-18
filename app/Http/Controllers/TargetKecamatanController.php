@@ -205,16 +205,22 @@ class TargetKecamatanController extends Controller
             return back()->with('error', 'Desa tidak valid.');
         }
 
-        // Hitung jumlah bidang saat ini
-        $jumlahBidang = Bidang::where('user_id', $request->desa)->count();
+        // Ambil semua kode existing untuk user
+        $existing = Bidang::where('user_id', $request->desa)->pluck('kode_rekening')->toArray();
 
-        // Maksimum hanya sampai Z (26 data)
-        if ($jumlahBidang >= 26) {
-            return back()->with('error', 'Jumlah kode bidang maksimal hanya sampai Z.');
+        // Cari huruf A-Z yang belum dipakai
+        $kode = null;
+        for ($i = 0; $i < 26; $i++) {
+            $candidate = chr(65 + $i); // A..Z
+            if (!in_array($candidate, $existing)) {
+                $kode = $candidate;
+                break;
+            }
         }
 
-        // Generate huruf berdasarkan urutan A-Z
-        $kode = chr(65 + $jumlahBidang); // 65 = ASCII 'A'
+        if (!$kode) {
+            return back()->with('error', 'Jumlah kode bidang maksimal hanya sampai Z.');
+        }
 
         $bidang = new Bidang();
         $bidang->kode_rekening = $kode;
@@ -236,15 +242,16 @@ class TargetKecamatanController extends Controller
 
         $bidang = Bidang::findOrFail($request->bidang_id);
 
-        // Cari kode_rekening terakhir untuk bidang terkait dan user yang sedang login
-        $lastKegiatan = Kegiatan::where('bidang_id', $request->bidang_id)
-            ->orderByDesc('kode_rekening')
-            ->first();
+        $existingCodes = Kegiatan::where('bidang_id', $request->bidang_id)
+            ->where('user_id', $bidang->user_id)
+            ->pluck('kode_rekening')
+            ->toArray();
 
-        // Tentukan kode_rekening baru
-        $kodeRekening = $lastKegiatan
-            ? $lastKegiatan->kode_rekening + 1
-            : 1;
+        // Cari angka terkecil yang belum dipakai (mulai dari 1)
+        $kodeRekening = 1;
+        while (in_array($kodeRekening, $existingCodes)) {
+            $kodeRekening++;
+        }
 
         // Simpan kegiatan baru
         $kegiatan = new Kegiatan();
@@ -280,11 +287,16 @@ class TargetKecamatanController extends Controller
 
         $bidang = Bidang::findOrFail($request->bidang_id);
 
+        $existingCodes = SubKegiatan::where('kegiatan_id', $request->kegiatan_id)
+            ->where('user_id', $bidang->user_id)
+            ->pluck('kode_rekening')
+            ->toArray();
 
-        // Ambil jumlah subkegiatan saat ini untuk kegiatan terkait
-        $lastSub = SubKegiatan::where('kegiatan_id', $request->kegiatan_id)->count();
-        $nextKodeSub = $lastSub + 1;
 
+        $nextKodeSub = 1;
+        while (in_array($nextKodeSub, $existingCodes)) {
+            $nextKodeSub++;
+        }
 
         // Simpan ke tabel subkegiatan
         $sub = SubKegiatan::create([

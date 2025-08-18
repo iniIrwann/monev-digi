@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Verifikasi Realisasi Kecamatan - Monev Digi Dana Desa')
+@section('title', 'Realisasi Kecamatan - Monev Digi Dana Desa')
 
 @section('main')
     <!-- Main content -->

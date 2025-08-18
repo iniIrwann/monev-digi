@@ -34,19 +34,19 @@
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">Catatan</label>
                             <div class="input-group input-group-sm">
-                                <textarea class="form-control" readonly>{{ $firstVerifikasi->catatan }}</textarea>
+                                <textarea class="form-control" readonly>{{ $firstVerifikasi?->catatan }}</textarea>
                             </div>
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">Tindak Lanjut</label>
                             <div class="input-group input-group-sm">
-                                <textarea class="form-control" readonly>{{ $firstVerifikasi->tindak_lanjut }}</textarea>
+                                <textarea class="form-control" readonly>{{ $firstVerifikasi?->tindak_lanjut }}</textarea>
                             </div>
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">Rekomendasi</label>
                             <div class="input-group input-group-sm">
-                                <textarea class="form-control" readonly>{{ $firstVerifikasi->rekomendasi }}</textarea>
+                                <textarea class="form-control" readonly>{{ $firstVerifikasi?->rekomendasi }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -63,19 +63,19 @@
                     <div class="mb-2">
                         <label class="fs-12 txt-tb-grey">Catatan</label>
                         <div class="input-group input-group-sm">
-                            <textarea class="form-control" readonly>{{ $realisasi->verifikasi->catatan }}</textarea>
+                            <textarea class="form-control" readonly>{{ $realisasi->verifikasi?->catatan }}</textarea>
                         </div>
                     </div>
                     <div class="mb-2">
                         <label class="fs-12 txt-tb-grey">Tindak Lanjut</label>
                         <div class="input-group input-group-sm">
-                            <textarea class="form-control" readonly>{{ $realisasi->verifikasi->tindak_lanjut }}</textarea>
+                            <textarea class="form-control" readonly>{{ $realisasi->verifikasi?->tindak_lanjut }}</textarea>
                         </div>
                     </div>
                     <div class="mb-2">
                         <label class="fs-12 txt-tb-grey">Rekomendasi</label>
                         <div class="input-group input-group-sm">
-                            <textarea class="form-control" readonly>{{ $realisasi->verifikasi->rekomendasi }}</textarea>
+                            <textarea class="form-control" readonly>{{ $realisasi->verifikasi?->rekomendasi }}</textarea>
                         </div>
                     </div>
                 </div>

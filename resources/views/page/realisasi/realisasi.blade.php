@@ -166,12 +166,14 @@
                                                             class="btn btn-sm btn-warning">
                                                             <i class="bi bi-pencil-fill text-white"></i>
                                                         </a>
-                                                        <button data-bs-toggle="modal"
-                                                            data-bs-target="#ModalDeleteSubKegiatanRealisasi"
-                                                            data-tahap-subKegiatan-realisasi-delete="{{ $tahap }}"
-                                                            data-id-subKegiatan-realisasi-delete="{{ $sub->id }}"
-                                                            class="btn btn-sm btn-danger"><i
-                                                                class="bi bi-trash undermines"></i></button>
+                                                        @if ($sub->tahapData)
+                                                            <button type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#ModalDeleteSubKegiatanRealisasi"
+                                                                data-realisasi-id="{{ $sub->tahapData->id }}"
+                                                                data-tahap="{{ $tahap }}"
+                                                                class="btn btn-sm btn-danger" title="Kosongkan"><i
+                                                                    class="bi bi-trash-fill"></i></button>
+                                                        @endif
                                                     @endif
 
                                                 </div>
@@ -187,7 +189,7 @@
                                                 @if ($sub->realisasis->isNotEmpty())
                                                     <!-- Tahap 1 -->
                                                     @if ($sub->tahap1Data->realisasi_keuangan)
-                                                        <td>{{ $sub->tahap1Data?->volume_keluaran ?? '( - )' }}
+                                                        <td>{{ $sub->tahap1Data?->volume_keluaran ?? 'n/a' }}
                                                             {{ $sub->tahap1Data?->uraian_keluaran ?? '-' }}</td>
                                                     @else
                                                         <td colspan="2" class="text-center">
@@ -229,7 +231,7 @@
                                                             </a>
                                                         </td>
                                                     @endif
-                                                    @if ($sub->tahap1Data?->realisasi_keuangan !== null)
+                                                    @if ($sub->tahap2Data?->realisasi_keuangan !== null)
                                                         <td>
                                                             Rp.{{ number_format($sub->tahap2Data->realisasi_keuangan, 0, ',', '.') }}
                                                         </td>
@@ -259,7 +261,7 @@
                                                 {{-- Tahap 1 dan 2 --}}
                                             @elseif ($tahap == '1' || $tahap == '2')
                                                 @if ($sub->realisasis->isNotEmpty())
-                                                    <td>{{ $sub->tahapData?->volume_keluaran ?? '( - )' }}
+                                                    <td>{{ $sub->tahapData?->volume_keluaran ?? 'n/a' }}
                                                         {{ $sub->tahapData?->uraian_keluaran ?? '-' }}</td>
                                                     <td>
                                                         @if ($sub->tahapData?->realisasi_keuangan !== null)
@@ -364,8 +366,8 @@
                         @csrf
                         @method('DELETE')
 
-                        <input type="hidden" id="dataIdSubKegiatanDeleteRealisasi" name="id">
-                        <input type="hidden" id="dataTahapSubKegiatanDeleteRealisasi" name="tahap">
+                        <input type="hidden" id="realisasiId" name="id">
+                        <input type="hidden" id="tahap" name="tahap">
 
                         <!-- Aksi -->
                         <div class="d-flex justify-content-end">
@@ -383,27 +385,23 @@
     </div>
 @section('script')
     <script>
-        // Delete Sub Kegiatan Modal Realisasi
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById('ModalDeleteSubKegiatanRealisasi');
-
             modal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
-                const dataIdSubKegiatanDeleteRealisasi = button.getAttribute(
-                    'data-id-subKegiatan-realisasi-delete');
-                const dataTahapSubKegiatanDeleteRealisasi = button.getAttribute(
-                    'data-tahap-subKegiatan-realisasi-delete');
+                const realisasiId = button.getAttribute('data-realisasi-id');
+                const tahap = button.getAttribute('data-tahap');
 
-                // Hidden inputs
-                modal.querySelector('#dataIdSubKegiatanDeleteRealisasi').value =
-                    dataIdSubKegiatanDeleteRealisasi;
-                modal.querySelector('#dataTahapSubKegiatanDeleteRealisasi').value =
-                    dataTahapSubKegiatanDeleteRealisasi;
+                // Set hidden inputs
+                modal.querySelector('#realisasiId').value = realisasiId;
+                modal.querySelector('#tahap').value = tahap;
 
                 // Set form action
-                const form = document.getElementById('formDeleteSubKegiatanRealisasi');
-                form.action =
-                    `/realisasi/delete-subKegiatan/${dataIdSubKegiatanDeleteRealisasi}/${dataTahapSubKegiatanDeleteRealisasi}`;
+                const urlTemplate =
+                    "{{ route('desa.realisasi.delete.subKegiatan', ['id' => 'ID_REPLACE', 'tahap' => 'TAHAP_REPLACE']) }}";
+                const action = urlTemplate.replace('ID_REPLACE', realisasiId).replace('TAHAP_REPLACE',
+                    tahap || '');
+                modal.querySelector('#formDeleteSubKegiatanRealisasi').action = action;
             });
         });
     </script>
