@@ -22,8 +22,32 @@
                             ])
                         </div>
                     @endforeach
-
                 </div>
+                @php
+                    $firstVerifikasi = $realisasi->first()->verifikasi ?? null;
+                @endphp
+                @if ($firstVerifikasi)
+                    <div class="mx-3">
+                        <div class="mb-2">
+                            <label class="fs-12 txt-tb-grey">Catatan</label>
+                            <div class="input-group input-group-sm">
+                                <textarea class="form-control" readonly>{{ $firstVerifikasi?->catatan }}</textarea>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 txt-tb-grey">Tindak Lanjut</label>
+                            <div class="input-group input-group-sm">
+                                <textarea class="form-control" readonly>{{ $firstVerifikasi?->tindak_lanjut }}</textarea>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label class="fs-12 txt-tb-grey">Rekomendasi</label>
+                            <div class="input-group input-group-sm">
+                                <textarea class="form-control" readonly>{{ $firstVerifikasi?->rekomendasi }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             @else
                 @include('page.kecamatan.realisasi.detail_partial', [
                     'realisasi' => $realisasi,
@@ -31,6 +55,26 @@
                     'kegiatan' => $kegiatan,
                     'subKegiatan' => $subKegiatan,
                 ])
+                <div class="mx-3">
+                    <div class="mb-2">
+                        <label class="fs-12 txt-tb-grey">Catatan</label>
+                        <div class="input-group input-group-sm">
+                            <textarea class="form-control" readonly>{{ $realisasi->verifikasi?->catatan }}</textarea>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="fs-12 txt-tb-grey">Tindak Lanjut</label>
+                        <div class="input-group input-group-sm">
+                            <textarea class="form-control" readonly>{{ $realisasi->verifikasi?->tindak_lanjut }}</textarea>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="fs-12 txt-tb-grey">Rekomendasi</label>
+                        <div class="input-group input-group-sm">
+                            <textarea class="form-control" readonly>{{ $realisasi->verifikasi?->rekomendasi }}</textarea>
+                        </div>
+                    </div>
+                </div>
             @endif
             <!-- Tombol -->
             <div class="row align-items-center p-3">

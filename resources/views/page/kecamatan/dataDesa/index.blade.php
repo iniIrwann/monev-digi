@@ -47,32 +47,44 @@
                                 <th>Nama</th>
                                 <th>Username</th>
                                 <th>Role</th>
+                                {{-- <th>Desa</th> --}}
                                 <th>Desa</th>
-                                <th>Email</th>
-                                <th>No HP</th>
+                                {{-- <th>No HP</th> --}}
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($users as $index => $user)
-                                <tr>
+                                <tr class="text-start">
                                     <td>{{ $index + 1 }}</td>
                                     <td>
                                         @if ($user->foto_profile)
-                                            <img style="width: 63px" class="w-63"
+                                            <img style="max-width: 63px" class="max-w-63"
                                                 src="{{ asset('assets/images/foto_profile/' . $user->foto_profile) }}"
                                                 alt="foto">
                                         @else
-                                            <img style="width: 63px" class="w-63"
+                                            <img style="max-width: 63px" class="max-w-63"
                                                 src="{{ asset('assets/images/new_profile.jpeg') }}" alt="foto">
                                         @endif
                                     </td>
-                                    <td>{{ $user->name }}</td>
+                                    <td>
+                                        <div class=" mb-2">{{ $user->name }}</div>
+
+                                        <div class="mb-2">
+                                            <label class="fw-bold d-block">Email</label>
+                                            <span id="email">{{ $user->email }}</span>
+                                        </div>
+
+                                        <div>
+                                            <label class="fw-bold d-block">No HP</label>
+                                            <span>{{ $user->nohp }}</span>
+                                        </div>
+                                    </td>
+
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td>{{ $user->desa }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->nohp }}</td>
+                                    {{-- <td></td> --}}
                                     <td>
                                         <div class="d-flex flex-wrap justify-content-center gap-1">
                                             <a href="{{ route('kecamatan.dataDesa.edit', $user->id) }}"

@@ -90,23 +90,23 @@
             <div class="card-body p-3">
                 <div class="tab-container mb-3">
                     <a href="{{ route('kecamatan.verifikasi.index', array_merge(request()->query(), ['tahap' => '1'])) }}"
-                        class="tab-link {{ request('tahap', '1') == '1' ? 'active' : '' }}">Tahap 1</a>
+                        class="tab-link {{ $tahap === '1' ? 'active' : '' }}">Tahap 1</a>
                     <a href="{{ route('kecamatan.verifikasi.index', array_merge(request()->query(), ['tahap' => '2'])) }}"
-                        class="tab-link {{ request('tahap') == '2' ? 'active' : '' }}">Tahap 2</a>
+                        class="tab-link {{ $tahap === '2' ? 'active' : '' }}">Tahap 2</a>
                     <a href="{{ route('kecamatan.verifikasi.index', array_merge(request()->query(), ['tahap' => 'all'])) }}"
-                        class="tab-link {{ request('tahap') == 'all' ? 'active' : '' }}">Total Capaian Realisasi</a>
+                        class="tab-link {{ $tahap === 'all' ? 'active' : '' }}">Total Capaian Realisasi</a>
                 </div>
                 <p class="my-2 sb">Tabel Capaian Realisasi Kinerja dan Keuangan Dana Desa</p>
                 <p class="fs-12 my-2">
                     @if ($desa)
                         Kecamatan: Kecamatan Soreang <br>
-                        Periode Capaian: <span class="fw-bold">{{ $tahun ?? '(semua tahun)' }}</span> <br>
-                        Tahap: <span class="fw-bold">{{ $tahap == 1 ? 'Tahap 1' : 'Tahap 2' }}</span> <br>
+                        Periode Capaian: <span class="fw-bold">{{ $tahun ?? 'semua tahun' }}</span> <br>
+                        Tahap: <span class="fw-bold">{{ $tahap }}</span> <br>
                         Desa: <span class="fw-bold">{{ $desa->desa }}</span>
                     @else
                         Kecamatan: Kecamatan Soreang <br>
-                        Periode Capaian: <span class="fw-bold">{{ $tahun ?? '(semua tahun)' }}</span> <br>
-                        Tahap: <span class="fw-bold">{{ $tahap == 1 ? 'Tahap 1' : 'Tahap 2' }}</span>
+                        Periode Capaian: <span class="fw-bold">{{ $tahun ?? 'semua tahun' }}</span> <br>
+                        Tahap: <span class="fw-bold">{{ $tahap }}</span>
                     @endif
                 </p>
                 <hr />

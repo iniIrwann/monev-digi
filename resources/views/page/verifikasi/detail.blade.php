@@ -9,9 +9,9 @@
             <p class="fs-14 ms-2 mb-0">Verifikasi</p>
         </div>
 
-        <div class="card border-0 w-100 rounded-3">
+        <div class="card border-0 rounded-3">
             @if (request()->input('tahap') === 'all')
-                <div class="row">
+                <div class="row g-0">
                     @foreach ($realisasi as $data)
                         <div class="col-md-6">
                             @include('page.verifikasi.detail_partial', [
@@ -30,7 +30,6 @@
                 @endphp
                 @if ($firstVerifikasi)
                     <div class="mx-3">
-
                         <div class="mb-2">
                             <label class="fs-12 txt-tb-grey">Catatan</label>
                             <div class="input-group input-group-sm">
@@ -49,6 +48,10 @@
                                 <textarea class="form-control" readonly>{{ $firstVerifikasi?->rekomendasi }}</textarea>
                             </div>
                         </div>
+                    </div>
+                @else
+                    <div class="mx-3 my-1">
+                        <span class="text-white fw-bold rounded-pill w-50 fs-12 py-2 bg-warning px-4"><i class="bi bi-exclamation-circle-fill me-2"></i>Menunggu Verifikasi oleh Kecamatan</span>
                     </div>
                 @endif
             @else

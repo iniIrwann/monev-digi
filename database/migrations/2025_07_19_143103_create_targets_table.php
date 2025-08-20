@@ -20,13 +20,13 @@ return new class extends Migration {
             $table->integer('volume_keluaran');
             $table->string('cara_pengadaan'); // Cara pengadaan barang/jasa
             $table->bigInteger('anggaran_target')->nullable();
-            $table->integer('tenaga_kerja')->nullable();
+            // $table->integer('tenaga_kerja')->nullable();
             $table->date('durasi')->nullable();
-            $table->bigInteger('upah')->nullable();
+            // $table->bigInteger('upah')->nullable();
             $table->integer('KPM')->nullable(); // Keluarga Penerima Manfaat
-            $table->bigInteger('BLT')->nullable(); // Bantuan Langsung Tunai
+            // $table->bigInteger('BLT')->nullable(); // Bantuan Langsung Tunai
             $table->integer('tahun')->nullable();
-            $table->text('keterangan')->nullable();
+            $table->text('sasaran')->nullable();
             $table->timestamps();
         });
     }

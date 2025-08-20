@@ -68,7 +68,7 @@
                     <a href="{{ route('desa.realisasi.index', array_merge(request()->query(), ['tahap' => 'all'])) }}"
                         class="tab-link {{ $tahap === 'all' ? 'active' : '' }}">Total</a>
                 </div>
-                <form action="  " method="GET" class="mb-3">
+                <form action="{{ route('desa.realisasi.index') }}" method="GET" class="mb-3">
                     <div class="row g-3 mb-2">
                         <div class="col-auto">
                             <!-- Input text -->

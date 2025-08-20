@@ -18,13 +18,13 @@ class Target extends Model
         'volume_keluaran',
         'cara_pengadaan',
         'anggaran_target',
-        'tenaga_kerja',
+        // 'tenaga_kerja',
         'durasi',
-        'upah',
+        // 'upah',
         'KPM',
-        'BLT',
+        // 'BLT',
         'tahun',
-        'keterangan',
+        'sasaran',
     ];
 
     public function subkegiatan()

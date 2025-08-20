@@ -21,15 +21,15 @@ return new class extends Migration {
             $table->integer('tahap')->nullable(); // 1 atau 2
             $table->integer('volume_keluaran')->nullable();
             $table->string('uraian_keluaran')->nullable();
-            $table->integer('tenaga_kerja')->nullable();
+            // $table->integer('tenaga_kerja')->nullable();
             $table->string('cara_pengadaan')->nullable();
             $table->bigInteger('realisasi_keuangan')->nullable();
             $table->date('durasi')->nullable();
-            $table->bigInteger('upah')->nullable();
+            // $table->bigInteger('upah')->nullable();
             $table->integer('KPM')->nullable();
-            $table->bigInteger('BLT')->nullable();
+            // $table->bigInteger('BLT')->nullable();
             $table->integer('tahun')->nullable();
-            $table->text('keterangan')->nullable();
+            $table->text('sasaran')->nullable();
             $table->timestamps();
         });
     }

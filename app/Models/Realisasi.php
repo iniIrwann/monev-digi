@@ -18,13 +18,13 @@ class Realisasi extends Model
         'volume_keluaran',
         'cara_pengadaan',
         'realisasi_keuangan',
-        'tenaga_kerja',
+        // 'tenaga_kerja',
         'durasi',
-        'upah',
+        // 'upah',
         'KPM',
-        'BLT',
+        // 'BLT',
         'tahun',
-        'keterangan',
+        'sasaran',
     ];
     public function verifikasi()
     {

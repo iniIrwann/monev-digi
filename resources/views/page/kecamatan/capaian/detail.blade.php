@@ -66,15 +66,15 @@
                     <!-- Kolom Kiri: Target -->
                     <div class="col-md-6">
                         <span class="fw-bold">Target</span>
-                        <div class="mb-2">
-                            <label class="fs-12 mb-1">Uraian Keluaran</label>
-                            <input type="text" class="form-control fs-12" value="{{ $target?->uraian_keluaran ?? '-' }}"
-                                readonly>
-                        </div>
-                        <div class="mb-2">
-                            <label class="fs-12 mb-1">Volume</label>
-                            <input type="text" class="form-control fs-12" value="{{ $target?->volume_keluaran ?? '-' }}"
-                                readonly>
+                        <div class="row g-1 mb-2">
+                            <div class="col-md-6"> <label class="fs-12 mb-1">Volume</label>
+                                <input type="text" class="form-control fs-12"
+                                    value="{{ $target?->volume_keluaran ?? '-' }}" readonly>
+                            </div>
+                            <div class="col-md-6"> <label class="fs-12 mb-1">Uraian Keluaran</label>
+                                <input type="text" class="form-control fs-12"
+                                    value="{{ $target?->uraian_keluaran ?? '-' }}" readonly>
+                            </div>
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 mb-1">Cara Pengadaan</label>
@@ -95,18 +95,22 @@
                         </div>
                         <div class="mb-2">
                             <label class="fs-12 mb-1">Periode Pencairan</label>
-                            <input type="date" class="form-control fs-12" value="{{ $target?->durasi ?? '-' }}"
+                            <input type="text" class="form-control fs-12" value="{{ $target?->durasi ?? '-' }}"
                                 readonly>
                         </div>
-                        <div class="mb-2">
-                            <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
-                            <div class="input-group input-group-sm">
-                                <span class="input-group-text rounded-1 text-secondary">Orang</span>
-                                <input type="number" value="{{ $target?->KPM }}" class="form-control rounded-1"
+                        <div class="row g-1 mb-2">
+                            <div class="col-md-6">
+                                <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
+                                <input type="number" value="{{ $target?->KPM }}" class="form-control fs-12 rounded-1"
                                     name="KPM" placeholder="jumlah KPM" disabled />
                             </div>
+                            <div class="col-md-6">
+                                <label class="fs-12 txt-tb-grey">Sasaran/Target Sasaran</label>
+                                <input type="number" value="{{ $target?->sasaran }}" class="form-control fs-12 rounded-1"
+                                    name="sasaran" placeholder="sasaran" disabled />
+                            </div>
                         </div>
-                        <div class="mb-2">
+                        {{-- <div class="mb-2">
                             <label class="fs-12 mb-1">Tenaga Kerja</label>
                             <input type="text" class="form-control fs-12" value="{{ $target?->tenaga_kerja ?? '-' }}"
                                 readonly>
@@ -126,11 +130,11 @@
                                 <input type="text" class="form-control fs-12"
                                     value="{{ number_format($target?->BLT ?? 0, 0, ',', '.') }}" readonly>
                             </div>
-                        </div>
-                        <div class="mb-2">
+                        </div> --}}
+                        {{-- <div class="mb-2">
                             <label class="fs-12 mb-1">Keterangan</label>
                             <textarea class="form-control fs-12" rows="3" readonly>{{ $target?->keterangan ?? '-' }}</textarea>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <!-- Kolom Kanan: Realisasi Tahap 1 dan Tahap 2 -->
@@ -140,16 +144,19 @@
 
                             <!-- Tahap 1 -->
                             <div class="col-md-6 mb-3">
-                                <div class="mb-2">
-                                    <label class="fs-12 mb-1"> <span class="fw-bold fs-12">Tahap 1</span>
-                                        Uraian Keluaran</label>
-                                    <input type="text" class="form-control fs-12"
-                                        value="{{ $tahap1Data?->uraian_keluaran ?? '-' }}" readonly>
-                                </div>
-                                <div class="mb-2">
-                                    <label class="fs-12 mb-1">Volume</label>
-                                    <input type="text" class="form-control fs-12"
-                                        value="{{ $tahap1Data?->volume_keluaran ?? '-' }}" readonly>
+                                <div class="row g-1 mb-2">
+                                    <div class="col-md-6">
+                                        <span class="fw-bold fs-12">Tahap 1</span>
+                                        <label class="fs-12 mb-1">Volume</label>
+                                        <input type="text" class="form-control fs-12"
+                                            value="{{ $tahap1Data?->volume_keluaran ?? '-' }}" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="fs-12 mb-1">
+                                            Uraian Keluaran</label>
+                                        <input type="text" class="form-control fs-12"
+                                            value="{{ $tahap1Data?->uraian_keluaran ?? '-' }}" readonly>
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="fs-12 mb-1">Cara Pengadaan</label>
@@ -175,16 +182,21 @@
                                     <input type="text" class="form-control fs-12"
                                         value="{{ $tahap1Data?->durasi ?? '-' }}" readonly>
                                 </div>
-                                <div class="mb-2">
-                                    <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text rounded-1 text-secondary">Orang</span>
+                                <div class="row g-1 mb-2">
+                                    <div class="col-md-6">
+                                        <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
                                         <input type="number" value="{{ $tahap1Data?->KPM }}"
-                                            class="form-control rounded-1" name="KPM" placeholder="jumlah KPM"
+                                            class="form-control fs-12 rounded-1" name="KPM" placeholder="jumlah KPM"
+                                            disabled />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="fs-12 txt-tb-grey">Target Sasaran</label>
+                                        <input type="number" value="{{ $tahap1Data?->sasaran }}"
+                                            class="form-control fs-12 rounded-1" name="sasaran" placeholder="sasaran"
                                             disabled />
                                     </div>
                                 </div>
-                                <div class="mb-2">
+                                {{-- <div class="mb-2">
                                     <label class="fs-12 mb-1">Tenaga Kerja</label>
                                     <input type="text" class="form-control fs-12"
                                         value="{{ $tahap1Data?->tenaga_kerja ?? '-' }}" readonly>
@@ -208,21 +220,24 @@
                                 <div class="mb-2">
                                     <label class="fs-12 mb-1">Keterangan</label>
                                     <textarea class="form-control fs-12" rows="3" readonly>{{ $tahap1Data?->keterangan ?? '-' }}</textarea>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <!-- Tahap 2 -->
                             <div class="col-md-6 mb-3">
-                                <div class="mb-2">
-                                    <label class="fs-12 mb-1"> <span class="fw-bold fs-12">Tahap 2</span>
-                                        Uraian Keluaran</label>
-                                    <input type="text" class="form-control fs-12"
-                                        value="{{ $tahap2Data?->uraian_keluaran ?? '-' }}" readonly>
-                                </div>
-                                <div class="mb-2">
-                                    <label class="fs-12 mb-1">Volume</label>
-                                    <input type="text" class="form-control fs-12"
-                                        value="{{ $tahap2Data?->volume_keluaran ?? '-' }}" readonly>
+                                <div class="row g-1 mb-2">
+                                    <div class="col-md-6">
+                                        <span class="fw-bold fs-12">Tahap 2</span>
+                                        <label class="fs-12 mb-1">Volume</label>
+                                        <input type="text" class="form-control fs-12"
+                                            value="{{ $tahap2Data?->volume_keluaran ?? '-' }}" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="fs-12 mb-1">
+                                            Uraian Keluaran</label>
+                                        <input type="text" class="form-control fs-12"
+                                            value="{{ $tahap2Data?->uraian_keluaran ?? '-' }}" readonly>
+                                    </div>
                                 </div>
                                 <div class="mb-2">
                                     <label class="fs-12 mb-1">Cara Pengadaan</label>
@@ -245,10 +260,24 @@
                                 </div>
                                 <div class="mb-2">
                                     <label class="fs-12 mb-1">Periode Pencairan</label>
-                                    <input type="date" class="form-control fs-12"
+                                    <input type="text" class="form-control fs-12"
                                         value="{{ $tahap2Data?->durasi ?? '-' }}" readonly>
                                 </div>
-                                <div class="mb-2">
+                                <div class="row g-1 mb-2">
+                                    <div class="col-md-6">
+                                        <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
+                                        <input type="number" value="{{ $tahap2Data?->KPM }}"
+                                            class="form-control fs-12 rounded-1" name="KPM" placeholder="jumlah KPM"
+                                            disabled />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="fs-12 txt-tb-grey">Target Sasaran</label>
+                                        <input type="number" value="{{ $tahap2Data?->sasaran }}"
+                                            class="form-control fs-12 rounded-1" name="sasaran" placeholder="sasaran"
+                                            disabled />
+                                    </div>
+                                </div>
+                                {{-- <div class="mb-2">
                                     <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text rounded-1 text-secondary">Orang</span>
@@ -256,8 +285,8 @@
                                             class="form-control rounded-1" name="KPM" placeholder="jumlah KPM"
                                             disabled />
                                     </div>
-                                </div>
-                                <div class="mb-2">
+                                </div> --}}
+                                {{-- <div class="mb-2">
                                     <label class="fs-12 mb-1">Tenaga Kerja</label>
                                     <input type="text" class="form-control fs-12"
                                         value="{{ $tahap2Data?->tenaga_kerja ?? '-' }}" readonly>
@@ -281,7 +310,7 @@
                                 <div class="mb-2">
                                     <label class="fs-12 mb-1">Keterangan</label>
                                     <textarea class="form-control fs-12" rows="3" readonly>{{ $tahap2Data?->keterangan ?? '-' }}</textarea>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -289,8 +318,9 @@
 
                 <!-- Buttons -->
                 <div class="d-flex justify-content-end">
-                    <a href="{{ route('kecamatan.capaian.index') }}" class="btn btn-secondary btn-sm fs-12 text-white me-2">
-                            <i class="bi bi-arrow-return-left me-1"></i> Kembali
+                    <a href="{{ route('kecamatan.capaian.index') }}"
+                        class="btn btn-secondary btn-sm fs-12 text-white me-2">
+                        <i class="bi bi-arrow-return-left me-1"></i> Kembali
                     </a>
                 </div>
             </div>

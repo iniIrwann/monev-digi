@@ -17,11 +17,11 @@ class VerifikasiDesaController extends Controller
         $tahun = $request->input('tahun');
         $bidangId = $request->input('bidang');
         $search = trim($request->input('query'));
-        $tahap = $request->input('tahap', 'all'); // Default to Tahap 1
+        $tahap = $request->input('tahap', 'all'); // Default to Tahap all
 
         // Validate tahap
         if (!in_array($tahap, ['1', '2', 'all'])) {
-            $tahap = '1';
+            $tahap = 'all';
         }
 
         // Fetch desa and bidang if provided

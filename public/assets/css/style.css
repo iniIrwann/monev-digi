@@ -75,11 +75,14 @@ td {
 .cari {
     height: 31px;
 }
-
+.max-w-63 {
+    max-width: 63px;
+}
 /* width */
 .w-34 {
     width: 34px;
 }
+
 .w-40 {
     width: 40px;
 }

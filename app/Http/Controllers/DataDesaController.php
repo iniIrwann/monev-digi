@@ -45,6 +45,7 @@ class DataDesaController extends Controller
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'password' => 'nullable|string|min:6',
             'name' => 'required|string|max:255',
+            'desa' => 'required|string|max:100',
             // 'role' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'nohp' => 'nullable|numeric|digits_between:10,15',
@@ -55,6 +56,7 @@ class DataDesaController extends Controller
         $user->username = $validated['username'];
         $user->name = $validated['name']; // huruf kapital
         // $user->role = $validated['role'];
+        $user->desa = $validated['desa'];
         $user->email = $validated['email'];
         $user->nohp = $validated['nohp'];
 
@@ -88,9 +90,10 @@ class DataDesaController extends Controller
         $validated = $request->validate([
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'password' => 'nullable|string|min:6',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:50',
+            'desa' => 'required|string|max:100',
             // 'role' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|email|max:100|unique:users,email,' . $user->id,
             'nohp' => 'nullable|numeric|digits_between:10,15',
             'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -99,6 +102,7 @@ class DataDesaController extends Controller
         $user->username = $validated['username'];
         $user->name = $validated['name']; // huruf kapital
         // $user->role = $validated['role'];
+        $user->desa = $validated['desa'];
         $user->email = $validated['email'];
         $user->nohp = $validated['nohp'];
 

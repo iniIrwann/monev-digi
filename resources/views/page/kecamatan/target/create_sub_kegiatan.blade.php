@@ -27,50 +27,52 @@
                         <div class="col-12 col-md-4 input-group-sm">
                             <label for="kode_bidang" class="form-label black fs-12">Kode bidang</label>
                             <input type="text" class="form-control form-control-sm w-100"
-                                value="{{ $bidang->kode_rekening }}" id="kode_bidang" placeholder="A" disabled>
+                                value="{{ $bidang->kode_rekening }}" id="kode_bidang" disabled>
                         </div>
                         <div class="col-12 col-md-4 input-group-sm">
                             <label for="kode_kegiatan" class="form-label black fs-12">Kode kegiatan</label>
                             <input type="text" class="form-control form-control-sm w-100" id="kode_kegiatan"
-                                value="{{ $kegiatan->kode_rekening }}" placeholder="1" disabled>
+                                value="{{ $kegiatan->kode_rekening }}" disabled>
                         </div>
                         <div class="col-12 col-md-4 input-group-sm">
                             <label for="kode_subkegiatan" class="form-label black fs-12">Kode subkegiatan</label>
-                            <input type="text" class="form-control form-control-sm w-100" id="kode_subkegiatan"
-                                placeholder="" disabled>
+                            <input type="text" class="form-control form-control-sm w-100" id="kode_subkegiatan" disabled>
                         </div>
                     </div>
                     <hr class="my-1">
 
-                    <div class="row g-1 mb-3">
+                    <div class="row g-2 mb-3">
                         <div class="mb-1">
                             <label class="fs-12 txt-tb-grey">Nama subkegiatan</label>
                             <input type="text" class="form-control form-control-sm rounded-1" name="nama_subkegiatan"
-                                placeholder="nama sub kegiatan" />
+                                placeholder="ex: Rabat Beton Gang RW 001" required />
                         </div>
                         <!-- Kolom Kiri -->
                         <div class="col-md-6">
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Uraian keluaran</label>
-                                <input type="text" class="form-control form-control-sm rounded-1" name="uraian_keluaran"
-                                    placeholder="uraian keluaran" />
+                            <div class="row g-2 mb-2">
+                                <div class="col-md-6">
+                                    <label class="fs-12 txt-tb-grey">Volume</label>
+                                    <input type="number" name="volume_keluaran"
+                                        class="form-control form-control-sm rounded-1" placeholder="ex: 100, 200, 300"
+                                        required />
+                                </div>
+                                <div class="col-md-6 ">
+                                    <label class="fs-12 txt-tb-grey">Uraian keluaran</label>
+                                    <input type="text" class="form-control form-control-sm rounded-1"
+                                        name="uraian_keluaran" placeholder="ex: meter, bulan" required />
+                                </div>
                             </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Volume</label>
-                                <input type="number" name="volume_keluaran" class="form-control form-control-sm rounded-1"
-                                    placeholder="volume" />
-                            </div>
-                            <div class="mb-2">
+                            {{-- <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Tenaga kerja</label>
                                 <input type="number" class="form-control form-control-sm rounded-1" name="tenaga_kerja"
-                                    placeholder="jumlah tenaga kerja" />
+                                    placeholder="jumlah tenaga kerja" required />
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Upah</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input type="number" name="upah" class="form-control rounded-1"
-                                        placeholder="upah" />
+                                    <input type="number" name="upah" class="form-control rounded-1" placeholder="upah"
+                                        required />
                                 </div>
                             </div>
                             <div class="mb-2">
@@ -78,12 +80,30 @@
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text rounded-1 text-secondary">Rp</span>
                                     <input type="number" class="form-control rounded-1" name="BLT"
-                                        placeholder="masukkan jumlah BLT" />
+                                        placeholder="masukkan jumlah BLT" required />
+                                </div>
+                            </div> --}}
+                            <div class="row g-2 mb-2">
+                                <div class="col-md-6">
+                                    <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" class="form-control rounded-1" name="KPM"
+                                            placeholder="ex: 100, 200, 300" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="fs-12 txt-tb-grey">Sasaran/Target Sasaran</label>
+                                    <input type="text" class="form-control form-control-sm rounded-1" name="sasaran"
+                                        required placeholder="ex: Keluarga, Orang " />
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Keterangan</label>
-                                <textarea name="keterangan" class="form-control form-control-sm rounded-1" rows="3" placeholder="keterangan"></textarea>
+                                <label class="fs-12 txt-tb-grey">Anggaran</label>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text rounded-1 text-secondary">Rp</span>
+                                    <input type="number" name="anggaran_target" class="form-control rounded-1"
+                                        placeholder="anggaran" required />
+                                </div>
                             </div>
                         </div>
 
@@ -92,38 +112,23 @@
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Cara pengadaan</label>
                                 <input type="text" class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                    placeholder="cara pengadaan" />
+                                    required placeholder="cara pengadaannasosole" />
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Tahun</label>
-                                <select required name="tahun"
-                                    class="form-select form-select-sm rounded-1 text-secondary">
+                                <select required name="tahun" class="form-select form-select-sm rounded-1">
                                     <option value="">Pilih tahun</option>
                                     <option value="2024">2024</option>
                                     <option value="2025">2025</option>
                                 </select>
                             </div>
+
                             <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Anggaran</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text rounded-1 text-secondary">Rp</span>
-                                    <input type="number" name="anggaran_target" class="form-control rounded-1"
-                                        placeholder="anggaran" />
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Periode pencarian</label>
+                                <label class="fs-12 txt-tb-grey">Periode Pencairan</label>
                                 <input type="date" name="durasi" class="form-control form-control-sm rounded-1"
-                                    placeholder="durasi" />
+                                    placeholder="durasi" required />
                             </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text rounded-1 text-secondary">Orang</span>
-                                    <input type="number" class="form-control rounded-1" name="KPM"
-                                        placeholder="jumlah KPM" required />
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 

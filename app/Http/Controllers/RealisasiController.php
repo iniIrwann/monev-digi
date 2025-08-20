@@ -215,15 +215,15 @@ class RealisasiController extends Controller
             'subkegiatan_id' => 'required|exists:sub_kegiatans,id',
             'tahap' => 'nullable|in:1,2',
             'volume_keluaran' => 'required|numeric',
-            'tenaga_kerja' => 'nullable|numeric',
-            'upah' => 'nullable|numeric',
-            'BLT' => 'nullable|numeric',
-            'keterangan' => 'nullable|string',
+            // 'tenaga_kerja' => 'nullable|numeric',
+            // 'upah' => 'nullable|numeric',
+            // 'BLT' => 'nullable|numeric',
+            'sasaran' => 'nullable|string|max:20',
             'realisasi_keuangan' => 'required|numeric',
             'durasi' => 'nullable|date',
             'KPM' => 'nullable|numeric',
-            'cara_pengadaan' => 'required|string',
-            'uraian_keluaran' => 'nullable|string',
+            'cara_pengadaan' => 'required|string|max:100',
+            'uraian_keluaran' => 'nullable|string|max:20',
             'tahun' => 'nullable|integer',
         ]);
 
@@ -251,15 +251,15 @@ class RealisasiController extends Controller
                     'user_id' => auth()->id(),
                     'volume_keluaran' => $request->volume_keluaran,
                     'uraian_keluaran' => $request->uraian_keluaran,
-                    'tenaga_kerja' => $request->tenaga_kerja,
+                    // 'tenaga_kerja' => $request->tenaga_kerja,
                     'cara_pengadaan' => $request->cara_pengadaan,
                     'realisasi_keuangan' => $request->realisasi_keuangan,
                     'durasi' => $request->durasi,
-                    'upah' => $request->upah,
+                    // 'upah' => $request->upah,
                     'KPM' => $request->KPM,
-                    'BLT' => $request->BLT,
+                    // 'BLT' => $request->BLT,
                     'tahun' => $request->tahun,
-                    'keterangan' => $request->keterangan,
+                    'sasaran' => $request->sasaran,
                 ]
             );
 
@@ -314,13 +314,13 @@ class RealisasiController extends Controller
         $realisasi->update([
             'volume_keluaran' => null,
             // 'uraian_keluaran' => null,
-            'tenaga_kerja' => null,
+            // 'tenaga_kerja' => null,
             'realisasi_keuangan' => null,
             'durasi' => null,
-            'upah' => null,
+            // 'upah' => null,
             'KPM' => null,
-            'BLT' => null,
-            'keterangan' => null,
+            // 'BLT' => null,
+            'sasaran' => null,
         ]);
 
         // opsional: reset capaian terkait

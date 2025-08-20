@@ -112,14 +112,14 @@ class TargetDesaController extends Controller
             'bidang_id' => 'required|exists:bidangs,id',
             'kegiatan_id' => 'required|exists:kegiatans,id',
             'subkegiatan_id' => 'required|exists:sub_kegiatans,id',
-            'uraian_keluaran' => 'required|string|max:255',
+            'uraian_keluaran' => 'required|string|max:20',
             'nama_subkegiatan' => 'required|string|max:255',
             'volume_keluaran' => 'required|numeric',
-            'tenaga_kerja' => 'nullable|numeric',
-            'upah' => 'nullable|numeric',
-            'BLT' => 'nullable|numeric',
-            'keterangan' => 'nullable|string',
-            'cara_pengadaan' => 'required|string|max:255',
+            // 'tenaga_kerja' => 'nullable|numeric',
+            // 'upah' => 'nullable|numeric',
+            // 'BLT' => 'nullable|numeric',
+            'sasaran' => 'nullable|string|max:20',
+            'cara_pengadaan' => 'required|string|max:100',
             'tahun' => 'required|numeric',
             'anggaran_target' => 'required|numeric',
             'durasi' => 'nullable|date',
@@ -174,13 +174,13 @@ class TargetDesaController extends Controller
         $target->cara_pengadaan = $request->cara_pengadaan;
         $target->uraian_keluaran = $request->uraian_keluaran;
         $target->anggaran_target = $request->anggaran_target;
-        $target->tenaga_kerja = $request->tenaga_kerja;
+        // $target->tenaga_kerja = $request->tenaga_kerja;
         $target->durasi = $request->durasi;
-        $target->upah = $request->upah;
+        // $target->upah = $request->upah;
         $target->KPM = $request->KPM;
-        $target->BLT = $request->BLT;
+        // $target->BLT = $request->BLT;
         $target->tahun = $request->tahun;
-        $target->keterangan = $request->keterangan;
+        $target->sasaran = $request->sasaran;
         $target->save();
 
         return redirect()->route('desa.target.index')->with('success', 'Data target berhasil disimpan atau diperbarui.');
@@ -255,20 +255,19 @@ class TargetDesaController extends Controller
             ->with('success', 'Kegiatan berhasil ditambahkan.');
     }
 
-
     public function storeSubKegiatan(Request $request)
     {
         $request->validate([
             'bidang_id' => 'required|exists:bidangs,id',
             'kegiatan_id' => 'required|exists:kegiatans,id',
             'nama_subkegiatan' => 'required|string|max:255',
-            'uraian_keluaran' => 'required|string|max:255',
+            'uraian_keluaran' => 'required|string|max:20',
             'volume_keluaran' => 'required|numeric',
-            'tenaga_kerja' => 'nullable|numeric',
-            'upah' => 'nullable|numeric',
-            'BLT' => 'nullable|numeric',
-            'keterangan' => 'nullable|string',
-            'cara_pengadaan' => 'nullable|string|max:255',
+            // 'tenaga_kerja' => 'nullable|numeric',
+            // 'upah' => 'nullable|numeric',
+            // 'BLT' => 'nullable|numeric',
+            'sasaran' => 'nullable|string|max:20',
+            'cara_pengadaan' => 'nullable|string|max:100',
             'tahun' => 'required|numeric',
             'anggaran_target' => 'nullable|numeric',
             'durasi' => 'nullable|date',
@@ -304,13 +303,13 @@ class TargetDesaController extends Controller
             'volume_keluaran' => $request->volume_keluaran,
             'cara_pengadaan' => $request->cara_pengadaan,
             'anggaran_target' => $request->anggaran_target,
-            'tenaga_kerja' => $request->tenaga_kerja,
+            // 'tenaga_kerja' => $request->tenaga_kerja,
             'durasi' => $request->durasi,
-            'upah' => $request->upah,
+            // 'upah' => $request->upah,
             'KPM' => $request->KPM,
-            'BLT' => $request->BLT,
+            // 'BLT' => $request->BLT,
             'tahun' => $request->tahun,
-            'keterangan' => $request->keterangan,
+            'sasaran' => $request->sasaran,
         ]);
         $realisasi1 = Realisasi::updateOrCreate([
             'target_id' => $target->id,

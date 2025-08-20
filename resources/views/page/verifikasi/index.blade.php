@@ -78,11 +78,13 @@
             <div class="card-body p-3">
                 <div class="tab-container mb-3">
                     <a href="{{ route('desa.verifikasi.index', array_merge(request()->query(), ['tahap' => '1'])) }}"
-                        class="tab-link {{ request('tahap', '1') == '1' ? 'active' : '' }}">Tahap 1</a>
+                        class="tab-link {{ $tahap === '1' ? 'active' : '' }}">Tahap 1</a>
                     <a href="{{ route('desa.verifikasi.index', array_merge(request()->query(), ['tahap' => '2'])) }}"
-                        class="tab-link {{ request('tahap') == '2' ? 'active' : '' }}">Tahap 2</a>
+                        class="tab-link {{ $tahap === '2' ? 'active' : '' }}">Tahap 2</a>
                     <a href="{{ route('desa.verifikasi.index', array_merge(request()->query(), ['tahap' => 'all'])) }}"
-                        class="tab-link {{ request('tahap') == 'all' ? 'active' : '' }}">Total Capaian Realisasi</a>
+                        class="tab-link {{ $tahap === 'all' ? 'active' : '' }}">
+                        Total Capaian Realisasi
+                    </a>
                 </div>
                 <p class="my-2 sb">Tabel Capaian Realisasi Kinerja dan Keuangan Dana Desa</p>
                 {{-- <p class="fs-12 my-2">
@@ -100,6 +102,7 @@
                 <hr />
 
                 <form action="{{ route('desa.verifikasi.index') }}" method="GET" class="mb-3">
+                    {{-- <p>{{$tahap}}</p> --}}
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <input type="hidden" name="desa" value="{{ request('desa') }}">
                         <input type="hidden" name="tahun" value="{{ request('tahun') }}">
@@ -186,14 +189,6 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex gap-1 justify-content-end">
-                                                    @if ($sub->realisasi && $sub->realisasi->id && $sub->realisasi->user_id)
-                                                        <button class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                                            data-bs-target="#ModalTambahVerifikasi"
-                                                            data-realisasi-id="{{ $sub->realisasi->id }}">
-                                                            <i class="bi bi-clipboard-fill"></i>
-                                                        </button>
-                                                    @endif
-
                                                     <a href="{{ route('desa.verifikasi.detail', ['bidang_id' => $bidang->id, 'kegiatan_id' => $kegiatan->id, 'subkegiatan_id' => $sub->id, 'tahap' => $tahap]) }}"
                                                         class="btn btn-sm btn-secondary" title="Lihat Detail">
                                                         <i class="bi bi-eye-fill text-white"></i>

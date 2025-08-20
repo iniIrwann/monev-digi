@@ -59,7 +59,6 @@
                     'subKegiatan' => $subKegiatan,
                 ])
                 <div class="mx-3">
-
                     <div class="mb-2">
                         <label class="fs-12 txt-tb-grey">Catatan</label>
                         <div class="input-group input-group-sm">

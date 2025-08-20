@@ -113,6 +113,14 @@
                                         <div class="text-danger small">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fs-12">Desa</label>
+                                    <input type="text" title="desa" class="form-control form-control-sm" name="desa"
+                                        value="{{ $profile->desa ?? '' }}">
+                                    @error('desa')
+                                        <div class="text-danger small">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 <div class="row mt-4">
                                     <div class="col-6">
                                         <a href="{{ route('kecamatan.dataDesa.index') }}"

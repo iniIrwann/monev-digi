@@ -41,25 +41,28 @@
                     </div>
                     <hr class="my-1">
 
-                    <div class="row g-1 mb-3">
+                    <div class="row g-2 mb-3">
                         <div class="mb-1">
                             <label class="fs-12 txt-tb-grey">Nama subkegiatan</label>
                             <input type="text" class="form-control form-control-sm rounded-1" name="nama_subkegiatan"
-                                placeholder="nama sub kegiatan" required />
+                                placeholder="ex: Rabat Beton Gang RW 001" required />
                         </div>
                         <!-- Kolom Kiri -->
                         <div class="col-md-6">
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Uraian keluaran</label>
-                                <input type="text" class="form-control form-control-sm rounded-1" name="uraian_keluaran"
-                                    placeholder="uraian keluaran" required />
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <label class="fs-12 txt-tb-grey">Volume</label>
+                                    <input type="number" name="volume_keluaran"
+                                        class="form-control form-control-sm rounded-1" placeholder="ex: 100, 200, 300"
+                                        required />
+                                </div>
+                                <div class="col-md-6 ">
+                                    <label class="fs-12 txt-tb-grey">Uraian keluaran</label>
+                                    <input type="text" class="form-control form-control-sm rounded-1"
+                                        name="uraian_keluaran" placeholder="ex: meter, bulan" required />
+                                </div>
                             </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Volume</label>
-                                <input type="number" name="volume_keluaran" class="form-control form-control-sm rounded-1"
-                                    placeholder="volume" required />
-                            </div>
-                            <div class="mb-2">
+                            {{-- <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Tenaga kerja</label>
                                 <input type="number" class="form-control form-control-sm rounded-1" name="tenaga_kerja"
                                     placeholder="jumlah tenaga kerja" required />
@@ -79,28 +82,20 @@
                                     <input type="number" class="form-control rounded-1" name="BLT"
                                         placeholder="masukkan jumlah BLT" required />
                                 </div>
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Keterangan</label>
-                                <textarea required name="keterangan" class="form-control form-control-sm rounded-1" rows="3"
-                                    placeholder="keterangan"></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Kolom Kanan -->
-                        <div class="col-md-6">
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Cara pengadaan</label>
-                                <input type="text" class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                    required placeholder="cara_pengadaan" />
-                            </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Tahun</label>
-                                <select required name="tahun" class="form-select form-select-sm rounded-1 text-black">
-                                    <option value="">Pilih tahun</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2025">2025</option>
-                                </select>
+                            </div> --}}
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" class="form-control rounded-1" name="KPM"
+                                            placeholder="ex: 100, 200, 300" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="fs-12 txt-tb-grey">Sasaran/Target Sasaran</label>
+                                    <input type="text" class="form-control form-control-sm rounded-1" name="sasaran"
+                                        required placeholder="ex: Keluarga, Orang " />
+                                </div>
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Anggaran</label>
@@ -110,19 +105,30 @@
                                         placeholder="anggaran" required />
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Kolom Kanan -->
+                        <div class="col-md-6">
                             <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Periode Pencarian</label>
+                                <label class="fs-12 txt-tb-grey">Cara pengadaan</label>
+                                <input type="text" class="form-control form-control-sm rounded-1" name="cara_pengadaan"
+                                    required placeholder="cara pengadaannasosole" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="fs-12 txt-tb-grey">Tahun</label>
+                                <select required name="tahun" class="form-select form-select-sm rounded-1">
+                                    <option value="">Pilih tahun</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-2">
+                                <label class="fs-12 txt-tb-grey">Periode Pencairan</label>
                                 <input type="date" name="durasi" class="form-control form-control-sm rounded-1"
                                     placeholder="durasi" required />
                             </div>
-                            <div class="mb-2">
-                                <label class="fs-12 txt-tb-grey">Jumlah KPM</label>
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text rounded-1 text-secondary">Orang</span>
-                                    <input type="number" class="form-control rounded-1" name="KPM"
-                                        placeholder="jumlah KPM" required />
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 

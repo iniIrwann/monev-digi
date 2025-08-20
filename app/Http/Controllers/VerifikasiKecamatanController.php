@@ -24,7 +24,7 @@ class VerifikasiKecamatanController extends Controller
 
         // Validate tahap
         if (!in_array($tahap, ['1', '2', 'all'])) {
-            $tahap = '1'; // Fallback to default if invalid
+            $tahap = 'all'; // Fallback to default if invalid
         }
 
         // Fetch desa and bidang if provided

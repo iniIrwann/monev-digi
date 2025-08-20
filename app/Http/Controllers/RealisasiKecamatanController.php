@@ -201,15 +201,15 @@ class RealisasiKecamatanController extends Controller
             'subkegiatan_id' => 'required|exists:sub_kegiatans,id',
             'tahap' => 'nullable|in:1,2',
             'volume_keluaran' => 'required|numeric',
-            'tenaga_kerja' => 'nullable|numeric',
-            'upah' => 'nullable|numeric',
-            'BLT' => 'nullable|numeric',
-            'keterangan' => 'nullable|string',
+            // 'tenaga_kerja' => 'nullable|numeric',
+            // 'upah' => 'nullable|numeric',
+            // 'BLT' => 'nullable|numeric',
+            'sasaran' => 'nullable|string',
             'realisasi_keuangan' => 'required|numeric',
             'durasi' => 'nullable|date',
             'KPM' => 'nullable|numeric',
-            'cara_pengadaan' => 'required|string',
-            'uraian_keluaran' => 'nullable|string',
+            'cara_pengadaan' => 'required|string|max:100',
+            'uraian_keluaran' => 'nullable|string|max:20',
             'tahun' => 'nullable|integer',
         ]);
 
@@ -231,16 +231,16 @@ class RealisasiKecamatanController extends Controller
                 'kegiatan_id' => 'required|exists:kegiatans,id',
                 'subkegiatan_id' => 'required|exists:sub_kegiatans,id',
                 'volume_keluaran' => 'required|numeric|min:0',
-                'uraian_keluaran' => 'nullable|string|max:255',
-                'tenaga_kerja' => 'nullable|numeric|min:0',
-                'cara_pengadaan' => 'nullable|string|max:255',
+                'uraian_keluaran' => 'nullable|string|max:25',
+                // 'tenaga_kerja' => 'nullable|numeric|min:0',
+                'cara_pengadaan' => 'nullable|string|max:100',
                 'realisasi_keuangan' => 'required|numeric|min:0',
                 'durasi' => 'nullable|date|min:0',
-                'upah' => 'nullable|numeric|min:0',
+                // 'upah' => 'nullable|numeric|min:0',
                 'KPM' => 'nullable|numeric|min:0',
-                'BLT' => 'nullable|numeric|min:0',
+                // 'BLT' => 'nullable|numeric|min:0',
                 'tahun' => 'required|integer|min:2000|max:2100',
-                'keterangan' => 'nullable|string|max:1000',
+                'sasaran' => 'nullable|string|max:20',
             ]);
 
             // Ensure user is authenticated
@@ -260,15 +260,15 @@ class RealisasiKecamatanController extends Controller
                     'user_id' => $target->user_id,
                     'volume_keluaran' => $request->volume_keluaran,
                     'uraian_keluaran' => $request->uraian_keluaran,
-                    'tenaga_kerja' => $request->tenaga_kerja,
+                    // 'tenaga_kerja' => $request->tenaga_kerja,
                     'cara_pengadaan' => $request->cara_pengadaan,
                     'realisasi_keuangan' => $request->realisasi_keuangan,
                     'durasi' => $request->durasi,
-                    'upah' => $request->upah,
+                    // 'upah' => $request->upah,
                     'KPM' => $request->KPM,
-                    'BLT' => $request->BLT,
+                    // 'BLT' => $request->BLT,
                     'tahun' => $request->tahun,
-                    'keterangan' => $request->keterangan,
+                    'sasaran' => $request->sasaran,
                 ]
             );
 
@@ -319,16 +319,16 @@ class RealisasiKecamatanController extends Controller
             // Reset data realisasi
             $realisasi->update([
                 'volume_keluaran' => null,
-                'tenaga_kerja' => null,
+                // 'tenaga_kerja' => null,
                 // 'uraian_keluaran' => null,
                 // 'cara_pengadaan' => null,
                 'realisasi_keuangan' => null,
                 'durasi' => null,
-                'upah' => null,
                 'KPM' => null,
-                'BLT' => null,
+                'sasaran' => null,
+                // 'upah' => null,
+                // 'BLT' => null,
                 // 'tahun' => null,
-                'keterangan' => null,
             ]);
 
             $target = Target::where('id', $realisasi->target_id)->first();
