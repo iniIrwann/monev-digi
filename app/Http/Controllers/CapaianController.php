@@ -90,7 +90,7 @@ class CapaianController extends Controller
         return view('page.capaian.capaian', compact(
             'data',
             'filterBidangs',
-            'bidang',
+            // 'bidang',
             'tahun',
             'search'
         ));

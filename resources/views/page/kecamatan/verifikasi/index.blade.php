@@ -343,7 +343,7 @@
                                             @elseif ($tahap == '1' || $tahap == '2')
                                                 <!-- Tahap 1 or 2 -->
                                                 @if ($sub->realisasis->isNotEmpty() && $sub->tahapData)
-                                                    <td>{{ $sub->tahapData->volume_keluaran ?? '...' }}
+                                                    <td>{{ $sub->tahapData->volume_keluaran ?? 'n/a' }}
                                                         {{ $sub->tahapData->uraian_keluaran ?? '' }}</td>
                                                     <td>
                                                         @if ($sub->tahapData->realisasi_keuangan !== null)

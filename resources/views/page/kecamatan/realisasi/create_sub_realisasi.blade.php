@@ -144,7 +144,7 @@
                                 <label class="fs-12 txt-tb-grey">Cara pengadaan</label>
                                 <input readonly value="{{ old('cara_pengadaan', $realisasi?->cara_pengadaan) }}"
                                     type="text" class="form-control form-control-sm rounded-1"
-                                    name="cara pengadaannasolole" placeholder="cara pengadaan" required />
+                                    name="cara_pengadaan" placeholder="cara pengadaan" required />
                                 @error('cara_pengadaan')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
