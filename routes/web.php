@@ -12,6 +12,8 @@ use App\Http\Controllers\TargetKecamatanController;
 use App\Http\Controllers\VerifikasiDesaController;
 use App\Http\Controllers\VerifikasiKecamatanController;
 use Illuminate\Support\Facades\Route;
+use App\Exports\DRKExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login.view');
 // Login & Logout
@@ -51,6 +53,15 @@ Route::middleware(['auth', 'role:desa'])
         Route::delete('/target/delete-bidang/{id}', [TargetDesaController::class, 'deleteBidang'])->name('target.delete.bidang');
         Route::delete('/target/delete-kegiatan/{id}', [TargetDesaController::class, 'deleteKegiatan'])->name('target.delete.kegiatan');
         Route::delete('/target/delete-subKegiatan/{id}', [TargetDesaController::class, 'deleteSubKegiatan'])->name('target.delete.subKegiatan');
+
+        // excel
+        Route::get('/export-drk', function () {
+            $desa = auth()->user()->desa ?? 'Unknown';
+            $desaUpper = strtoupper($desa); // Ubah semua huruf jadi kapital
+            $fileName = "DRK DANA {$desaUpper}.xlsx";
+
+            return Excel::download(new DRKExport, $fileName);
+        })->name('export.drk');
 
         // Realisasi
         Route::get('/realisasi/create/sub/{bidang_id}/{kegiatan_id}/{subkegiatan_id}', [RealisasiController::class, 'createSub'])->name('realisasi.create.sub');

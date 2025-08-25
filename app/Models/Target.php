@@ -29,15 +29,17 @@ class Target extends Model
 
     public function subkegiatan()
     {
-        return $this->belongsTo(SubKegiatan::class);
+        return $this->belongsTo(SubKegiatan::class, 'sub_kegiatan_id', 'id');
     }
+
     public function kegiatan()
     {
-        return $this->belongsTo(Kegiatan::class);
+        return $this->belongsTo(Kegiatan::class, 'kegiatan_id', 'id');
     }
+
     public function bidang()
     {
-        return $this->belongsTo(Bidang::class);
+        return $this->belongsTo(Bidang::class, 'bidang_id', 'id');
     }
     public function capaian()
     {
@@ -50,5 +52,10 @@ class Target extends Model
     public function scopeUserOnly($query)
     {
         return $query->where('user_id', auth()->id());
+    }
+    public function realisasis()
+    {
+        return $this->hasMany(Realisasi::class, 'target_id'); 
+        // pastikan kolom foreign key di tabel realisasis = target_id
     }
 }

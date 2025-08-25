@@ -65,10 +65,19 @@
         <!-- tabel -->
         <div class="card border-0 w-100 rd-5">
             <div class="card-body p-3">
-                <button type="button" class="btn btn-success btn-sm fs-12 p-2 text-white" data-bs-toggle="modal"
-                    data-bs-target="#ModalTambahBidang">
-                    <i class="bi bi-plus-square me-1"></i> Tambah
-                </button>
+                <div class="row">
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-success btn-sm fs-12 p-2 text-white" data-bs-toggle="modal"
+                            data-bs-target="#ModalTambahBidang">
+                            <i class="bi bi-plus-square me-1"></i> Tambah
+                        </button>
+                    </div>
+                    <div class="col-auto">
+                        <a href="{{ route('desa.export.drk') }}" class="btn btn-success btn-sm fs-12 p-2 text-white">
+                            <i class="bi bi-file-earmark-text me-1"></i> Download
+                        </a>
+                    </div>
+                </div>
                 {{-- <p class="fs-12 my-2">
                     kinerja dan anggaran dana desa ( nama desa a ) tahun 2024. bidang
                     pembangunan

@@ -29,6 +29,11 @@ class Kegiatan extends Model
     {
         return $this->hasMany(SubKegiatan::class);
     }
+    // alias biar bisa dipanggil jamak
+    public function subkegiatans()
+    {
+        return $this->subkegiatan();
+    }
     public function scopeUserOnly($query)
     {
         return $query->where('user_id', auth()->id());

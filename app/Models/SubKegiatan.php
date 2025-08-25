@@ -15,10 +15,13 @@ class SubKegiatan extends Model
     {
         return $this->belongsTo(Kegiatan::class);
     }
-
-    public function targets()
+    public function target()
     {
         return $this->hasMany(Target::class);
+    }
+    public function targets()
+    {
+        return $this->target();
     }
     public function realisasis()
     {

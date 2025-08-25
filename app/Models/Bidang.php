@@ -12,9 +12,16 @@ class Bidang extends Model
     protected $fillable = ['kode_rekening', 'user_id', 'nama_bidang', 'keterangan'];
 
     public function kegiatan()
-    {
-        return $this->hasMany(Kegiatan::class);
-    }
+{
+    return $this->hasMany(Kegiatan::class);
+}
+
+// relasi alias supaya bisa dipanggil pakai jamak
+public function kegiatans()
+{
+    return $this->kegiatan();
+}
+
     public function targets()
     {
         return $this->hasMany(Target::class);
