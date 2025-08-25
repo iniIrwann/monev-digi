@@ -112,7 +112,7 @@
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Cara pengadaan</label>
                                 <input type="text" class="form-control form-control-sm rounded-1" name="cara_pengadaan"
-                                    required placeholder="cara pengadaannasosole" />
+                                    required placeholder="cara pengadaan" />
                             </div>
                             <div class="mb-2">
                                 <label class="fs-12 txt-tb-grey">Tahun</label>

@@ -129,7 +129,7 @@
                     <p class="mb-0 ms-2 fs-12 tx-green w-72">Monev Digi Dana Desa</p>
                 </div>
                 <!-- kanan -->
-                <div class="d-flex align-items-center me-3">
+                <div class="d-flex align-items-center">
                     <!-- profil hanya tampil di ukuran desktop -->
                     <div class="d-none d-md-flex align-items-center">
                         <div class="w-34">
