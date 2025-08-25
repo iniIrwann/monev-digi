@@ -258,46 +258,35 @@
                                                 $warnaUang = '';
 
                                                 // Warna untuk rata_fisik
-                                                if ($hasil['rata_fisik'] >= 90) {
+                                                if ($hasil['rata_fisik'] === null || $hasil['rata_fisik'] == 0) {
+                                                    $warnaVolume = ''; // tidak ada style
+                                                } elseif ($hasil['rata_fisik'] >= 90) {
                                                     $warnaVolume = 'bg-primary text-white';
-                                                } elseif ($hasil['rata_fisik'] >= 75 && $hasil['rata_fisik'] < 90) {
+                                                } elseif ($hasil['rata_fisik'] >= 75) {
                                                     $warnaVolume = 'bg-success text-white';
-                                                } elseif ($hasil['rata_fisik'] >= 60 && $hasil['rata_fisik'] < 75) {
+                                                } elseif ($hasil['rata_fisik'] >= 60) {
                                                     $warnaVolume = 'bg-warning text-dark';
-                                                } elseif ($hasil['rata_fisik'] >= 40 && $hasil['rata_fisik'] < 60) {
+                                                } elseif ($hasil['rata_fisik'] >= 40) {
                                                     $warnaVolume = 'bg-orange text-white';
-                                                } elseif ($hasil['rata_fisik'] < 40 && $hasil['rata_fisik'] !== null) {
-                                                    $warnaVolume = 'bg-danger text-white';
                                                 } else {
-                                                    $warnaVolume = 'bg-secondary text-white';
+                                                    $warnaVolume = 'bg-danger text-white';
                                                 }
 
                                                 // Warna untuk rata_keuangan
-                                                if ($hasil['rata_keuangan'] >= 90) {
+                                                if ($hasil['rata_keuangan'] === null || $hasil['rata_keuangan'] == 0) {
+                                                    $warnaUang = ''; // tidak ada style
+                                                } elseif ($hasil['rata_keuangan'] >= 90) {
                                                     $warnaUang = 'bg-primary text-white';
-                                                } elseif (
-                                                    $hasil['rata_keuangan'] >= 75 &&
-                                                    $hasil['rata_keuangan'] < 90
-                                                ) {
+                                                } elseif ($hasil['rata_keuangan'] >= 75) {
                                                     $warnaUang = 'bg-success text-white';
-                                                } elseif (
-                                                    $hasil['rata_keuangan'] >= 60 &&
-                                                    $hasil['rata_keuangan'] < 75
-                                                ) {
+                                                } elseif ($hasil['rata_keuangan'] >= 60) {
                                                     $warnaUang = 'bg-warning text-dark';
-                                                } elseif (
-                                                    $hasil['rata_keuangan'] >= 40 &&
-                                                    $hasil['rata_keuangan'] < 60
-                                                ) {
+                                                } elseif ($hasil['rata_keuangan'] >= 40) {
                                                     $warnaUang = 'bg-orange text-white';
-                                                } elseif (
-                                                    $hasil['rata_keuangan'] < 40 &&
-                                                    $hasil['rata_keuangan'] !== null
-                                                ) {
-                                                    $warnaUang = 'bg-danger text-white';
                                                 } else {
-                                                    $warnaUang = 'bg-secondary text-white';
+                                                    $warnaUang = 'bg-danger text-white';
                                                 }
+
                                             @endphp
 
                                         <tr class="text-center">
@@ -313,7 +302,9 @@
                                         <tr class="text-center">
                                             <td class="fs-12">
                                                 @php
-                                                    if ($hasil['rata_fisik'] < 40) {
+                                                    if ($hasil['rata_fisik'] == null) {
+                                                        echo 'tidak ada data';
+                                                    } elseif ($hasil['rata_fisik'] < 40) {
                                                         echo 'sangat kurang';
                                                     } elseif ($hasil['rata_fisik'] < 60) {
                                                         echo 'kurang';
@@ -326,9 +317,15 @@
                                                     }
                                                 @endphp
                                             </td>
+
                                             <td class="fs-12">
                                                 @php
-                                                    if ($hasil['rata_keuangan'] < 40) {
+                                                    if (
+                                                        $hasil['rata_keuangan'] === null ||
+                                                        $hasil['rata_keuangan'] == 0
+                                                    ) {
+                                                        echo 'tidak ada data';
+                                                    } elseif ($hasil['rata_keuangan'] < 40) {
                                                         echo 'sangat kurang';
                                                     } elseif ($hasil['rata_keuangan'] < 60) {
                                                         echo 'kurang';
