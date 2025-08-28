@@ -184,6 +184,72 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Tombol Upload -->
+                        <div class="mb-3">
+                        <input type="file" id="fileInput" multiple accept=".pdf,.png,.jpg,.jpeg" hidden>
+                        <button type="button" class="btn btn-success btn-sm w-100" onclick="document.getElementById('fileInput').click()">
+                            <i class="bi bi-file-earmark-text-fill me-1"></i>Upload SPJ
+                        </button>
+                        </div>
+
+                        <!-- Tempat Preview File -->
+                        <div id="previewFiles" class="d-flex flex-wrap gap-2"></div>
+
+                        <script>
+                        let allFiles = []; // simpan semua file hasil upload
+
+                        document.getElementById('fileInput').addEventListener('change', function() {
+                        const preview = document.getElementById('previewFiles');
+
+                        // gabungkan file lama dengan yang baru
+                        allFiles = [...allFiles, ...this.files];
+
+                        // reset preview
+                        preview.innerHTML = "";
+
+                        allFiles.forEach((file, index) => {
+                            let fileDiv = document.createElement('div');
+                            fileDiv.classList.add("p-2", "border", "rounded", "d-flex", "align-items-center", "justify-content-between");
+                            fileDiv.style.width = "250px";
+
+                            if(file.type.startsWith("image/")) {
+                            // kalau gambar tampilkan thumbnail
+                            let img = document.createElement("img");
+                            img.src = URL.createObjectURL(file);
+                            img.style.width = "40px";
+                            img.style.height = "40px";
+                            img.classList.add("me-2", "rounded");
+                            fileDiv.appendChild(img);
+                            } else {
+                            // kalau bukan gambar (pdf dll) tampilkan icon
+                            let icon = document.createElement("i");
+                            icon.classList.add("bi", "bi-file-earmark-pdf-fill", "fs-3", "text-danger", "me-2");
+                            fileDiv.appendChild(icon);
+                            }
+
+                            // nama file
+                            let span = document.createElement("span");
+                            span.textContent = file.name;
+                            span.classList.add("flex-grow-1");
+                            fileDiv.appendChild(span);
+
+                            // tombol hapus
+                            let del = document.createElement("button");
+                            del.innerHTML = "X";
+                            del.classList.add("btn", "btn-sm", "btn-outline-danger", "ms-2");
+                            del.onclick = () => {
+                            allFiles.splice(index, 1); // hapus dari array
+                            fileDiv.remove(); // hapus dari preview
+                            };
+                            fileDiv.appendChild(del);
+
+                            preview.appendChild(fileDiv);
+                        });
+
+                        // reset input supaya bisa pilih file sama lagi kalau mau
+                        this.value = "";
+                        });
+                        </script>
                     </div>
 
                     <!-- Tombol -->
